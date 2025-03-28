@@ -31,9 +31,9 @@ export async function middleware(req: NextRequest) {
 
   // Proxy to appropriate server for /api
   if (pathname.startsWith("/api/v1")) {
-    let target = "http://localhost:9000";
+    let target = process.env.NEXT_PUBLIC_API_URL_PRIME;
     if (tenant === "elevate") {
-      target = "http://localhost:8000";
+      target = process.env.NEXT_PUBLIC_API_URL_ELEVATE;
     }
     return NextResponse.rewrite(`${target}${pathname}`);
   }
@@ -43,6 +43,7 @@ export async function middleware(req: NextRequest) {
 
 export const config = {
   matcher: [
+    "/",
     "/api/v1/:path*",
     "/login/:warehouse*", // now this matches `/login/prime`, `/login/elevate`, etc.
     "/:companyName*/dashboard",
