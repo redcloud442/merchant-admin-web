@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { COMPANY_NAME } from "@/lib/constant";
 import { getTenantBrowserSupabase } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import { loginValidation } from "@/services/Auth/Auth";
@@ -129,7 +130,12 @@ export function LoginForm({
               </div>
               <Turnstile
                 size="flexible"
-                sitekey={process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY || ""}
+                sitekey={
+                  companyName === COMPANY_NAME.PALPROJECT_WAREHOUSING
+                    ? process.env
+                        .NEXT_PUBLIC_HCAPTCHA_SITE_KEY_WAREHOUSE_PROJECT || ""
+                    : process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY_DISTRICT_1 || ""
+                }
                 onVerify={(token) => {
                   setCaptchaToken(token);
                 }}
