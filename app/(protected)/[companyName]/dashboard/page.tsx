@@ -8,7 +8,9 @@ const page = async ({
 }) => {
   const { companyName } = await params;
 
-  await protectionMemberUser(companyName as "elevate" | "prime");
+  await protectionMemberUser(
+    companyName as "district-1" | "warehouse-pal-project"
+  );
 
   return <DashboardPage companyName={companyName} />;
 };

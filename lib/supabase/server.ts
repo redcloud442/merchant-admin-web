@@ -6,19 +6,21 @@ export async function getTenantSupabase(companyName: string) {
   const cookieStore = await cookies();
 
   const configMap = {
-    elevate: {
-      url: process.env.NEXT_PUBLIC_SUPABASE_URL_ELEVATE!,
-      key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY_ELEVATE!,
+    "warehouse-pal-project": {
+      url: process.env.NEXT_PUBLIC_SUPABASE_URL_WAREHOUSE_PROJECT!,
+      key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY_WAREHOUSE_PROJECT!,
     },
-    prime: {
-      url: process.env.NEXT_PUBLIC_SUPABASE_URL_PRIME!,
-      key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY_PRIME!,
+    "district-1": {
+      url: process.env.NEXT_PUBLIC_SUPABASE_URL_DISTRICT_1!,
+      key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY_DISTRICT_1!,
     },
   };
 
   const config = configMap[companyName as keyof typeof configMap];
 
-  if (!config) throw new Error(`Unknown Supabase tenant: ${companyName}`);
+  if (!config) {
+    return { redirect: `/login/${companyName}` };
+  }
 
   return createServerClient(config.url, config.key, {
     cookies: {

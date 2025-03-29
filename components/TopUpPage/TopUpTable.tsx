@@ -81,7 +81,6 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
   const columnAccessor = sorting?.[0]?.id || "alliance_top_up_request_date";
   const isAscendingSort =
     sorting?.[0]?.desc === undefined ? true : !sorting[0].desc;
-  // const [userOptions, setUserOptions] = useState<user_table[]>([]);
 
   const fetchRequest = async () => {
     try {
@@ -159,7 +158,6 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
         };
       });
     } catch (e) {
-      console.log(e);
       toast.error(`Invalid Request`, {
         description: `Something went wrong`,
       });

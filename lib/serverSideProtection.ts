@@ -5,11 +5,16 @@ import {
 } from "@/generated/companyPr1me";
 import { getTenantSupabase } from "@/lib/supabase/server";
 import { getTenantPrisma } from "@/lib/tenantConfig";
+import { redirect } from "next/navigation";
 
 export const protectionMemberUser = async (
-  companyName: "elevate" | "prime"
+  companyName: "district-1" | "warehouse-pal-project"
 ) => {
   const supabase = await getTenantSupabase(companyName);
+
+  if ("redirect" in supabase) {
+    return redirect(`/login/${companyName}`);
+  }
 
   try {
     const { data: authData, error: authError } = await supabase.auth.getUser();
@@ -22,8 +27,10 @@ export const protectionMemberUser = async (
 
     let user: any;
 
-    if (companyName === "elevate") {
-      user = await getTenantPrisma("elevate").user_table.findUnique({
+    if (companyName === "warehouse-pal-project") {
+      user = await getTenantPrisma(
+        "warehouse-pal-project"
+      ).user_table.findUnique({
         where: { user_id: userId },
         select: {
           user_id: true,
@@ -51,7 +58,7 @@ export const protectionMemberUser = async (
         },
       });
       const allianceTeam = await getTenantPrisma(
-        "elevate"
+        "warehouse-pal-project"
       ).alliance_table.findFirst({
         where: {
           alliance_name: {
@@ -61,7 +68,9 @@ export const protectionMemberUser = async (
         },
       });
 
-      const team = await getTenantPrisma("elevate").alliance_table.findFirst({
+      const team = await getTenantPrisma(
+        "warehouse-pal-project"
+      ).alliance_table.findFirst({
         where: {
           alliance_id: allianceTeam?.alliance_id,
         },
@@ -71,7 +80,7 @@ export const protectionMemberUser = async (
         return { redirect: `/${team?.alliance_name}/dashboard` };
       }
     } else {
-      user = await getTenantPrisma("prime").user_table.findUnique({
+      user = await getTenantPrisma("district-1").user_table.findUnique({
         where: { user_id: userId },
         select: {
           user_id: true,
@@ -99,7 +108,7 @@ export const protectionMemberUser = async (
         },
       });
       const allianceTeam = await getTenantPrisma(
-        "prime"
+        "district-1"
       ).alliance_table.findFirst({
         where: {
           alliance_name: {
@@ -109,11 +118,13 @@ export const protectionMemberUser = async (
         },
       });
 
-      const team = await getTenantPrisma("prime").alliance_table.findFirst({
-        where: {
-          alliance_id: allianceTeam?.alliance_id,
-        },
-      });
+      const team = await getTenantPrisma("district-1").alliance_table.findFirst(
+        {
+          where: {
+            alliance_id: allianceTeam?.alliance_id,
+          },
+        }
+      );
 
       if (!allianceTeam) {
         return { redirect: `/${team?.alliance_name}/dashboard` };
@@ -152,9 +163,12 @@ export const protectionMemberUser = async (
 };
 
 export const protectionMemberUserAccounting = async (
-  companyName: "elevate" | "prime"
+  companyName: "district-1" | "warehouse-pal-project"
 ) => {
   const supabase = await getTenantSupabase(companyName);
+  if ("redirect" in supabase) {
+    return redirect(`/login/${companyName}`);
+  }
 
   try {
     const { data: authData, error: authError } = await supabase.auth.getUser();
@@ -167,8 +181,10 @@ export const protectionMemberUserAccounting = async (
 
     let user: any;
 
-    if (companyName === "elevate") {
-      user = await getTenantPrisma("elevate").user_table.findUnique({
+    if (companyName === "warehouse-pal-project") {
+      user = await getTenantPrisma(
+        "warehouse-pal-project"
+      ).user_table.findUnique({
         where: { user_id: userId },
         select: {
           user_id: true,
@@ -197,7 +213,7 @@ export const protectionMemberUserAccounting = async (
       });
 
       const allianceTeam = await getTenantPrisma(
-        "elevate"
+        "warehouse-pal-project"
       ).alliance_table.findFirst({
         where: {
           alliance_name: {
@@ -207,7 +223,9 @@ export const protectionMemberUserAccounting = async (
         },
       });
 
-      const team = await getTenantPrisma("elevate").alliance_table.findFirst({
+      const team = await getTenantPrisma(
+        "warehouse-pal-project"
+      ).alliance_table.findFirst({
         where: {
           alliance_id: allianceTeam?.alliance_id,
         },
@@ -217,7 +235,7 @@ export const protectionMemberUserAccounting = async (
         return { redirect: `/${team?.alliance_name}/dashboard` };
       }
     } else {
-      user = await getTenantPrisma("prime").user_table.findUnique({
+      user = await getTenantPrisma("district-1").user_table.findUnique({
         where: { user_id: userId },
         select: {
           user_id: true,
@@ -245,7 +263,7 @@ export const protectionMemberUserAccounting = async (
         },
       });
       const allianceTeam = await getTenantPrisma(
-        "prime"
+        "district-1"
       ).alliance_table.findFirst({
         where: {
           alliance_name: {
@@ -255,11 +273,13 @@ export const protectionMemberUserAccounting = async (
         },
       });
 
-      const team = await getTenantPrisma("prime").alliance_table.findFirst({
-        where: {
-          alliance_id: allianceTeam?.alliance_id,
-        },
-      });
+      const team = await getTenantPrisma("district-1").alliance_table.findFirst(
+        {
+          where: {
+            alliance_id: allianceTeam?.alliance_id,
+          },
+        }
+      );
 
       if (!allianceTeam) {
         return { redirect: `/${team?.alliance_name}/dashboard` };
@@ -297,9 +317,12 @@ export const protectionMemberUserAccounting = async (
 };
 
 export const protectionMemberUserMerchant = async (
-  companyName: "elevate" | "prime"
+  companyName: "district-1" | "warehouse-pal-project"
 ) => {
   const supabase = await getTenantSupabase(companyName);
+  if ("redirect" in supabase) {
+    return redirect(`/login/${companyName}`);
+  }
 
   try {
     const { data: authData, error: authError } = await supabase.auth.getUser();
@@ -312,8 +335,10 @@ export const protectionMemberUserMerchant = async (
 
     let user: any;
 
-    if (companyName === "elevate") {
-      user = await getTenantPrisma("elevate").user_table.findUnique({
+    if (companyName === "warehouse-pal-project") {
+      user = await getTenantPrisma(
+        "warehouse-pal-project"
+      ).user_table.findUnique({
         where: { user_id: userId },
         select: {
           user_id: true,
@@ -342,7 +367,7 @@ export const protectionMemberUserMerchant = async (
       });
 
       const allianceTeam = await getTenantPrisma(
-        "elevate"
+        "warehouse-pal-project"
       ).alliance_table.findFirst({
         where: {
           alliance_name: {
@@ -352,7 +377,9 @@ export const protectionMemberUserMerchant = async (
         },
       });
 
-      const team = await getTenantPrisma("elevate").alliance_table.findFirst({
+      const team = await getTenantPrisma(
+        "warehouse-pal-project"
+      ).alliance_table.findFirst({
         where: {
           alliance_id: allianceTeam?.alliance_id,
         },
@@ -362,7 +389,7 @@ export const protectionMemberUserMerchant = async (
         return { redirect: `/${team?.alliance_name}/dashboard` };
       }
     } else {
-      user = await getTenantPrisma("prime").user_table.findUnique({
+      user = await getTenantPrisma("district-1").user_table.findUnique({
         where: { user_id: userId },
         select: {
           user_id: true,
@@ -389,7 +416,7 @@ export const protectionMemberUserMerchant = async (
         },
       });
       const allianceTeam = await getTenantPrisma(
-        "prime"
+        "district-1"
       ).alliance_table.findFirst({
         where: {
           alliance_name: {
@@ -399,11 +426,13 @@ export const protectionMemberUserMerchant = async (
         },
       });
 
-      const team = await getTenantPrisma("prime").alliance_table.findFirst({
-        where: {
-          alliance_id: allianceTeam?.alliance_id,
-        },
-      });
+      const team = await getTenantPrisma("district-1").alliance_table.findFirst(
+        {
+          where: {
+            alliance_id: allianceTeam?.alliance_id,
+          },
+        }
+      );
 
       if (!allianceTeam) {
         return { redirect: `/${team?.alliance_name}/dashboard` };

@@ -1,13 +1,15 @@
 "use client";
 
+import { COMPANY_NAME } from "@/lib/constant";
 import { useRole } from "@/lib/context";
-import { AdminWithdrawaldata } from "@/lib/types";
+import { AdminWithdrawaldata, WithdrawalRequestData } from "@/lib/types";
 import { getAdminWithdrawalRequest } from "@/services/Withdrawal/Withdrawal";
 import {
   ColumnFiltersState,
   getCoreRowModel,
   getFilteredRowModel,
   getPaginationRowModel,
+  Header,
   SortingState,
   useReactTable,
   VisibilityState,
@@ -15,12 +17,13 @@ import {
 import { format } from "date-fns";
 import {
   CalendarIcon,
+  ChevronDown,
   Loader2,
   PhilippinePeso,
   RefreshCw,
   Search,
 } from "lucide-react";
-import { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { Button } from "../ui/button";
@@ -34,6 +37,12 @@ import {
   DialogHeader,
   DialogTitle,
 } from "../ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -336,6 +345,45 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
 
   const rejectNote = watch("rejectNote");
 
+  const tableColumns = useMemo(() => {
+    return table.getAllColumns().map((column) => {
+      const header = column.columnDef.header;
+      let columnLabel = column.id || "Unnamed Column"; // Default to column id
+
+      if (typeof header === "string") {
+        columnLabel = header;
+      } else if (typeof header === "function") {
+        const renderedHeader = header({
+          column,
+          header: column.columnDef.header as unknown as Header<
+            WithdrawalRequestData,
+            unknown
+          >,
+          table,
+        });
+
+        if (React.isValidElement(renderedHeader)) {
+          const props = renderedHeader.props as { children: string | string[] };
+          if (typeof props.children === "string") {
+            columnLabel = props.children;
+          } else if (Array.isArray(props.children)) {
+            columnLabel = props.children
+              .map((child) => (typeof child === "string" ? child : ""))
+              .join("");
+          }
+        }
+      }
+
+      return {
+        label: columnLabel, // Extracted column name
+        accessorFn: column.id,
+        getCanHide: column.getCanHide,
+        getIsVisible: column.getIsVisible,
+        toggleVisibility: column.toggleVisibility,
+      };
+    });
+  }, [table]);
+
   return (
     <div className="w-full space-y-4">
       <div className="flex flex-wrap gap-4">
@@ -476,12 +524,16 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
                   onCheckedChange={handleSwitchChange}
                 />
                 <Label htmlFor="filter">Filter</Label>
-                <Switch
-                  id="filter-switch"
-                  checked={hidden}
-                  onCheckedChange={handleHiddenSwitchChange}
-                />
-                <Label htmlFor="filter-switch">Show Hidden User</Label>
+                {companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 && (
+                  <>
+                    <Switch
+                      id="filter-switch"
+                      checked={hidden}
+                      onCheckedChange={handleHiddenSwitchChange}
+                    />
+                    <Label htmlFor="filter-switch">Show Hidden User</Label>
+                  </>
+                )}
               </div>
             </div>
 
@@ -526,18 +578,44 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
         </div>
 
         <Tabs defaultValue="PENDING" onValueChange={handleTabChange}>
-          <TabsList className="mb-4">
-            <TabsTrigger value="PENDING">
-              Pending ({requestData?.data?.PENDING?.count || 0})
-            </TabsTrigger>
-            <TabsTrigger value="APPROVED">
-              Approved ({requestData?.data?.APPROVED?.count || 0})
-            </TabsTrigger>
-            <TabsTrigger value="REJECTED">
-              Rejected ({requestData?.data?.REJECTED?.count || 0})
-            </TabsTrigger>
-          </TabsList>
-
+          <div className="flex items-start :justify-start lg:justify-between flex-wrap gap-2">
+            <TabsList className="mb-4">
+              <TabsTrigger value="PENDING">
+                Pending ({requestData?.data?.PENDING?.count || 0})
+              </TabsTrigger>
+              <TabsTrigger value="APPROVED">
+                Approved ({requestData?.data?.APPROVED?.count || 0})
+              </TabsTrigger>
+              <TabsTrigger value="REJECTED">
+                Rejected ({requestData?.data?.REJECTED?.count || 0})
+              </TabsTrigger>
+            </TabsList>
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="ml-auto rounded-md">
+                  Columns <ChevronDown />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {tableColumns
+                  .filter((column) => column.getCanHide())
+                  .map((column) => {
+                    return (
+                      <DropdownMenuCheckboxItem
+                        key={column.accessorFn}
+                        className="capitalize"
+                        checked={column.getIsVisible()}
+                        onCheckedChange={(value) =>
+                          column.toggleVisibility(!!value)
+                        }
+                      >
+                        {column.label}
+                      </DropdownMenuCheckboxItem>
+                    );
+                  })}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
           <TabsContent value="PENDING">
             <WithdrawalTabs
               table={table}

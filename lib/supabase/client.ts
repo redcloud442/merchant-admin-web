@@ -2,19 +2,19 @@
 import { createBrowserClient } from "@supabase/ssr";
 import { SupabaseClient } from "@supabase/supabase-js";
 
-type TenantKey = "elevate" | "prime";
+type TenantKey = "district-1" | "warehouse-pal-project";
 
 const TENANT_BROWSER_SUPABASE_CONFIG: Record<
   TenantKey,
   { url: string; key: string }
 > = {
-  elevate: {
-    url: process.env.NEXT_PUBLIC_SUPABASE_URL_ELEVATE!,
-    key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY_ELEVATE!,
+  "district-1": {
+    url: process.env.NEXT_PUBLIC_SUPABASE_URL_DISTRICT_1!,
+    key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY_DISTRICT_1!,
   },
-  prime: {
-    url: process.env.NEXT_PUBLIC_SUPABASE_URL_PRIME!,
-    key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY_PRIME!,
+  "warehouse-pal-project": {
+    url: process.env.NEXT_PUBLIC_SUPABASE_URL_WAREHOUSE_PROJECT!,
+    key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY_WAREHOUSE_PROJECT!,
   },
 };
 

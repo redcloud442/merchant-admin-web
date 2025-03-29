@@ -10,7 +10,11 @@ export async function updateSession(request: NextRequest, tenant: string) {
     return NextResponse.redirect(new URL(`/login/${tenant}`, request.url));
   }
 
-  const supabase = await getTenantSupabase(tenant || "elevate");
+  const supabase = await getTenantSupabase(tenant || "warehouse-pal-project");
+
+  if ("redirect" in supabase) {
+    return NextResponse.redirect(new URL(`/login/${tenant}`, request.url));
+  }
 
   // IMPORTANT: Avoid writing any logic between createServerClient and
   // supabase.auth.getUser(). A simple mistake could make it very hard to debug

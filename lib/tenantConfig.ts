@@ -4,11 +4,11 @@ import { PrismaClient as PrismaClientPrime } from "@/generated/companyPr1me";
 import { createPrismaClient } from "./prismaDynamic";
 
 export const TENANT_CONFIG = {
-  elevate: {
-    databaseUrl: process.env.DATABASE_URL_ELEVATE!,
+  "district-1": {
+    databaseUrl: process.env.DATABASE_URL_DISTRICT_1!,
   },
-  prime: {
-    databaseUrl: process.env.DATABASE_URL_PRIME!,
+  "warehouse-pal-project": {
+    databaseUrl: process.env.DATABASE_URL_WAREHOUSE_PROJECT!,
   },
 } satisfies Record<string, { databaseUrl: string }>;
 
@@ -16,7 +16,7 @@ type Tenant = keyof typeof TENANT_CONFIG;
 
 export function getTenantPrisma<T extends Tenant>(
   company: T
-): T extends "elevate" ? PrismaClientElevate : PrismaClientPrime {
+): T extends "warehouse-pal-project" ? PrismaClientElevate : PrismaClientPrime {
   const config = TENANT_CONFIG[company.toLowerCase() as Tenant];
   if (!config) throw new Error(`Unknown tenant: ${company}`);
 

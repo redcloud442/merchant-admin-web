@@ -24,7 +24,9 @@ export default async function AppLayout({
     redirect: redirectTo,
     teamMemberProfile,
     referral,
-  } = await protectionMemberUser(companyName as "elevate" | "prime");
+  } = await protectionMemberUser(
+    companyName as "district-1" | "warehouse-pal-project"
+  );
 
   if (redirectTo) {
     redirect(redirectTo);

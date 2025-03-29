@@ -1,9 +1,14 @@
 import { Button } from "@/components/ui/button";
-import { formatDateToYYYYMMDD, formatTime } from "@/lib/function";
+import { COMPANY_NAME } from "@/lib/constant";
+import {
+  formatAccountNumber,
+  formatDateToYYYYMMDD,
+  formatTime,
+} from "@/lib/function";
 import { AdminWithdrawaldata, WithdrawalRequestData } from "@/lib/types";
 import { updateWithdrawalStatus } from "@/services/Withdrawal/Withdrawal";
 import { Column, ColumnDef, Row } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, ClipboardCopy } from "lucide-react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { toast } from "sonner";
 import { Badge } from "../ui/badge";
@@ -117,6 +122,13 @@ export const WithdrawalColumn = (
     }
   };
 
+  const handleCopyToClipboard = (text: string, variant: string) => {
+    navigator.clipboard.writeText(text);
+    toast.success(`Copied to clipboard`, {
+      description: `${variant} copied to clipboard`,
+    });
+  };
+
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const columns: ColumnDef<WithdrawalRequestData>[] = [
     {
@@ -135,14 +147,16 @@ export const WithdrawalColumn = (
         <div className="w-full ">
           <div className="flex justify-between items-center gap-2">
             <p>{row.getValue("user_username")}</p>
-            <AdminWithdrawalModal
-              companyName={companyName}
-              status={status}
-              hiddenUser={hidden}
-              setRequestData={setRequestData}
-              user_userName={row.getValue("user_username")}
-              alliance_member_id={row.original.alliance_member_id}
-            />
+            {companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 && (
+              <AdminWithdrawalModal
+                companyName={companyName}
+                status={status}
+                hiddenUser={hidden}
+                setRequestData={setRequestData}
+                user_userName={row.getValue("user_username")}
+                alliance_member_id={row.original.alliance_member_id}
+              />
+            )}
           </div>
         </div>
       ),
@@ -229,21 +243,32 @@ export const WithdrawalColumn = (
     },
     {
       accessorKey: "alliance_withdrawal_request_account",
-
       header: ({ column }) => (
         <Button
           variant="ghost"
           className="p-1"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+          onClick={() => column.toggleSorting(column.getIsSorted() === "desc")}
         >
           Bank Account <ArrowUpDown />
         </Button>
       ),
-      cell: ({ row }) => (
-        <div className="text-center w-xs">
-          {row.getValue("alliance_withdrawal_request_account")}
-        </div>
-      ),
+      cell: ({ row }) => {
+        const value = row.getValue(
+          "alliance_withdrawal_request_account"
+        ) as string;
+        return (
+          <div className="flex justify-between items-center gap-2 text-wrap w-52">
+            <span>{formatAccountNumber(value)}</span>
+            <Button
+              size="icon"
+              onClick={() => handleCopyToClipboard(value, "Bank Account")}
+              className="p-1"
+            >
+              <ClipboardCopy className="w-3 h-3" />
+            </Button>
+          </div>
+        );
+      },
     },
     {
       accessorKey: "alliance_withdrawal_request_bank_name",
@@ -256,11 +281,23 @@ export const WithdrawalColumn = (
           Bank Name <ArrowUpDown />
         </Button>
       ),
-      cell: ({ row }) => (
-        <div className="text-center w-xs">
-          {row.getValue("alliance_withdrawal_request_bank_name")}
-        </div>
-      ),
+      cell: ({ row }) => {
+        const value = row.getValue(
+          "alliance_withdrawal_request_bank_name"
+        ) as string;
+        return (
+          <div className="flex items-center justify-between gap-2 text-wrap w-56">
+            <span>{value}</span>
+            <Button
+              size="icon"
+              onClick={() => handleCopyToClipboard(value, "Bank Name")}
+              className="p-1"
+            >
+              <ClipboardCopy className="w-3 h-3" />
+            </Button>
+          </div>
+        );
+      },
     },
     {
       accessorKey: "alliance_withdrawal_request_withdraw_type",
@@ -399,7 +436,7 @@ export const WithdrawalColumn = (
               return (
                 <>
                   {data.alliance_withdrawal_request_status === "PENDING" && (
-                    <div className="flex gap-2">
+                    <div className="flex justify-center items-center gap-2">
                       <Button
                         className="bg-green-500 hover:bg-green-600 dark:bg-green-500 dark:text-white "
                         onClick={() =>

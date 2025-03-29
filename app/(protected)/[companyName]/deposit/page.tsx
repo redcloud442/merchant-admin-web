@@ -7,7 +7,9 @@ const page = async ({
 }) => {
   const { companyName } = await params;
 
-  await protectionMemberUserMerchant(companyName as "elevate" | "prime");
+  await protectionMemberUserMerchant(
+    companyName as "district-1" | "warehouse-pal-project"
+  );
 
   return <TopUpPage companyName={companyName} />;
 };

@@ -303,7 +303,7 @@ const MerchantTable = ({ companyName }: { companyName: string }) => {
                     </div>
                   )}
                 />
-                {companyName === COMPANY_NAME.PRIME && (
+                {companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 && (
                   <div>
                     <Controller
                       name="file"

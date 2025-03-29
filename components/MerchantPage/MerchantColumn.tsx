@@ -101,7 +101,7 @@ export const useMerchantColumn = (
         <div className="text-wrap">{row.getValue("merchant_account_type")}</div>
       ),
     },
-    ...(companyName === COMPANY_NAME.PRIME
+    ...(companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1
       ? [
           {
             accessorKey: "merchant_qr_attachment",

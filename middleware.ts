@@ -21,19 +21,19 @@ export async function middleware(req: NextRequest) {
 
   // ✅ Call this only if tenant routes, not for /api
   if (!pathname.startsWith("/api/v1")) {
-    await updateSession(req, tenant || "elevate");
+    await updateSession(req, tenant || "warehouse-pal-project");
   }
 
   // Validate tenant (for routing purposes)
-  if (tenant && tenant !== "elevate" && tenant !== "prime") {
+  if (tenant && tenant !== "warehouse-pal-project" && tenant !== "district-1") {
     return NextResponse.redirect(new URL("/404", req.url));
   }
 
   // Proxy to appropriate server for /api
   if (pathname.startsWith("/api/v1")) {
-    let target = process.env.NEXT_PUBLIC_API_URL_PRIME;
-    if (tenant === "elevate") {
-      target = process.env.NEXT_PUBLIC_API_URL_ELEVATE;
+    let target = process.env.NEXT_PUBLIC_API_URL_DISTRICT_1;
+    if (tenant === "warehouse-pal-project") {
+      target = process.env.NEXT_PUBLIC_API_URL_WAREHOUSE_PROJECT;
     }
     return NextResponse.rewrite(`${target}${pathname}`);
   }

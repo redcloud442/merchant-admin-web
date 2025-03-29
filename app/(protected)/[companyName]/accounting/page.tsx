@@ -8,7 +8,9 @@ const page = async ({
 }) => {
   const { companyName } = await params;
 
-  await protectionMemberUserAccounting(companyName as "elevate" | "prime");
+  await protectionMemberUserAccounting(
+    companyName as "district-1" | "warehouse-pal-project"
+  );
 
   return <WithdrawalPage companyName={companyName} />;
 };

@@ -46,7 +46,14 @@ export const handleUpdateMerchantData = async (params: {
   merchantId: string;
   companyName: string;
 }) => {
-  const response = await getTenantAxios(params.companyName).delete(`/merchant`);
+  const response = await getTenantAxios(params.companyName).delete(
+    `/merchant`,
+    {
+      data: {
+        merchantId: params.merchantId,
+      },
+    }
+  );
 
   if (response.status !== 200) {
     throw new Error("An error occurred while updating the merchant.");

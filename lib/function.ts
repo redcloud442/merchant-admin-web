@@ -64,3 +64,12 @@ export const formatDay = (date: Date | string): string => {
 
   return dayName;
 };
+
+export const formatAccountNumber = (value: string): string => {
+  return (
+    value
+      .replace(/\D/g, "") // Remove non-numeric characters
+      .match(/.{1,4}/g) // Split into groups of 4
+      ?.join(" - ") || ""
+  ); // Join with ' - ' and return
+};

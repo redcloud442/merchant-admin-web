@@ -358,7 +358,7 @@ export const TopUpColumn = (
               return (
                 <>
                   {data.alliance_top_up_request_status === "PENDING" && (
-                    <div className="flex gap-2">
+                    <div className="flex justify-center items-center gap-2">
                       <Button
                         className="bg-green-500 hover:bg-green-600 dark:bg-green-500 dark:text-white"
                         onClick={() =>
