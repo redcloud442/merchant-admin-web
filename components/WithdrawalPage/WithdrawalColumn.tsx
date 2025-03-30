@@ -257,7 +257,7 @@ export const WithdrawalColumn = (
           "alliance_withdrawal_request_account"
         ) as string;
         return (
-          <div className="flex justify-between items-center gap-2 text-wrap w-52">
+          <div className="flex justify-between items-center gap-2 text-wrap w-full">
             <span>{formatAccountNumber(value)}</span>
             <Button
               size="icon"
@@ -286,7 +286,7 @@ export const WithdrawalColumn = (
           "alliance_withdrawal_request_bank_name"
         ) as string;
         return (
-          <div className="flex items-center justify-between gap-2 text-wrap w-56">
+          <div className="flex items-center justify-between gap-2 text-wrap w-full">
             <span>{value}</span>
             <Button
               size="icon"
