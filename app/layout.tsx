@@ -4,9 +4,10 @@ import type { Metadata } from "next";
 import { ThemeProvider } from "next-themes";
 import { Roboto_Slab } from "next/font/google";
 import "./globals.css";
+
 export const metadata: Metadata = {
-  title: "Warehouse Management System",
-  description: "Warehouse Management System",
+  title: "Pal Dispatch System",
+  description: "Pal Dispatch System",
 };
 
 const roboto = Roboto_Slab({
