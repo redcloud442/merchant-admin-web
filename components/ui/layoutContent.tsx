@@ -43,7 +43,7 @@ export default function LayoutContent({
         <div className="relative z-50 grow bg-stone-900 dark:text-white">
           {children}
           <Button
-            className="fixed bottom-10 right-10"
+            className="fixed top-10 right-10"
             variant="default"
             onClick={handleLogout}
           >
