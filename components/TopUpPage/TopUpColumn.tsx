@@ -291,14 +291,14 @@ export const TopUpColumn = (
         const formatterUrl =
           companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1
             ? attachmentUrl.replace(
-                "https://hburgwylodfpwgbtywue.supabase.co",
-                "https://cdn.primepinas.com"
+                "https://cdn.primepinas.com",
+                "https://content.elevateglobal.app"
               )
             : attachmentUrl.replace(
-                "https://kvrvtcwffqhkzlpfjjoy.supabase.co",
-                "https://content.elevateglobal.app"
+                "https://content.elevateglobal.app",
+                "https://kvrvtcwffqhkzlpfjjoy.supabase.co"
               );
-        console.log(formatterUrl);
+
         return (
           <Dialog>
             <DialogTrigger asChild>
