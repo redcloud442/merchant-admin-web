@@ -148,7 +148,7 @@ const MerchantTable = ({ companyName }: { companyName: string }) => {
         }
 
         attachmentUrl =
-          companyName === "prime"
+          companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1
             ? "https://cdn.primepinas.com/storage/v1/object/public/REQUEST_ATTACHMENTS/" +
               filePath
             : "https://content.elevateglobal.app/storage/v1/object/public/REQUEST_ATTACHMENTS/" +
