@@ -292,7 +292,7 @@ export const TopUpColumn = (
           companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1
             ? attachmentUrl.replace(
                 "https://cdn.primepinas.com",
-                "hburgwylodfpwgbtywue.supabase.co"
+                "https://hburgwylodfpwgbtywue.supabase.co"
               )
             : attachmentUrl.replace(
                 "https://content.elevateglobal.app",
