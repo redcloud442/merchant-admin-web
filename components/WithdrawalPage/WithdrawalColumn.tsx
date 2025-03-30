@@ -257,12 +257,12 @@ export const WithdrawalColumn = (
           "alliance_withdrawal_request_account"
         ) as string;
         return (
-          <div className="flex justify-between items-center gap-2 text-wrap w-full">
+          <div className="flex justify-between items-center gap-2 text-wrap w-56">
             <span>{formatAccountNumber(value)}</span>
             <Button
               size="icon"
               onClick={() => handleCopyToClipboard(value, "Bank Account")}
-              className="p-1"
+              className="p-1 dark:bg-stone-900 dark:text-white"
             >
               <ClipboardCopy className="w-3 h-3" />
             </Button>
@@ -286,12 +286,12 @@ export const WithdrawalColumn = (
           "alliance_withdrawal_request_bank_name"
         ) as string;
         return (
-          <div className="flex items-center justify-between gap-2 text-wrap w-full">
+          <div className="flex items-center justify-between gap-2 text-wrap w-56">
             <span>{value}</span>
             <Button
               size="icon"
               onClick={() => handleCopyToClipboard(value, "Bank Name")}
-              className="p-1"
+              className="p-1 dark:bg-stone-900 dark:text-white"
             >
               <ClipboardCopy className="w-3 h-3" />
             </Button>

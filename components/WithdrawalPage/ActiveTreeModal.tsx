@@ -43,7 +43,7 @@ const ActiveTreeModal = ({ teamMemberProfile, companyName }: Props) => {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button className="w-full sm:w-full cursor-pointer rounded-md">
+        <Button className="w-full sm:w-full cursor-pointer rounded-md dark:bg-stone-900 dark:text-white">
           Show Tree
         </Button>
       </DialogTrigger>
@@ -57,10 +57,10 @@ const ActiveTreeModal = ({ teamMemberProfile, companyName }: Props) => {
 
         {loading ? (
           <p className="text-center text-gray-500">
-            <Skeleton className="w-full h-12" />
+            <Skeleton className="w-full h-12 dark:bg-stone-900" />
           </p>
         ) : heirarchy.length === 0 ? (
-          <p className="text-center text-gray-500">
+          <p className="text-center text-gray-500 dark:text-white">
             No hierarchy data available.
           </p>
         ) : (

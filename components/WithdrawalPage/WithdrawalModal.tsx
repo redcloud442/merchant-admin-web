@@ -80,7 +80,10 @@ const AdminWithdrawalModal = ({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button className="cursor-pointer" size="icon">
+        <Button
+          className="cursor-pointer dark:bg-stone-900 dark:text-white"
+          size="icon"
+        >
           {hiddenUser ? <EyeOff /> : <Eye />}
         </Button>
       </DialogTrigger>
