@@ -1,4 +1,5 @@
 import { Button } from "@/components/ui/button";
+import { COMPANY_NAME } from "@/lib/constant";
 import { formatDateToYYYYMMDD, formatTime } from "@/lib/function";
 import { AdminTopUpRequestData, TopUpRequestData } from "@/lib/types";
 import { updateTopUpStatus } from "@/services/Deposit/Deposit";
@@ -287,6 +288,17 @@ export const TopUpColumn = (
           "alliance_top_up_request_attachment"
         ) as string;
 
+        const formatterUrl =
+          companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1
+            ? attachmentUrl.replace(
+                "https://hburgwylodfpwgbtywue.supabase.co",
+                "https://cdn.primepinas.com"
+              )
+            : attachmentUrl.replace(
+                "https://kvrvtcwffqhkzlpfjjoy.supabase.co",
+                "https://content.elevateglobal.app"
+              );
+        console.log(formatterUrl);
         return (
           <Dialog>
             <DialogTrigger asChild>
@@ -300,8 +312,8 @@ export const TopUpColumn = (
               </DialogHeader>
               <div className="flex justify-center items-center">
                 <img
-                  key={attachmentUrl}
-                  src={attachmentUrl}
+                  key={formatterUrl}
+                  src={formatterUrl}
                   alt="Attachment Preview"
                   className="object-contain w-[600px] h-[600px]"
                 />
