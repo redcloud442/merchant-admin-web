@@ -17,7 +17,7 @@ const DashboardPage = ({ companyName }: { companyName: string }) => {
       {teamMemberProfile?.alliance_member_role === "MERCHANT" && (
         <>
           <Link href={`/${companyName}/merchant`}>
-            <Button>Merchants</Button>
+            <Button>MOP</Button>
           </Link>
           <Link href={`/${companyName}/deposit`}>
             <Button>Deposit</Button>
