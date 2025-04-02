@@ -307,16 +307,12 @@ export const TopUpColumn = (
           "alliance_top_up_request_attachment"
         ) as string;
 
-        const formatterUrl =
-          companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1
-            ? attachmentUrl.replace(
-                "https://cdn.primepinas.com",
-                "https://hburgwylodfpwgbtywue.supabase.co"
-              )
-            : attachmentUrl.replace(
-                "https://content.elevateglobal.app",
-                "https://kvrvtcwffqhkzlpfjjoy.supabase.co"
-              );
+        const attachmentUrls = row.original.attachment_url;
+
+        const formatterUrl = attachmentUrl.replace(
+          "https://cdn.primepinas.com",
+          "https://hburgwylodfpwgbtywue.supabase.co"
+        );
 
         return (
           <Dialog>
@@ -329,13 +325,30 @@ export const TopUpColumn = (
               <DialogHeader>
                 <DialogTitle>Attachment</DialogTitle>
               </DialogHeader>
-              <div className="flex justify-center items-center">
-                <img
-                  key={formatterUrl}
-                  src={formatterUrl}
-                  alt="Attachment Preview"
-                  className="object-contain w-[600px] h-[600px]"
-                />
+              <div className="flex flex-wrap justify-center items-center">
+                {companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 ? (
+                  <img
+                    key={formatterUrl}
+                    src={formatterUrl}
+                    alt="Attachment Preview"
+                    className="object-contain w-[600px] h-[600px]"
+                  />
+                ) : (
+                  attachmentUrls.map((url) => (
+                    <img
+                      key={url.replace(
+                        "https://content.elevateglobal.app",
+                        "https://kvrvtcwffqhkzlpfjjoy.supabase.co"
+                      )}
+                      src={url.replace(
+                        "https://content.elevateglobal.app",
+                        "https://kvrvtcwffqhkzlpfjjoy.supabase.co"
+                      )}
+                      alt="Attachment Preview"
+                      className="object-contain w-[600px] h-[600px]"
+                    />
+                  ))
+                )}
               </div>
               <DialogClose asChild>
                 <Button variant="secondary">Close</Button>

@@ -12,6 +12,7 @@ export type TopUpRequestData = alliance_top_up_request_table & {
   approver_username: string;
   alliance_member_id: string;
   count: number;
+  attachment_url: string[];
 };
 
 export type AdminTopUpRequestData = {
