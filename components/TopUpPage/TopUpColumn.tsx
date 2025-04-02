@@ -329,12 +329,14 @@ export const TopUpColumn = (
               </DialogHeader>
               <div className="flex flex-wrap justify-center items-center">
                 {companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 ? (
-                  <img
-                    key={formatterUrl}
-                    src={formatterUrl}
-                    alt="Attachment Preview"
-                    className="object-contain w-[600px] h-[600px]"
-                  />
+                  formatterUrl ? (
+                    <img
+                      key={formatterUrl}
+                      src={formatterUrl}
+                      alt="Attachment Preview"
+                      className="object-contain w-[600px] h-[600px]"
+                    />
+                  ) : null
                 ) : (
                   attachmentUrls.map((url) => (
                     <img
