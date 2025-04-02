@@ -2,6 +2,7 @@
 
 import { COMPANY_NAME } from "@/lib/constant";
 import { useRole } from "@/lib/context";
+import { formatDateToLocal } from "@/lib/function";
 import { AdminWithdrawaldata, WithdrawalRequestData } from "@/lib/types";
 import { getAdminWithdrawalRequest } from "@/services/Withdrawal/Withdrawal";
 import {
@@ -95,7 +96,8 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
       const startDate = dateFilter.start
         ? new Date(dateFilter.start)
         : undefined;
-      const endDate = startDate ? new Date(startDate) : undefined;
+      const formattedStartDate = startDate ? formatDateToLocal(startDate) : "";
+
       const requestData = await getAdminWithdrawalRequest({
         page: activePage,
         limit: 10,
@@ -105,14 +107,8 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
         userFilter,
         statusFilter: statusFilter,
         dateFilter: {
-          start:
-            startDate && !isNaN(startDate.getTime())
-              ? startDate.toISOString()
-              : undefined,
-          end:
-            endDate && !isNaN(endDate.getTime())
-              ? new Date(endDate.setHours(23, 59, 59, 999)).toISOString()
-              : undefined,
+          start: formattedStartDate,
+          end: formattedStartDate,
         },
         showHiddenUser,
         companyName,

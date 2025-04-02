@@ -17,6 +17,7 @@ import {
   DialogTrigger,
 } from "../ui/dialog";
 import { Textarea } from "../ui/textarea";
+import ActiveTreeModal from "../WithdrawalPage/ActiveTreeModal";
 
 const statusColorMap: Record<string, string> = {
   APPROVED: "bg-green-500 dark:bg-green-500 dark:text-white",
@@ -136,8 +137,26 @@ export const TopUpColumn = (
       ),
     },
     {
+      accessorKey: "alliance_member_id",
+      header: () => (
+        <Button variant="ghost">
+          Show Tree <ArrowUpDown />
+        </Button>
+      ),
+      cell: ({ row }) => {
+        const memberId = row.getValue("alliance_member_id") as string;
+        return (
+          <div className="flex items-center gap-4">
+            <ActiveTreeModal
+              teamMemberProfile={memberId}
+              companyName={companyName}
+            />
+          </div>
+        );
+      },
+    },
+    {
       accessorKey: "alliance_top_up_request_status",
-
       header: ({ column }) => (
         <Button
           variant="ghost"

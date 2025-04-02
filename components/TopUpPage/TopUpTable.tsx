@@ -4,6 +4,7 @@ import { useRole } from "@/lib/context";
 import { getTenantBrowserSupabase } from "@/lib/supabase/client";
 import { AdminTopUpRequestData, TopUpRequestData } from "@/lib/types";
 // import { getAdminTopUpRequest } from "@/services/TopUp/Admin";
+import { formatDateToLocal } from "@/lib/function";
 import { getAdminTopUpRequest } from "@/services/Deposit/Deposit";
 import { DialogDescription } from "@radix-ui/react-dialog";
 import {
@@ -92,7 +93,8 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
       const startDate = dateFilter.start
         ? new Date(dateFilter.start)
         : undefined;
-      const endDate = startDate ? new Date(startDate) : undefined;
+      const formattedStartDate = startDate ? formatDateToLocal(startDate) : "";
+
       const requestData = await getAdminTopUpRequest(
         {
           page: activePage,
@@ -103,14 +105,8 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
           userFilter,
           statusFilter: statusFilter ?? "PENDING",
           dateFilter: {
-            start:
-              startDate && !isNaN(startDate.getTime())
-                ? startDate.toISOString()
-                : undefined,
-            end:
-              endDate && !isNaN(endDate.getTime())
-                ? new Date(endDate.setHours(23, 59, 59, 999)).toISOString()
-                : undefined,
+            start: formattedStartDate,
+            end: formattedStartDate,
           },
         },
         companyName
