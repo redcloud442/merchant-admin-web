@@ -309,10 +309,13 @@ export const TopUpColumn = (
 
         const attachmentUrls = row.original.attachment_url;
 
-        const formatterUrl = attachmentUrl.replace(
-          "https://cdn.primepinas.com",
-          "https://hburgwylodfpwgbtywue.supabase.co"
-        );
+        const formatterUrl =
+          companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1
+            ? attachmentUrl.replace(
+                "https://cdn.primepinas.com",
+                "https://hburgwylodfpwgbtywue.supabase.co"
+              )
+            : null;
 
         return (
           <Dialog>
