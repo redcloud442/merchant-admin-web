@@ -103,7 +103,7 @@ const AdminBanListModal = ({ teamMemberProfile, companyName }: Props) => {
             className="flex gap-2 pt-4 px-10"
             onSubmit={handleSubmit(handleUploadBanList)}
           >
-            <div className="flex flex-col gap-2 flex-1">
+            <div className="flex flex-wrap flex-col gap-2 flex-1">
               <Input
                 className="text-white placeholder:text-white dark:text-white dark:placeholder:text-white"
                 {...register("accountNumber")}
