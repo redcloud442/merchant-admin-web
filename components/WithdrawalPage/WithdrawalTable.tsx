@@ -139,11 +139,8 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
                     count: 0,
                   },
               },
-              totalWithdrawals: {
-                amount: requestData?.totalWithdrawals?.amount || 0,
-                approvedAmount:
-                  requestData?.totalWithdrawals?.approvedAmount || 0,
-              },
+              totalApprovedWithdrawal: requestData.totalApprovedWithdrawal,
+              totalPendingWithdrawal: requestData.totalPendingWithdrawal,
             };
           }
 
@@ -158,11 +155,6 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
                 data: [],
                 count: 0,
               },
-            },
-            totalWithdrawals: {
-              amount: requestData?.totalWithdrawals?.amount || 0,
-              approvedAmount:
-                requestData?.totalWithdrawals?.approvedAmount || 0,
             },
           };
         }
@@ -196,6 +188,8 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
           REJECTED: { data: [], count: 0 },
           PENDING: { data: [], count: 0 },
         },
+        totalApprovedWithdrawal: 0,
+        totalPendingWithdrawal: 0,
       };
 
       const {
@@ -234,8 +228,6 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
         companyName,
       });
 
-      console.log(requestData);
-
       for (const status of statuses) {
         updatedData.data[status] = requestData?.data?.[status] || {
           data: [],
@@ -243,12 +235,13 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
         };
       }
 
+      updatedData.totalApprovedWithdrawal =
+        requestData?.totalApprovedWithdrawal || 0;
+      updatedData.totalPendingWithdrawal =
+        requestData?.totalPendingWithdrawal || 0;
+
       setRequestData({
         ...updatedData,
-        totalWithdrawals: {
-          amount: requestData?.totalWithdrawals?.amount || 0,
-          approvedAmount: requestData?.totalWithdrawals?.approvedAmount || 0,
-        },
       });
     } catch (e) {
       toast.error("Failed to fetch withdrawal list");
@@ -390,13 +383,10 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
             value={
               <>
                 <PhilippinePeso />
-                {requestData?.totalWithdrawals?.amount?.toLocaleString(
-                  "en-US",
-                  {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  }
-                ) || 0}
+                {requestData?.totalPendingWithdrawal?.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                }) || 0}
               </>
             }
             description=""
@@ -409,13 +399,10 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
             value={
               <>
                 <PhilippinePeso />
-                {requestData?.totalWithdrawals?.approvedAmount?.toLocaleString(
-                  "en-US",
-                  {
-                    minimumFractionDigits: 2,
-                    maximumFractionDigits: 2,
-                  }
-                ) || 0}
+                {requestData?.totalApprovedWithdrawal?.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                }) || 0}
               </>
             }
             description=""

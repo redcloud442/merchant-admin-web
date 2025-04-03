@@ -45,10 +45,8 @@ export type AdminWithdrawaldata = {
     REJECTED: StatusDataWithdraw;
     PENDING: StatusDataWithdraw;
   };
-  totalWithdrawals?: {
-    amount: number;
-    approvedAmount: number;
-  };
+  totalPendingWithdrawal: number;
+  totalApprovedWithdrawal: number;
 };
 
 export type StatusDataWithdraw = {
