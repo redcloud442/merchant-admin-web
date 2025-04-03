@@ -29,6 +29,14 @@ export async function updateSession(request: NextRequest, tenant: string) {
     const url = request.nextUrl.clone();
     url.pathname = `/login/${tenant}`;
     return NextResponse.redirect(url);
+  } else if (
+    user &&
+    (request.nextUrl.pathname.startsWith(`/login/${tenant}`) ||
+      request.nextUrl.pathname.startsWith(`/${tenant}`))
+  ) {
+    const url = request.nextUrl.clone();
+    url.pathname = `/${tenant}/dashboard`;
+    return NextResponse.redirect(url);
   }
 
   // IMPORTANT: You *must* return the supabaseResponse object as it is. If you're
