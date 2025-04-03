@@ -83,8 +83,8 @@ const AdminBanListModal = ({ teamMemberProfile, companyName }: Props) => {
     >
       <DialogTrigger asChild>
         <Button
-          variant="secondary"
-          className="dark:bg-pageColor dark:text-white h-8 rounded-sm w-full sm:w-auto"
+          variant="outline"
+          className="bg-pageColor dark:bg-pageColor dark:text-white h-8 rounded-sm w-full sm:w-auto"
           onClick={() => setOpen(true)}
         >
           Ban List

@@ -27,7 +27,6 @@ import {
 import React, { useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
-import AdminBanListModal from "../BanList/BanList";
 import { Button } from "../ui/button";
 import { Calendar } from "../ui/calendar";
 import { Card } from "../ui/card";
@@ -574,38 +573,41 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
                 Rejected ({requestData?.data?.REJECTED?.count || 0})
               </TabsTrigger>
             </TabsList>
-            {teamMemberProfile.alliance_member_role === "ACCOUNTING_HEAD" &&
-              companyName === COMPANY_NAME.PALPROJECT_WAREHOUSING && (
-                <AdminBanListModal
-                  teamMemberProfile={teamMemberProfile}
-                  companyName={companyName}
-                />
-              )}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button variant="outline" className="ml-auto rounded-md">
-                  Columns <ChevronDown />
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end">
-                {tableColumns
-                  .filter((column) => column.getCanHide())
-                  .map((column) => {
-                    return (
-                      <DropdownMenuCheckboxItem
-                        key={column.accessorFn}
-                        className="capitalize"
-                        checked={column.getIsVisible()}
-                        onCheckedChange={(value) =>
-                          column.toggleVisibility(!!value)
-                        }
-                      >
-                        {column.label}
-                      </DropdownMenuCheckboxItem>
-                    );
-                  })}
-              </DropdownMenuContent>
-            </DropdownMenu>
+
+            <div className="flex items-center gap-2">
+              {teamMemberProfile.alliance_member_role === "ACCOUNTING_HEAD" &&
+                companyName === COMPANY_NAME.PALPROJECT_WAREHOUSING && (
+                  <AdminBanListModal
+                    teamMemberProfile={teamMemberProfile}
+                    companyName={companyName}
+                  />
+                )}
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="ml-auto rounded-md">
+                    Columns <ChevronDown />
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent align="end">
+                  {tableColumns
+                    .filter((column) => column.getCanHide())
+                    .map((column) => {
+                      return (
+                        <DropdownMenuCheckboxItem
+                          key={column.accessorFn}
+                          className="capitalize"
+                          checked={column.getIsVisible()}
+                          onCheckedChange={(value) =>
+                            column.toggleVisibility(!!value)
+                          }
+                        >
+                          {column.label}
+                        </DropdownMenuCheckboxItem>
+                      );
+                    })}
+                </DropdownMenuContent>
+              </DropdownMenu>
+            </div>
           </div>
           <TabsContent value="PENDING">
             <WithdrawalTabs
