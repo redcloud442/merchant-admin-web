@@ -69,7 +69,7 @@ const ReusableTable = <T extends object>({
               table.getExpandedRowModel().rows.map((row) => (
                 <TableRow
                   key={row.id}
-                  className="transition-all duration-300 hover:bg-zinc-50 dark:hover:bg-zinc-800"
+                  className="transition-all duration-300 hover:bg-red-300 dark:hover:bg-red-300"
                   data-state={row.getIsSelected() && "selected"}
                 >
                   {row.getVisibleCells().map((cell) => (
