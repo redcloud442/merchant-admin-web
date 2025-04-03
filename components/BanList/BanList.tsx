@@ -83,6 +83,7 @@ const AdminBanListModal = ({ teamMemberProfile, companyName }: Props) => {
     >
       <DialogTrigger asChild>
         <Button
+          variant="secondary"
           className="dark:bg-pageColor dark:text-white h-8 rounded-sm w-full sm:w-auto"
           onClick={() => setOpen(true)}
         >
@@ -92,16 +93,21 @@ const AdminBanListModal = ({ teamMemberProfile, companyName }: Props) => {
 
       <DialogContent
         type="table"
-        className="w-[350px] sm:w-[600px] dark:bg-cardColor border-none shadow-none overflow-auto p-0 pt-10"
+        className="w-[350px] sm:w-[600px] dark:bg-cardColor border-none shadow-none overflow-auto p-0 pt-10 bg-stone-900 space-y-4"
       >
         <ScrollArea className="h-[500px] w-full sm:h-full px-2">
-          <DialogTitle className=" text-2xl font-bold">Ban List</DialogTitle>
+          <DialogTitle className=" text-2xl font-bold text-white">
+            Ban List
+          </DialogTitle>
           <form
             className="flex gap-2 pt-4 px-10"
             onSubmit={handleSubmit(handleUploadBanList)}
           >
             <div className="flex flex-col gap-2 flex-1">
-              <Input {...register("accountNumber")} />
+              <Input
+                className="text-white placeholder:text-white dark:text-white dark:placeholder:text-white"
+                {...register("accountNumber")}
+              />
               {errors.accountNumber && (
                 <p className="text-primaryRed text-sm mt-1">
                   {errors.accountNumber.message}
@@ -110,6 +116,7 @@ const AdminBanListModal = ({ teamMemberProfile, companyName }: Props) => {
             </div>
             <Button
               type="submit"
+              variant="secondary"
               className="w-full sm:w-auto rounded-md"
               disabled={isSubmitting}
             >
