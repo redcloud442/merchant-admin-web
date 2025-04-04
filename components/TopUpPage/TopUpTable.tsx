@@ -350,35 +350,36 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
 
   return (
     <>
-      {" "}
-      <CardAmountAdmin
-        title="Total Approved Deposit"
-        value={
-          <>
-            <PhilippinePeso />
-            {requestData?.totalApprovedDeposit?.toLocaleString("en-US", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            }) ?? "0.00"}
-          </>
-        }
-        description=""
-        descriptionClassName="text-sm text-gray-500 font-bold"
-      />
-      <CardAmountAdmin
-        title="Total Pending Deposit"
-        value={
-          <>
-            <PhilippinePeso />
-            {requestData?.totalPendingDeposit?.toLocaleString("en-US", {
-              minimumFractionDigits: 2,
-              maximumFractionDigits: 2,
-            }) ?? "0.00"}
-          </>
-        }
-        description=""
-        descriptionClassName="text-sm text-gray-500 font-bold"
-      />
+      <div className="flex flex-wrap gap-2">
+        <CardAmountAdmin
+          title="Total Approved Deposit"
+          value={
+            <>
+              <PhilippinePeso />
+              {requestData?.totalApprovedDeposit?.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              }) ?? "0.00"}
+            </>
+          }
+          description=""
+          descriptionClassName="text-sm text-gray-500 font-bold"
+        />
+        <CardAmountAdmin
+          title="Total Pending Deposit"
+          value={
+            <>
+              <PhilippinePeso />
+              {requestData?.totalPendingDeposit?.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              }) ?? "0.00"}
+            </>
+          }
+          description=""
+          descriptionClassName="text-sm text-gray-500 font-bold"
+        />
+      </div>
       <Card className="w-full rounded-sm p-4">
         <div className="flex flex-wrap gap-4 items-start py-4">
           <form
