@@ -230,6 +230,7 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
 
       updatedData.merchantBalance = requestData?.merchantBalance || 0;
       updatedData.totalPendingDeposit = requestData?.totalPendingDeposit || 0;
+      updatedData.totalApprovedDeposit = requestData?.totalApprovedDeposit || 0;
       setRequestData(updatedData);
     } catch (e) {
       toast.error(`Invalid Request`, {
