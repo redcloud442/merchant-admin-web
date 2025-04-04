@@ -138,6 +138,7 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
             },
             merchantBalance: requestData?.merchantBalance || 0,
             totalPendingDeposit: requestData?.totalPendingDeposit || 0,
+            totalApprovedDeposit: requestData?.totalApprovedDeposit || 0,
           };
         }
 
@@ -151,6 +152,8 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
               count: 0,
             },
           },
+          totalApprovedDeposit: requestData?.totalApprovedDeposit || 0,
+          totalPendingDeposit: requestData?.totalPendingDeposit || 0,
         };
       });
     } catch (e) {
@@ -348,6 +351,20 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
   return (
     <>
       {" "}
+      <CardAmountAdmin
+        title="Total Approved Deposit"
+        value={
+          <>
+            <PhilippinePeso />
+            {requestData?.totalApprovedDeposit?.toLocaleString("en-US", {
+              minimumFractionDigits: 2,
+              maximumFractionDigits: 2,
+            }) ?? "0.00"}
+          </>
+        }
+        description=""
+        descriptionClassName="text-sm text-gray-500 font-bold"
+      />
       <CardAmountAdmin
         title="Total Pending Deposit"
         value={

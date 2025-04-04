@@ -105,6 +105,11 @@ export const TopUpColumn = (
           totalPendingDeposit:
             Number(prev.totalPendingDeposit || 0) -
             Number(updatedItem.alliance_top_up_request_amount),
+          totalApprovedDeposit:
+            status === "APPROVED"
+              ? Number(prev.totalApprovedDeposit || 0) +
+                Number(updatedItem.alliance_top_up_request_amount)
+              : Number(prev.totalApprovedDeposit || 0),
           merchantBalance: merchantBalance,
         };
       });

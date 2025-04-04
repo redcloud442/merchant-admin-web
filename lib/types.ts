@@ -23,6 +23,7 @@ export type AdminTopUpRequestData = {
   };
   merchantBalance?: number;
   totalPendingDeposit?: number;
+  totalApprovedDeposit?: number;
 };
 
 export type StatusData = {
