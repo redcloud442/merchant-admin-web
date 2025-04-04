@@ -351,7 +351,7 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
 
   return (
     <>
-      <div className="flex flex-wrap gap-4">
+      <div className="flex flex-wrap gap-4 w-full">
         <CardAmountAdmin
           title="Total Approved Deposit"
           value={
