@@ -4,6 +4,7 @@ import { useRole } from "@/lib/context";
 import { getTenantBrowserSupabase } from "@/lib/supabase/client";
 import { AdminTopUpRequestData, TopUpRequestData } from "@/lib/types";
 // import { getAdminTopUpRequest } from "@/services/TopUp/Admin";
+import { COMPANY_NAME, RECIPT_MAPPING } from "@/lib/constant";
 import { formatDateToLocal } from "@/lib/function";
 import { getAdminTopUpRequest } from "@/services/Deposit/Deposit";
 import { DialogDescription } from "@radix-ui/react-dialog";
@@ -52,8 +53,15 @@ import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
 import { Switch } from "../ui/switch";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "../ui/tabs";
 import { Textarea } from "../ui/textarea";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "../ui/tooltip";
 import { TopUpColumn } from "./TopUpColumn";
 import TopUpTabs from "./TopUpTabs";
+
 type FilterFormValues = {
   referenceId: string;
   userFilter: string;
@@ -79,6 +87,7 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
   const [activePage, setActivePage] = useState(1);
   const [isFetchingList, setIsFetchingList] = useState(false);
   const [showFilters, setShowFilters] = useState(false);
+
   const columnAccessor = sorting?.[0]?.id || "alliance_top_up_request_date";
   const isAscendingSort =
     sorting?.[0]?.desc === undefined ? true : !sorting[0].desc;
@@ -256,6 +265,7 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
     });
 
   const status = watch("statusFilter") as "PENDING" | "APPROVED" | "REJECTED";
+
   const {
     columns,
     isOpenModal,
@@ -349,10 +359,15 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
     });
   }, [table]);
 
+  const handleReject = async (text: string) => {
+    setValue("rejectNote", text);
+  };
+
   return (
     <>
-      <div className="flex flex-wrap gap-4 w-full">
+      <div className="flex gap-4 w-full">
         <CardAmountAdmin
+          className="w-full"
           title="Total Approved Deposit"
           value={
             <>
@@ -399,6 +414,7 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
                       requestId: "",
                       status: "",
                       amount: 0,
+                      name: "",
                     });
                   }
                 }}
@@ -413,24 +429,62 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
                     </DialogTitle>
                   </DialogHeader>
                   {isOpenModal.status === "REJECTED" && (
-                    <Controller
-                      name="rejectNote"
-                      control={control}
-                      rules={{ required: "Rejection note is required" }}
-                      render={({ field, fieldState }) => (
-                        <div className="flex flex-col gap-2">
-                          <Textarea
-                            placeholder="Enter the reason for rejection..."
-                            {...field}
-                          />
-                          {fieldState.error && (
-                            <span className="text-red-500 text-sm">
-                              {fieldState.error.message}
-                            </span>
+                    <div className="flex flex-col gap-2">
+                      {companyName ===
+                      COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 ? (
+                        <Controller
+                          name="rejectNote"
+                          control={control}
+                          rules={{ required: "Rejection note is required" }}
+                          render={({ field }) => (
+                            <TooltipProvider>
+                              <Tooltip delayDuration={100}>
+                                <TooltipTrigger asChild>
+                                  <Textarea
+                                    placeholder="Enter the reason for rejection..."
+                                    {...field}
+                                  />
+                                </TooltipTrigger>
+
+                                <TooltipContent
+                                  side="bottom"
+                                  className="space-y-2 flex flex-col dark:bg-stone-900"
+                                >
+                                  {RECIPT_MAPPING.map((item) => (
+                                    <Button
+                                      key={item.label}
+                                      className="rounded-md text-balance"
+                                      onClick={() => handleReject(item.value)}
+                                    >
+                                      {item.label}
+                                    </Button>
+                                  ))}
+                                </TooltipContent>
+                              </Tooltip>
+                            </TooltipProvider>
                           )}
-                        </div>
+                        />
+                      ) : (
+                        <Controller
+                          name="rejectNote"
+                          control={control}
+                          rules={{ required: "Rejection note is required" }}
+                          render={({ field, fieldState }) => (
+                            <div className="flex flex-col gap-2">
+                              <Textarea
+                                placeholder="Enter the reason for rejection..."
+                                {...field}
+                              />
+                              {fieldState.error && (
+                                <span className="text-red-500 text-sm">
+                                  {fieldState.error.message}
+                                </span>
+                              )}
+                            </div>
+                          )}
+                        />
                       )}
-                    />
+                    </div>
                   )}
 
                   <div className="flex justify-end gap-2 mt-4">
@@ -440,13 +494,14 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
                       </Button>
                     </DialogClose>
                     <Button
-                      variant="default"
+                      variant="outline"
                       disabled={isLoading}
                       className="rounded-md"
                       onClick={() =>
                         handleUpdateStatus(
                           isOpenModal.status,
                           isOpenModal.requestId,
+                          isOpenModal.name,
                           rejectNote
                         )
                       }

@@ -37,15 +37,26 @@ export const TopUpColumn = (
     requestId: "",
     status: "",
     amount: 0,
+    name: "",
   });
 
   const handleUpdateStatus = async (
     status: string,
     requestId: string,
+    name: string,
     note?: string
   ) => {
     try {
       setIsLoading(true);
+
+      if (
+        companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 &&
+        status === "APPROVED"
+      ) {
+        if (document.hasFocus()) {
+          navigator.clipboard.writeText(`${name} - APPROVED`);
+        }
+      }
 
       await updateTopUpStatus(
         {
@@ -77,7 +88,13 @@ export const TopUpColumn = (
 
         if (!updatedItem) return prev;
 
-        setIsOpenModal({ open: false, requestId: "", status: "", amount: 0 });
+        setIsOpenModal({
+          open: false,
+          requestId: "",
+          status: "",
+          amount: 0,
+          name: "",
+        });
         return {
           ...prev,
           data: {
@@ -116,6 +133,7 @@ export const TopUpColumn = (
 
       reset();
     } catch (e) {
+      navigator.clipboard.writeText("");
       toast.error(`Invalid Request`, {
         description: `Something went wrong`,
       });
@@ -419,6 +437,7 @@ export const TopUpColumn = (
                             open: true,
                             requestId: data.alliance_top_up_request_id,
                             status: "APPROVED",
+                            name: data.user_username,
                             amount: data.alliance_top_up_request_amount || 0,
                           })
                         }
@@ -434,6 +453,7 @@ export const TopUpColumn = (
                             requestId: data.alliance_top_up_request_id,
                             status: "REJECTED",
                             amount: 0,
+                            name: data.user_username,
                           })
                         }
                       >
