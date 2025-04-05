@@ -16,6 +16,12 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "../ui/dropdown-menu";
 import { Textarea } from "../ui/textarea";
 import ActiveTreeModal from "../WithdrawalPage/ActiveTreeModal";
 
@@ -39,6 +45,7 @@ export const TopUpColumn = (
     amount: 0,
   });
   const [copiedRowId, setCopiedRowId] = useState<string | null>(null);
+
   const handleUpdateStatus = async (
     status: string,
     requestId: string,
@@ -147,9 +154,13 @@ export const TopUpColumn = (
         const username = row.getValue("user_username") as string;
         const rowId = row.original.alliance_top_up_request_id;
 
-        const handleCopy = async () => {
+        const handleCopy = async (type: "name" | "approved") => {
           try {
-            await navigator.clipboard.writeText(`${username} - approved`);
+            if (type === "name") {
+              await navigator.clipboard.writeText(username);
+            } else {
+              await navigator.clipboard.writeText(`${username} - approved`);
+            }
             setCopiedRowId(rowId);
 
             setTimeout(() => {
@@ -165,13 +176,25 @@ export const TopUpColumn = (
             {username}
             {companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 &&
               status === "PENDING" && (
-                <Button variant="outline" size="icon" onClick={handleCopy}>
-                  {copiedRowId === rowId ? (
-                    <CheckIcon className="w-4 h-4 text-green-500" />
-                  ) : (
-                    <CopyIcon className="w-4 h-4" />
-                  )}
-                </Button>
+                <DropdownMenu>
+                  <DropdownMenuTrigger asChild>
+                    <Button variant="outline" size="icon">
+                      {copiedRowId === rowId ? (
+                        <CheckIcon className="w-4 h-4 text-green-500" />
+                      ) : (
+                        <CopyIcon className="w-4 h-4" />
+                      )}
+                    </Button>
+                  </DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuItem onClick={() => handleCopy("name")}>
+                      Copy Name
+                    </DropdownMenuItem>
+                    <DropdownMenuItem onClick={() => handleCopy("approved")}>
+                      Copy Approved
+                    </DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
               )}
           </div>
         );
