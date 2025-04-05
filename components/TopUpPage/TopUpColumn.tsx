@@ -4,7 +4,7 @@ import { formatDateToYYYYMMDD, formatTime } from "@/lib/function";
 import { AdminTopUpRequestData, TopUpRequestData } from "@/lib/types";
 import { updateTopUpStatus } from "@/services/Deposit/Deposit";
 import { Column, ColumnDef, Row } from "@tanstack/react-table";
-import { ArrowUpDown } from "lucide-react";
+import { ArrowUpDown, CheckIcon, CopyIcon } from "lucide-react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { toast } from "sonner";
 import { Badge } from "../ui/badge";
@@ -37,26 +37,15 @@ export const TopUpColumn = (
     requestId: "",
     status: "",
     amount: 0,
-    name: "",
   });
-
+  const [copiedRowId, setCopiedRowId] = useState<string | null>(null);
   const handleUpdateStatus = async (
     status: string,
     requestId: string,
-    name: string,
     note?: string
   ) => {
     try {
       setIsLoading(true);
-
-      if (
-        companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 &&
-        status === "APPROVED"
-      ) {
-        if (document.hasFocus()) {
-          navigator.clipboard.writeText(`${name} - APPROVED`);
-        }
-      }
 
       await updateTopUpStatus(
         {
@@ -93,7 +82,6 @@ export const TopUpColumn = (
           requestId: "",
           status: "",
           amount: 0,
-          name: "",
         });
         return {
           ...prev,
@@ -155,9 +143,39 @@ export const TopUpColumn = (
           Requestor Username <ArrowUpDown />
         </Button>
       ),
-      cell: ({ row }) => (
-        <div className="text-wrap">{row.getValue("user_username")}</div>
-      ),
+      cell: ({ row }) => {
+        const username = row.getValue("user_username") as string;
+        const rowId = row.original.alliance_top_up_request_id;
+
+        const handleCopy = async () => {
+          try {
+            await navigator.clipboard.writeText(`${username} - approved`);
+            setCopiedRowId(rowId);
+
+            setTimeout(() => {
+              setCopiedRowId((prev) => (prev === rowId ? null : prev));
+            }, 2000);
+          } catch (error) {
+            console.warn("Failed to copy to clipboard", error);
+          }
+        };
+
+        return (
+          <div className="flex justify-between items-center w-full">
+            {username}
+            {companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 &&
+              status === "PENDING" && (
+                <Button variant="outline" size="icon" onClick={handleCopy}>
+                  {copiedRowId === rowId ? (
+                    <CheckIcon className="w-4 h-4 text-green-500" />
+                  ) : (
+                    <CopyIcon className="w-4 h-4" />
+                  )}
+                </Button>
+              )}
+          </div>
+        );
+      },
     },
     {
       accessorKey: "alliance_member_id",
@@ -437,7 +455,6 @@ export const TopUpColumn = (
                             open: true,
                             requestId: data.alliance_top_up_request_id,
                             status: "APPROVED",
-                            name: data.user_username,
                             amount: data.alliance_top_up_request_amount || 0,
                           })
                         }
@@ -453,7 +470,6 @@ export const TopUpColumn = (
                             requestId: data.alliance_top_up_request_id,
                             status: "REJECTED",
                             amount: 0,
-                            name: data.user_username,
                           })
                         }
                       >

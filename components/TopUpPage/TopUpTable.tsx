@@ -414,7 +414,6 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
                       requestId: "",
                       status: "",
                       amount: 0,
-                      name: "",
                     });
                   }
                 }}
@@ -501,7 +500,6 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
                         handleUpdateStatus(
                           isOpenModal.status,
                           isOpenModal.requestId,
-                          isOpenModal.name,
                           rejectNote
                         )
                       }
