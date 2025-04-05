@@ -287,7 +287,7 @@ export const protectionMemberUserAccounting = async (
     }
 
     if (
-      !["ACCOUNTING", "ACCOUNTING_HEAD"].includes(
+      !["ACCOUNTING", "ACCOUNTING_HEAD", "ADMIN"].includes(
         user.alliance_member_table[0]?.alliance_member_role
       )
     ) {

@@ -60,3 +60,16 @@ export type HeirarchyData = {
   user_username: string;
   user_id: string;
 };
+
+export type WithdrawListExportData = {
+  "Requestor Username": string;
+  Status: string;
+  Amount: number;
+  "Bank Account": string;
+  "Bank Name": string;
+  "Account Number": string;
+  "Withdrawal Type": string;
+  "Date Created": string;
+  "Date Updated": string;
+  "Approved By": string;
+};

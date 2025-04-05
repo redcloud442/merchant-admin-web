@@ -19,6 +19,7 @@ import { format } from "date-fns";
 import {
   CalendarIcon,
   ChevronDown,
+  Link,
   Loader2,
   PhilippinePeso,
   RefreshCw,
@@ -583,6 +584,11 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
                     companyName={companyName}
                   />
                 )}
+              {companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 && (
+                <Button variant="outline" className="ml-auto rounded-md">
+                  <Link href="/export">Export</Link>
+                </Button>
+              )}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
                   <Button variant="outline" className="ml-auto rounded-md">
