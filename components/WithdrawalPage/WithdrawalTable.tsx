@@ -585,7 +585,7 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
                   />
                 )}
               {companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 && (
-                <Link href="/export">
+                <Link href={`/${companyName}/export`}>
                   <Button variant="outline" className="ml-auto rounded-md">
                     Export
                   </Button>
