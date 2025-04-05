@@ -365,37 +365,39 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
 
   return (
     <>
-      <div className="flex gap-4 w-full">
-        <CardAmountAdmin
-          className="w-full"
-          title="Total Approved Deposit"
-          value={
-            <>
-              <PhilippinePeso />
-              {requestData?.totalApprovedDeposit?.toLocaleString("en-US", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              }) ?? "0.00"}
-            </>
-          }
-          description=""
-          descriptionClassName="text-sm text-gray-500 font-bold"
-        />
-        <CardAmountAdmin
-          title="Total Pending Deposit"
-          value={
-            <>
-              <PhilippinePeso />
-              {requestData?.totalPendingDeposit?.toLocaleString("en-US", {
-                minimumFractionDigits: 2,
-                maximumFractionDigits: 2,
-              }) ?? "0.00"}
-            </>
-          }
-          description=""
-          descriptionClassName="text-sm text-gray-500 font-bold"
-        />
-      </div>
+      {companyName === COMPANY_NAME.PALPROJECT_WAREHOUSING && (
+        <div className="flex gap-4 w-full">
+          <CardAmountAdmin
+            className="w-full"
+            title="Total Approved Deposit"
+            value={
+              <>
+                <PhilippinePeso />
+                {requestData?.totalApprovedDeposit?.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                }) ?? "0.00"}
+              </>
+            }
+            description=""
+            descriptionClassName="text-sm text-gray-500 font-bold"
+          />
+          <CardAmountAdmin
+            title="Total Pending Deposit"
+            value={
+              <>
+                <PhilippinePeso />
+                {requestData?.totalPendingDeposit?.toLocaleString("en-US", {
+                  minimumFractionDigits: 2,
+                  maximumFractionDigits: 2,
+                }) ?? "0.00"}
+              </>
+            }
+            description=""
+            descriptionClassName="text-sm text-gray-500 font-bold"
+          />
+        </div>
+      )}
       <Card className="w-full rounded-sm p-4">
         <div className="flex flex-wrap gap-4 items-start py-4">
           <form
