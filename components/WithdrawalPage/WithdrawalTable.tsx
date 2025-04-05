@@ -19,12 +19,12 @@ import { format } from "date-fns";
 import {
   CalendarIcon,
   ChevronDown,
-  Link,
   Loader2,
   PhilippinePeso,
   RefreshCw,
   Search,
 } from "lucide-react";
+import Link from "next/link";
 import React, { useEffect, useMemo, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { toast } from "sonner";
@@ -585,9 +585,11 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
                   />
                 )}
               {companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 && (
-                <Button variant="outline" className="ml-auto rounded-md">
-                  <Link href="/export">Export</Link>
-                </Button>
+                <Link href="/export">
+                  <Button variant="outline" className="ml-auto rounded-md">
+                    Export
+                  </Button>
+                </Link>
               )}
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
