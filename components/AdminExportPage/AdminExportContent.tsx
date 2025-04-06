@@ -62,11 +62,18 @@ const AdminExportContent = () => {
         return;
       }
 
+      const startDate = start ? new Date(start) : undefined;
+      const endDate = end ? new Date(end) : undefined;
+
       setIsLoading(true);
 
       while (true) {
         const result = await getAdminWithdrawalExport({
-          ...data,
+          type: selectedType,
+          dateFilter: {
+            start: startDate ? startDate.toISOString() : "",
+            end: endDate ? endDate.toISOString() : "",
+          },
           page,
           limit,
         });
