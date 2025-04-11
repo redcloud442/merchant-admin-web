@@ -1,12 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { COMPANY_NAME } from "@/lib/constant";
+import { useRole } from "@/lib/context";
 import {
   formatAccountNumber,
   formatDateToYYYYMMDD,
   formatTime,
 } from "@/lib/function";
 import { AdminWithdrawaldata, WithdrawalRequestData } from "@/lib/types";
-import { updateWithdrawalStatus } from "@/services/Withdrawal/Withdrawal";
+import {
+  packageForReinvestment,
+  updateWithdrawalStatus,
+} from "@/services/Withdrawal/Withdrawal";
 import { Column, ColumnDef, Row } from "@tanstack/react-table";
 import { ArrowUpDown, ClipboardCopy } from "lucide-react";
 import { Dispatch, SetStateAction, useState } from "react";
@@ -16,6 +20,7 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
+  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -38,6 +43,7 @@ export const WithdrawalColumn = (
   role: string,
   companyName: string
 ) => {
+  const { profile } = useRole();
   const [isLoading, setIsLoading] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState({
     open: false,
@@ -126,6 +132,71 @@ export const WithdrawalColumn = (
     toast.success(`Copied to clipboard`, {
       description: `${variant} copied to clipboard`,
     });
+  };
+
+  const handleForReinvestment = async (params: {
+    packageId: string;
+    amount: number;
+    memberId: string;
+    requestId: string;
+    status: string;
+  }) => {
+    try {
+      setIsLoading(true);
+      await packageForReinvestment(params);
+
+      setRequestData((prev) => {
+        if (!prev) return prev;
+
+        // Extract PENDING data and filter out the item being updated
+        const pendingData = prev.data["PENDING"]?.data ?? [];
+        const updatedItem = pendingData.find(
+          (item) => item.alliance_withdrawal_request_id === params.requestId
+        );
+        const newPendingList = pendingData.filter(
+          (item) => item.alliance_withdrawal_request_id !== params.requestId
+        );
+        const currentStatusData = prev.data[status as keyof typeof prev.data];
+        const hasExistingData = currentStatusData?.data?.length > 0;
+
+        if (!updatedItem) return prev;
+
+        return {
+          ...prev,
+          data: {
+            ...prev.data,
+            PENDING: {
+              ...prev.data["PENDING"],
+              data: newPendingList,
+              count: Number(prev.data["PENDING"]?.count) - 1,
+            },
+            ["REINVESTED"]: {
+              ...currentStatusData,
+              data: hasExistingData
+                ? [
+                    {
+                      ...updatedItem,
+                      alliance_withdrawal_request_status: status,
+                      approver_username: profile.user_username,
+                      alliance_withdrawal_request_date_updated: new Date(),
+                    },
+                    ...currentStatusData.data,
+                  ]
+                : [],
+              count: Number(currentStatusData?.count || 0) + 1,
+            },
+          },
+        };
+      });
+
+      toast.success(`Reinvestment Success`);
+    } catch (e) {
+      toast.error(`Reinvestment Failed`, {
+        description: `Something went wrong`,
+      });
+    } finally {
+      setIsLoading(false);
+    }
   };
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -461,6 +532,48 @@ export const WithdrawalColumn = (
                       >
                         Reject
                       </Button>
+
+                      {companyName ===
+                        COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 && (
+                        <Dialog>
+                          <DialogTrigger asChild>
+                            <Button className="bg-yellow-500 text-white">
+                              For Reinvestment
+                            </Button>
+                          </DialogTrigger>
+                          <DialogContent>
+                            <DialogHeader>
+                              <DialogTitle>
+                                Are you absolutely sure?
+                              </DialogTitle>
+                              <DialogDescription>
+                                Do you want to proceed with this action?
+                              </DialogDescription>
+                            </DialogHeader>
+                            <DialogClose asChild>
+                              <Button
+                                disabled={isLoading}
+                                className="bg-yellow-500 text-white"
+                                onClick={() =>
+                                  handleForReinvestment({
+                                    packageId:
+                                      "a82d6bf8-d43a-4399-983f-ac6a5332d9a7",
+                                    amount:
+                                      data.alliance_withdrawal_request_amount,
+                                    memberId: data.alliance_member_id,
+                                    requestId:
+                                      data.alliance_withdrawal_request_id,
+                                    status: "REINVESTED",
+                                  })
+                                }
+                                variant="secondary"
+                              >
+                                {isLoading ? "Loading..." : "Confirm"}
+                              </Button>
+                            </DialogClose>
+                          </DialogContent>
+                        </Dialog>
+                      )}
                     </div>
                   )}
                 </>

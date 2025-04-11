@@ -172,3 +172,29 @@ export const getAdminWithdrawalExport = async (params: {
     totalCount: number;
   };
 };
+
+export const packageForReinvestment = async (params: {
+  packageId: string;
+  amount: number;
+  memberId: string;
+  requestId: string;
+  status: string;
+}) => {
+  const response = await fetch(`/api/v1/package/reinvestment`, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify(params),
+  });
+
+  const result = await response.json();
+
+  if (!response.ok) {
+    throw new Error(
+      result.error || "An error occurred while creating the top-up request."
+    );
+  }
+
+  return response;
+};
