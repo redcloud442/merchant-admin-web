@@ -430,6 +430,7 @@ exports.Role = exports.$Enums.Role = {
   ADMIN: 'ADMIN',
   MERCHANT: 'MERCHANT',
   ACCOUNTING: 'ACCOUNTING',
+  ACCOUNTING_HEAD: 'ACCOUNTING_HEAD',
   CLIENT: 'CLIENT'
 };
 

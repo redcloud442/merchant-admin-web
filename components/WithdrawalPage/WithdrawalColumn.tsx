@@ -38,7 +38,7 @@ const statusColorMap: Record<string, string> = {
 export const WithdrawalColumn = (
   reset: () => void,
   setRequestData: Dispatch<SetStateAction<AdminWithdrawaldata | null>>,
-  status: "PENDING" | "REJECTED" | "APPROVED",
+  status: "PENDING" | "REJECTED" | "APPROVED" | "HOLD",
   hidden: boolean,
   role: string,
   companyName: string
@@ -496,16 +496,19 @@ export const WithdrawalColumn = (
           },
         ]
       : []),
-    ...(status == "PENDING"
+    ...(status == "PENDING" || status == "HOLD"
       ? [
           {
             header: "Actions",
             cell: ({ row }: { row: Row<WithdrawalRequestData> }) => {
               const data = row.original;
+              const showActions =
+                data.alliance_withdrawal_request_status === "PENDING" ||
+                data.alliance_withdrawal_request_status === "HOLD";
 
               return (
                 <>
-                  {data.alliance_withdrawal_request_status === "PENDING" && (
+                  {showActions && (
                     <div className="flex justify-center items-center gap-2">
                       <Button
                         className="bg-green-500 hover:bg-green-600 dark:bg-green-500 dark:text-white "
@@ -532,6 +535,22 @@ export const WithdrawalColumn = (
                       >
                         Reject
                       </Button>
+
+                      {data.alliance_withdrawal_request_status ===
+                        "PENDING" && (
+                        <Button
+                          variant="secondary"
+                          onClick={() =>
+                            setIsOpenModal({
+                              open: true,
+                              requestId: data.alliance_withdrawal_request_id,
+                              status: "HOLD",
+                            })
+                          }
+                        >
+                          HOLD WITHDRAWAL
+                        </Button>
+                      )}
 
                       {companyName ===
                         COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 && (

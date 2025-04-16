@@ -133,9 +133,13 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
                   data: [],
                   count: requestData?.data?.PENDING?.count || 0,
                 },
-                [statusFilter as "PENDING" | "APPROVED" | "REJECTED"]:
+                HOLD: {
+                  data: [],
+                  count: requestData?.data?.HOLD?.count || 0,
+                },
+                [statusFilter as "PENDING" | "APPROVED" | "REJECTED" | "HOLD"]:
                   requestData?.data?.[
-                    statusFilter as "PENDING" | "APPROVED" | "REJECTED"
+                    statusFilter as "PENDING" | "APPROVED" | "REJECTED" | "HOLD"
                   ] || {
                     data: [],
                     count: 0,
@@ -150,13 +154,13 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
             ...prev,
             data: {
               ...prev.data,
-              [statusFilter as "PENDING" | "APPROVED" | "REJECTED"]: requestData
-                ?.data?.[
-                statusFilter as "PENDING" | "APPROVED" | "REJECTED"
-              ] || {
-                data: [],
-                count: 0,
-              },
+              [statusFilter as "PENDING" | "APPROVED" | "REJECTED" | "HOLD"]:
+                requestData?.data?.[
+                  statusFilter as "PENDING" | "APPROVED" | "REJECTED" | "HOLD"
+                ] || {
+                  data: [],
+                  count: 0,
+                },
             },
           };
         }
@@ -178,10 +182,11 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
     try {
       setIsFetchingList(true);
 
-      const statuses: Array<"PENDING" | "APPROVED" | "REJECTED"> = [
+      const statuses: Array<"PENDING" | "APPROVED" | "REJECTED" | "HOLD"> = [
         "PENDING",
         "APPROVED",
         "REJECTED",
+        "HOLD",
       ];
 
       const updatedData: AdminWithdrawaldata = {
@@ -189,6 +194,7 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
           APPROVED: { data: [], count: 0 },
           REJECTED: { data: [], count: 0 },
           PENDING: { data: [], count: 0 },
+          HOLD: { data: [], count: 0 },
         },
         totalApprovedWithdrawal: 0,
         totalPendingWithdrawal: 0,
@@ -267,7 +273,11 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
       },
     });
 
-  const status = watch("statusFilter") as "PENDING" | "APPROVED" | "REJECTED";
+  const status = watch("statusFilter") as
+    | "PENDING"
+    | "APPROVED"
+    | "REJECTED"
+    | "HOLD";
   const role = teamMemberProfile.alliance_member_role;
   const {
     columns,
@@ -323,10 +333,13 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
   };
 
   const handleTabChange = async (type?: string) => {
-    setValue("statusFilter", type as "PENDING" | "APPROVED" | "REJECTED");
+    setValue(
+      "statusFilter",
+      type as "PENDING" | "APPROVED" | "REJECTED" | "HOLD"
+    );
     if (
-      requestData?.data?.[type as "PENDING" | "APPROVED" | "REJECTED"]?.data
-        ?.length
+      requestData?.data?.[type as "PENDING" | "APPROVED" | "REJECTED" | "HOLD"]
+        ?.data?.length
     ) {
       return;
     }
@@ -425,8 +438,11 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
                 onOpenChange={(open) => {
                   setIsOpenModal({ ...isOpenModal, open });
                   if (!open) {
-                    reset();
-                    setIsOpenModal({ open: false, requestId: "", status: "" });
+                    setIsOpenModal({
+                      open: false,
+                      requestId: "",
+                      status: "",
+                    });
                   }
                 }}
               >
@@ -574,6 +590,9 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
               <TabsTrigger value="REJECTED">
                 Rejected ({requestData?.data?.REJECTED?.count || 0})
               </TabsTrigger>
+              <TabsTrigger value="HOLD">
+                Hold ({requestData?.data?.HOLD?.count || 0})
+              </TabsTrigger>
             </TabsList>
 
             <div className="flex items-center gap-2">
@@ -651,6 +670,18 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
               columns={columns}
               activePage={activePage}
               totalCount={requestData?.data?.REJECTED?.count || 0}
+            />
+          </TabsContent>
+
+          <TabsContent value="HOLD">
+            <WithdrawalTabs
+              isFetchingList={isFetchingList}
+              setActivePage={setActivePage}
+              pageCount={pageCount}
+              table={table}
+              columns={columns}
+              activePage={activePage}
+              totalCount={requestData?.data?.HOLD?.count || 0}
             />
           </TabsContent>
         </Tabs>

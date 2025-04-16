@@ -45,6 +45,7 @@ export type AdminWithdrawaldata = {
     APPROVED: StatusDataWithdraw;
     REJECTED: StatusDataWithdraw;
     PENDING: StatusDataWithdraw;
+    HOLD: StatusDataWithdraw;
   };
   totalPendingWithdrawal: number;
   totalApprovedWithdrawal: number;

@@ -17,7 +17,7 @@ type Props = {
   alliance_member_id: string;
   hiddenUser: boolean;
   setRequestData: Dispatch<SetStateAction<AdminWithdrawaldata | null>>;
-  status: "PENDING" | "APPROVED" | "REJECTED";
+  status: "PENDING" | "APPROVED" | "REJECTED" | "HOLD";
   companyName: string;
 };
 
