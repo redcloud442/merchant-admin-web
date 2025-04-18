@@ -24,7 +24,7 @@ import {
 } from "../ui/dropdown-menu";
 import { Textarea } from "../ui/textarea";
 import ActiveTreeModal from "../WithdrawalPage/ActiveTreeModal";
-
+import SafeImage from "./SafeImage";
 const statusColorMap: Record<string, string> = {
   APPROVED: "bg-green-500 dark:bg-green-500 dark:text-white",
   PENDING: "bg-yellow-600 dark:bg-yellow-600 dark:text-white",
@@ -394,28 +394,10 @@ export const TopUpColumn = (
               <div className="flex flex-wrap justify-center items-center">
                 {companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 ? (
                   formatterUrl ? (
-                    <img
-                      key={formatterUrl}
-                      src={formatterUrl}
-                      alt="Attachment Preview"
-                      className="object-contain w-[600px] h-[600px]"
-                    />
+                    <SafeImage key={formatterUrl} url={formatterUrl} />
                   ) : null
                 ) : (
-                  attachmentUrls.map((url) => (
-                    <img
-                      key={url.replace(
-                        "https://content.elevateglobal.app",
-                        "https://kvrvtcwffqhkzlpfjjoy.supabase.co"
-                      )}
-                      src={url.replace(
-                        "https://content.elevateglobal.app",
-                        "https://kvrvtcwffqhkzlpfjjoy.supabase.co"
-                      )}
-                      alt="Attachment Preview"
-                      className="object-contain w-[600px] h-[600px]"
-                    />
-                  ))
+                  attachmentUrls.map((url) => <SafeImage key={url} url={url} />)
                 )}
               </div>
               <DialogClose asChild>
