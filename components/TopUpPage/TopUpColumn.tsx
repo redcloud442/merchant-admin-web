@@ -381,30 +381,36 @@ export const TopUpColumn = (
           );
 
         return (
-          <Dialog>
-            <DialogTrigger asChild>
-              <Button className="rounded-md w-full" variant="outline">
-                View Attachment
-              </Button>
-            </DialogTrigger>
-            <DialogContent type="table">
-              <DialogHeader>
-                <DialogTitle>Attachment</DialogTitle>
-              </DialogHeader>
-              <div className="flex flex-wrap justify-center items-center">
-                {companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 ? (
-                  formatterUrl ? (
-                    <SafeImage key={formatterUrl} url={formatterUrl} />
-                  ) : null
-                ) : (
-                  attachmentUrls.map((url) => <SafeImage key={url} url={url} />)
-                )}
-              </div>
-              <DialogClose asChild>
-                <Button variant="secondary">Close</Button>
-              </DialogClose>
-            </DialogContent>
-          </Dialog>
+          <>
+            {attachmentUrls.length > 0 ? (
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button className="rounded-md w-full" variant="outline">
+                    View Attachment
+                  </Button>
+                </DialogTrigger>
+                <DialogContent type="table">
+                  <DialogHeader>
+                    <DialogTitle>Attachment</DialogTitle>
+                  </DialogHeader>
+                  <div className="flex flex-wrap justify-center items-center">
+                    {companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 ? (
+                      formatterUrl ? (
+                        <SafeImage key={formatterUrl} url={formatterUrl} />
+                      ) : null
+                    ) : (
+                      attachmentUrls.map((url) => (
+                        <SafeImage key={url} url={url} />
+                      ))
+                    )}
+                  </div>
+                  <DialogClose asChild>
+                    <Button variant="secondary">Close</Button>
+                  </DialogClose>
+                </DialogContent>
+              </Dialog>
+            ) : null}
+          </>
         );
       },
     },
