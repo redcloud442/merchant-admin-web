@@ -372,13 +372,15 @@ export const TopUpColumn = (
           "company_deposit_request_attachment"
         ) as string;
 
-        const attachmentUrls = row.original.attachment_url;
+        const attachmentUrls = Array.isArray(row.original.attachment_url)
+          ? row.original.attachment_url
+          : [row.original.attachment_url];
 
         const formatterUrl =
           companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 &&
           attachmentUrl.replace(
-            "https://cdn.primepinas.com",
-            "https://hburgwylodfpwgbtywue.supabase.co"
+            "https://cmwfujabuwraxsgwuwpr.supabase.co",
+            "https://cmwfujabuwraxsgwuwpr.supabase.co"
           );
 
         return (

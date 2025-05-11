@@ -14,7 +14,7 @@ export const loginValidation = async (
 
   const formattedUserName = userName + "@gmail.com";
 
-  const response = await getTenantAxios(warehouse).post(`/auth`, params, {
+  const response = await getTenantAxios(warehouse).post(`/access`, params, {
     withCredentials: true,
   });
 
