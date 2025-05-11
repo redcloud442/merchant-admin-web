@@ -20,7 +20,6 @@ import {
   Dialog,
   DialogClose,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -66,10 +65,10 @@ export const WithdrawalColumn = (
         // Extract PENDING data and filter out the item being updated
         const pendingData = prev.data["PENDING"]?.data ?? [];
         const updatedItem = pendingData.find(
-          (item) => item.alliance_withdrawal_request_id === requestId
+          (item) => item.company_withdrawal_request_id === requestId
         );
         const newPendingList = pendingData.filter(
-          (item) => item.alliance_withdrawal_request_id !== requestId
+          (item) => item.company_withdrawal_request_id !== requestId
         );
         const currentStatusData = prev.data[status as keyof typeof prev.data];
         const hasExistingData = currentStatusData?.data?.length > 0;
@@ -91,7 +90,7 @@ export const WithdrawalColumn = (
                 ? [
                     {
                       ...updatedItem,
-                      alliance_withdrawal_request_status: status,
+                      company_withdrawal_request_status: status,
                     },
                     ...currentStatusData.data,
                   ]
@@ -103,13 +102,13 @@ export const WithdrawalColumn = (
           totalPendingWithdrawal:
             Number(prev.totalPendingWithdrawal || 0) -
             Number(
-              updatedItem.alliance_withdrawal_request_amount -
-                updatedItem.alliance_withdrawal_request_fee
+              updatedItem.company_withdrawal_request_amount -
+                updatedItem.company_withdrawal_request_fee
             ),
           totalApprovedWithdrawal:
             status === "APPROVED"
               ? (prev.totalApprovedWithdrawal || 0) +
-                updatedItem.alliance_withdrawal_request_amount
+                updatedItem.company_withdrawal_request_amount
               : prev.totalApprovedWithdrawal || 0,
         };
       });
@@ -151,10 +150,10 @@ export const WithdrawalColumn = (
         // Extract PENDING data and filter out the item being updated
         const pendingData = prev.data["PENDING"]?.data ?? [];
         const updatedItem = pendingData.find(
-          (item) => item.alliance_withdrawal_request_id === params.requestId
+          (item) => item.company_withdrawal_request_id === params.requestId
         );
         const newPendingList = pendingData.filter(
-          (item) => item.alliance_withdrawal_request_id !== params.requestId
+          (item) => item.company_withdrawal_request_id !== params.requestId
         );
         const currentStatusData = prev.data[status as keyof typeof prev.data];
         const hasExistingData = currentStatusData?.data?.length > 0;
@@ -176,9 +175,9 @@ export const WithdrawalColumn = (
                 ? [
                     {
                       ...updatedItem,
-                      alliance_withdrawal_request_status: status,
+                      company_withdrawal_request_status: status,
                       approver_username: profile.user_username,
-                      alliance_withdrawal_request_date_updated: new Date(),
+                      company_withdrawal_request_date_updated: new Date(),
                     },
                     ...currentStatusData.data,
                   ]
@@ -224,7 +223,7 @@ export const WithdrawalColumn = (
                 hiddenUser={hidden}
                 setRequestData={setRequestData}
                 user_userName={row.getValue("user_username")}
-                alliance_member_id={row.original.alliance_member_id}
+                company_member_id={row.original.company_member_id}
               />
             )}
           </div>
@@ -232,7 +231,7 @@ export const WithdrawalColumn = (
       ),
     },
     {
-      accessorKey: "alliance_member_id",
+      accessorKey: "company_member_id",
       header: () => (
         <Button variant="ghost">
           Show Tree <ArrowUpDown />
@@ -251,7 +250,7 @@ export const WithdrawalColumn = (
       },
     },
     {
-      accessorKey: "alliance_withdrawal_request_status",
+      accessorKey: "company_withdrawal_request_status",
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -263,14 +262,14 @@ export const WithdrawalColumn = (
       ),
       cell: ({ row }) => {
         const status = row.getValue(
-          "alliance_withdrawal_request_status"
+          "company_withdrawal_request_status"
         ) as string;
         const color = statusColorMap[status.toUpperCase()] || "gray"; // Default to gray if status is undefined
         return <Badge className={`${color} text-white`}>{status}</Badge>;
       },
     },
     {
-      accessorKey: "alliance_withdrawal_request_amount",
+      accessorKey: "company_withdrawal_request_amount",
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -282,9 +281,9 @@ export const WithdrawalColumn = (
       ),
       cell: ({ row }) => {
         const amount = parseFloat(
-          row.getValue("alliance_withdrawal_request_amount")
+          row.getValue("company_withdrawal_request_amount")
         );
-        const fee = row.original.alliance_withdrawal_request_fee;
+        const fee = row.original.company_withdrawal_request_fee;
 
         const formatted = new Intl.NumberFormat("en-PH", {
           style: "currency",
@@ -294,7 +293,7 @@ export const WithdrawalColumn = (
       },
     },
     {
-      accessorKey: "alliance_withdrawal_request_type",
+      accessorKey: "company_withdrawal_request_type",
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -307,12 +306,12 @@ export const WithdrawalColumn = (
       ),
       cell: ({ row }) => (
         <div className="text-center">
-          {row.getValue("alliance_withdrawal_request_type")}
+          {row.getValue("company_withdrawal_request_type")}
         </div>
       ),
     },
     {
-      accessorKey: "alliance_withdrawal_request_account",
+      accessorKey: "company_withdrawal_request_account",
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -324,7 +323,7 @@ export const WithdrawalColumn = (
       ),
       cell: ({ row }) => {
         const value = row.getValue(
-          "alliance_withdrawal_request_account"
+          "company_withdrawal_request_account"
         ) as string;
         return (
           <div className="flex justify-between items-center gap-2 text-wrap w-56">
@@ -341,7 +340,7 @@ export const WithdrawalColumn = (
       },
     },
     {
-      accessorKey: "alliance_withdrawal_request_bank_name",
+      accessorKey: "company_withdrawal_request_bank_name",
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -353,7 +352,7 @@ export const WithdrawalColumn = (
       ),
       cell: ({ row }) => {
         const value = row.getValue(
-          "alliance_withdrawal_request_bank_name"
+          "company_withdrawal_request_bank_name"
         ) as string;
         return (
           <div className="flex items-center justify-between gap-2 text-wrap w-56">
@@ -370,7 +369,7 @@ export const WithdrawalColumn = (
       },
     },
     {
-      accessorKey: "alliance_withdrawal_request_withdraw_type",
+      accessorKey: "company_withdrawal_request_withdraw_type",
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -382,12 +381,12 @@ export const WithdrawalColumn = (
       ),
       cell: ({ row }) => (
         <div className="text-wrap">
-          {row.getValue("alliance_withdrawal_request_withdraw_type")}
+          {row.getValue("company_withdrawal_request_withdraw_type")}
         </div>
       ),
     },
     {
-      accessorKey: "alliance_withdrawal_request_date",
+      accessorKey: "company_withdrawal_request_date",
 
       header: ({ column }) => (
         <Button
@@ -401,9 +400,9 @@ export const WithdrawalColumn = (
       cell: ({ row }) => (
         <div className="text-center w-40">
           {formatDateToYYYYMMDD(
-            row.getValue("alliance_withdrawal_request_date")
+            row.getValue("company_withdrawal_request_date")
           )}
-          , {formatTime(row.getValue("alliance_withdrawal_request_date"))}
+          , {formatTime(row.getValue("company_withdrawal_request_date"))}
         </div>
       ),
     },
@@ -411,7 +410,7 @@ export const WithdrawalColumn = (
     ...(status !== "PENDING"
       ? [
           {
-            accessorKey: "alliance_withdrawal_request_date_updated",
+            accessorKey: "company_withdrawal_request_date_updated",
             header: ({ column }: { column: Column<WithdrawalRequestData> }) => (
               <Button
                 variant="ghost"
@@ -425,13 +424,13 @@ export const WithdrawalColumn = (
             ),
             cell: ({ row }: { row: Row<WithdrawalRequestData> }) => (
               <div className="text-wrap w-40">
-                {row.getValue("alliance_withdrawal_request_date_updated")
+                {row.getValue("company_withdrawal_request_date_updated")
                   ? formatDateToYYYYMMDD(
-                      row.getValue("alliance_withdrawal_request_date_updated")
+                      row.getValue("company_withdrawal_request_date_updated")
                     ) +
                     " " +
                     formatTime(
-                      row.getValue("alliance_withdrawal_request_date_updated")
+                      row.getValue("company_withdrawal_request_date_updated")
                     )
                   : ""}
               </div>
@@ -465,11 +464,11 @@ export const WithdrawalColumn = (
     ...(status == "REJECTED"
       ? [
           {
-            accessorKey: "alliance_withdrawal_request_reject_note",
+            accessorKey: "company_withdrawal_request_reject_note",
             header: () => <div>Rejection Note</div>,
             cell: ({ row }: { row: Row<WithdrawalRequestData> }) => {
               const rejectionNote = row.getValue(
-                "alliance_withdrawal_request_reject_note"
+                "company_withdrawal_request_reject_note"
               ) as string;
 
               return rejectionNote ? (
@@ -503,8 +502,8 @@ export const WithdrawalColumn = (
             cell: ({ row }: { row: Row<WithdrawalRequestData> }) => {
               const data = row.original;
               const showActions =
-                data.alliance_withdrawal_request_status === "PENDING" ||
-                data.alliance_withdrawal_request_status === "HOLD";
+                data.company_withdrawal_request_status === "PENDING" ||
+                data.company_withdrawal_request_status === "HOLD";
 
               return (
                 <>
@@ -515,7 +514,7 @@ export const WithdrawalColumn = (
                         onClick={() =>
                           setIsOpenModal({
                             open: true,
-                            requestId: data.alliance_withdrawal_request_id,
+                            requestId: data.company_withdrawal_request_id,
                             status: "APPROVED",
                           })
                         }
@@ -528,7 +527,7 @@ export const WithdrawalColumn = (
                         onClick={() =>
                           setIsOpenModal({
                             open: true,
-                            requestId: data.alliance_withdrawal_request_id,
+                            requestId: data.company_withdrawal_request_id,
                             status: "REJECTED",
                           })
                         }
@@ -536,14 +535,13 @@ export const WithdrawalColumn = (
                         Reject
                       </Button>
 
-                      {data.alliance_withdrawal_request_status ===
-                        "PENDING" && (
+                      {data.company_withdrawal_request_status === "PENDING" && (
                         <Button
                           variant="secondary"
                           onClick={() =>
                             setIsOpenModal({
                               open: true,
-                              requestId: data.alliance_withdrawal_request_id,
+                              requestId: data.company_withdrawal_request_id,
                               status: "HOLD",
                             })
                           }
@@ -552,7 +550,7 @@ export const WithdrawalColumn = (
                         </Button>
                       )}
 
-                      {companyName ===
+                      {/* {companyName ===
                         COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 && (
                         <Dialog>
                           <DialogTrigger asChild>
@@ -578,10 +576,10 @@ export const WithdrawalColumn = (
                                     packageId:
                                       "ed3f5652-fa9b-48d1-80b7-f5acc4daa21d",
                                     amount:
-                                      data.alliance_withdrawal_request_amount,
-                                    memberId: data.alliance_member_id,
+                                      data.company_withdrawal_request_amount,
+                                    memberId: data.company_member_id,
                                     requestId:
-                                      data.alliance_withdrawal_request_id,
+                                      data.company_withdrawal_request_id,
                                     status: "REINVESTED",
                                   })
                                 }
@@ -592,7 +590,7 @@ export const WithdrawalColumn = (
                             </DialogClose>
                           </DialogContent>
                         </Dialog>
-                      )}
+                      )} */}
                     </div>
                   )}
                 </>

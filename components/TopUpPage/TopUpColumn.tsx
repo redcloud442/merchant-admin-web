@@ -25,6 +25,7 @@ import {
 import { Textarea } from "../ui/textarea";
 import ActiveTreeModal from "../WithdrawalPage/ActiveTreeModal";
 import SafeImage from "./SafeImage";
+
 const statusColorMap: Record<string, string> = {
   APPROVED: "bg-green-500 dark:bg-green-500 dark:text-white",
   PENDING: "bg-yellow-600 dark:bg-yellow-600 dark:text-white",
@@ -68,10 +69,10 @@ export const TopUpColumn = (
 
         const pendingData = prev.data["PENDING"]?.data ?? [];
         const updatedItem = pendingData.find(
-          (item) => item.alliance_top_up_request_id === requestId
+          (item) => item.company_deposit_request_id === requestId
         );
         const newPendingList = pendingData.filter(
-          (item) => item.alliance_top_up_request_id !== requestId
+          (item) => item.company_deposit_request_id !== requestId
         );
         const currentStatusData = prev.data[status as keyof typeof prev.data];
         const hasExistingData = currentStatusData?.data?.length > 0;
@@ -79,7 +80,7 @@ export const TopUpColumn = (
         const merchantBalance =
           status === "APPROVED"
             ? (prev.merchantBalance || 0) -
-              (updatedItem?.alliance_top_up_request_amount ?? 0)
+              (updatedItem?.company_deposit_request_amount ?? 0)
             : prev.merchantBalance;
 
         if (!updatedItem) return prev;
@@ -105,8 +106,8 @@ export const TopUpColumn = (
                 ? [
                     {
                       ...updatedItem,
-                      alliance_top_up_request_status: status,
-                      alliance_top_up_request_date_updated: new Date(),
+                      company_deposit_request_status: status,
+                      company_deposit_request_date_updated: new Date(),
                     },
                     ...currentStatusData.data,
                   ]
@@ -116,11 +117,11 @@ export const TopUpColumn = (
           },
           totalPendingDeposit:
             Number(prev.totalPendingDeposit || 0) -
-            Number(updatedItem.alliance_top_up_request_amount),
+            Number(updatedItem.company_deposit_request_amount),
           totalApprovedDeposit:
             status === "APPROVED"
               ? Number(prev.totalApprovedDeposit || 0) +
-                Number(updatedItem.alliance_top_up_request_amount)
+                Number(updatedItem.company_deposit_request_amount)
               : Number(prev.totalApprovedDeposit || 0),
           merchantBalance: merchantBalance,
         };
@@ -152,7 +153,7 @@ export const TopUpColumn = (
       ),
       cell: ({ row }) => {
         const username = row.getValue("user_username") as string;
-        const rowId = row.original.alliance_top_up_request_id;
+        const rowId = row.original.company_deposit_request_id;
 
         const handleCopy = async (type: "name" | "approved") => {
           try {
@@ -201,14 +202,14 @@ export const TopUpColumn = (
       },
     },
     {
-      accessorKey: "alliance_member_id",
+      accessorKey: "company_member_id",
       header: () => (
         <Button variant="ghost">
           Show Tree <ArrowUpDown />
         </Button>
       ),
       cell: ({ row }) => {
-        const memberId = row.getValue("alliance_member_id") as string;
+        const memberId = row.getValue("company_member_id") as string;
         return (
           <div className="flex items-center gap-4">
             <ActiveTreeModal
@@ -220,7 +221,7 @@ export const TopUpColumn = (
       },
     },
     {
-      accessorKey: "alliance_top_up_request_status",
+      accessorKey: "company_deposit_request_status",
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -231,7 +232,7 @@ export const TopUpColumn = (
         </Button>
       ),
       cell: ({ row }) => {
-        const status = row.getValue("alliance_top_up_request_status") as string;
+        const status = row.getValue("company_deposit_request_status") as string;
         const color = statusColorMap[status.toUpperCase()] || "gray"; // Default to gray if status is undefined
         return (
           <div className="flex justify-center items-center">
@@ -241,7 +242,7 @@ export const TopUpColumn = (
       },
     },
     {
-      accessorKey: "alliance_top_up_request_amount",
+      accessorKey: "company_deposit_request_amount",
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -253,7 +254,7 @@ export const TopUpColumn = (
       ),
       cell: ({ row }) => {
         const amount = parseFloat(
-          row.getValue("alliance_top_up_request_amount")
+          row.getValue("company_deposit_request_amount")
         );
         const formatted = new Intl.NumberFormat("en-PH", {
           style: "currency",
@@ -263,7 +264,7 @@ export const TopUpColumn = (
       },
     },
     {
-      accessorKey: "alliance_top_up_request_type",
+      accessorKey: "company_deposit_request_type",
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -275,12 +276,12 @@ export const TopUpColumn = (
       ),
       cell: ({ row }) => (
         <div className="text-wrap">
-          {row.getValue("alliance_top_up_request_type")}
+          {row.getValue("company_deposit_request_type")}
         </div>
       ),
     },
     {
-      accessorKey: "alliance_top_up_request_name",
+      accessorKey: "company_deposit_request_name",
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -292,12 +293,12 @@ export const TopUpColumn = (
       ),
       cell: ({ row }) => (
         <div className="text-wrap">
-          {row.getValue("alliance_top_up_request_name")}
+          {row.getValue("company_deposit_request_name")}
         </div>
       ),
     },
     {
-      accessorKey: "alliance_top_up_request_account",
+      accessorKey: "company_deposit_request_account",
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -309,12 +310,12 @@ export const TopUpColumn = (
       ),
       cell: ({ row }) => (
         <div className="text-wrap">
-          {row.getValue("alliance_top_up_request_account")}
+          {row.getValue("company_deposit_request_account")}
         </div>
       ),
     },
     {
-      accessorKey: "alliance_top_up_request_date",
+      accessorKey: "company_deposit_request_date",
       header: ({ column }) => (
         <Button
           variant="ghost"
@@ -326,15 +327,15 @@ export const TopUpColumn = (
       ),
       cell: ({ row }) => (
         <div className="text-wrap flex justify-center items-center">
-          {formatDateToYYYYMMDD(row.getValue("alliance_top_up_request_date"))},{" "}
-          {formatTime(row.getValue("alliance_top_up_request_date"))}
+          {formatDateToYYYYMMDD(row.getValue("company_deposit_request_date"))},{" "}
+          {formatTime(row.getValue("company_deposit_request_date"))}
         </div>
       ),
     },
     ...(status !== "PENDING"
       ? [
           {
-            accessorKey: "alliance_top_up_request_date_updated",
+            accessorKey: "company_deposit_request_date_updated",
             header: ({ column }: { column: Column<TopUpRequestData> }) => (
               <Button
                 variant="ghost"
@@ -348,13 +349,13 @@ export const TopUpColumn = (
             ),
             cell: ({ row }: { row: Row<TopUpRequestData> }) => (
               <div className="text-wrap flex justify-center items-center">
-                {row.getValue("alliance_top_up_request_date_updated")
+                {row.getValue("company_deposit_request_date_updated")
                   ? formatDateToYYYYMMDD(
-                      row.getValue("alliance_top_up_request_date_updated")
+                      row.getValue("company_deposit_request_date_updated")
                     ) +
                     "," +
                     formatTime(
-                      row.getValue("alliance_top_up_request_date_updated")
+                      row.getValue("company_deposit_request_date_updated")
                     )
                   : ""}
               </div>
@@ -364,11 +365,11 @@ export const TopUpColumn = (
       : []),
 
     {
-      accessorKey: "alliance_top_up_request_attachment",
+      accessorKey: "company_deposit_request_attachment",
       header: () => <div>Attachment</div>,
       cell: ({ row }) => {
         const attachmentUrl = row.getValue(
-          "alliance_top_up_request_attachment"
+          "company_deposit_request_attachment"
         ) as string;
 
         const attachmentUrls = row.original.attachment_url;
@@ -417,11 +418,11 @@ export const TopUpColumn = (
     ...(status === "REJECTED"
       ? [
           {
-            accessorKey: "alliance_top_up_request_reject_note",
+            accessorKey: "company_deposit_request_reject_note",
             header: () => <div>Rejection Note</div>,
             cell: ({ row }: { row: Row<TopUpRequestData> }) => {
               const rejectionNote = row.getValue(
-                "alliance_top_up_request_reject_note"
+                "company_deposit_request_reject_note"
               ) as string;
 
               return rejectionNote ? (
@@ -457,16 +458,16 @@ export const TopUpColumn = (
 
               return (
                 <>
-                  {data.alliance_top_up_request_status === "PENDING" && (
+                  {data.company_deposit_request_status === "PENDING" && (
                     <div className="flex justify-center items-center gap-2">
                       <Button
                         className="bg-green-500 hover:bg-green-600 dark:bg-green-500 dark:text-white"
                         onClick={() =>
                           setIsOpenModal({
                             open: true,
-                            requestId: data.alliance_top_up_request_id,
+                            requestId: data.company_deposit_request_id,
                             status: "APPROVED",
-                            amount: data.alliance_top_up_request_amount || 0,
+                            amount: data.company_deposit_request_amount || 0,
                           })
                         }
                       >
@@ -478,7 +479,7 @@ export const TopUpColumn = (
                         onClick={() =>
                           setIsOpenModal({
                             open: true,
-                            requestId: data.alliance_top_up_request_id,
+                            requestId: data.company_deposit_request_id,
                             status: "REJECTED",
                             amount: 0,
                           })

@@ -1,5 +1,5 @@
 import { Button } from "@/components/ui/button";
-import { merchant_table } from "@/generated/companyPr1me";
+import { merchant_table } from "@/generated/companyMithril";
 import { COMPANY_NAME } from "@/lib/constant";
 import { handleUpdateMerchantData } from "@/services/Merchant/Merchant";
 import { ColumnDef, Row } from "@tanstack/react-table";

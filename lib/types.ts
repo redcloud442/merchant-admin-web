@@ -1,16 +1,16 @@
 import {
-  alliance_top_up_request_table,
-  alliance_withdrawal_request_table,
-} from "@/generated/companyPr1me";
+  company_deposit_request_table,
+  company_withdrawal_request_table,
+} from "@/generated/companyMithril";
 
-export type TopUpRequestData = alliance_top_up_request_table & {
+export type TopUpRequestData = company_deposit_request_table & {
   user_username: string;
   user_first_name: string;
   user_last_name: string;
   user_email: string;
   user_id: string;
   approver_username: string;
-  alliance_member_id: string;
+  company_member_id: string;
   count: number;
   attachment_url: string[];
 };
@@ -31,12 +31,12 @@ export type StatusData = {
   count: number;
 };
 
-export type WithdrawalRequestData = alliance_withdrawal_request_table & {
+export type WithdrawalRequestData = company_withdrawal_request_table & {
   user_first_name: string;
   user_last_name: string;
   user_id: string;
   user_email: string;
-  alliance_member_id: string;
+  company_member_id: string;
   approver_username?: string;
 };
 
@@ -57,7 +57,7 @@ export type StatusDataWithdraw = {
 };
 
 export type HeirarchyData = {
-  alliance_member_id: string;
+  company_member_id: string;
   user_username: string;
   user_id: string;
 };

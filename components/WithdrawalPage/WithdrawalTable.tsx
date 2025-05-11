@@ -278,7 +278,7 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
     | "APPROVED"
     | "REJECTED"
     | "HOLD";
-  const role = teamMemberProfile.alliance_member_role;
+  const role = teamMemberProfile.company_member_role;
   const {
     columns,
     isOpenModal,
@@ -391,8 +391,8 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
   return (
     <div className="w-full space-y-4">
       <div className="flex flex-wrap gap-4">
-        {(teamMemberProfile.alliance_member_role === "ACCOUNTING_HEAD" ||
-          teamMemberProfile.alliance_member_role === "ACCOUNTING") && (
+        {(teamMemberProfile.company_member_role === "ACCOUNTING_HEAD" ||
+          teamMemberProfile.company_member_role === "ACCOUNTING") && (
           <CardAmountAdmin
             title="Total Pending Withdrawal"
             value={
@@ -408,7 +408,7 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
             descriptionClassName="text-sm text-gray-500"
           />
         )}
-        {teamMemberProfile.alliance_member_role === "ACCOUNTING_HEAD" && (
+        {teamMemberProfile.company_member_role === "ACCOUNTING_HEAD" && (
           <CardAmountAdmin
             title="Total Approved Withdrawal"
             value={
@@ -596,7 +596,7 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
             </TabsList>
 
             <div className="flex items-center gap-2">
-              {teamMemberProfile.alliance_member_role === "ACCOUNTING_HEAD" &&
+              {teamMemberProfile.company_member_role === "ACCOUNTING_HEAD" &&
                 companyName === COMPANY_NAME.PALPROJECT_WAREHOUSING && (
                   <AdminBanListModal
                     teamMemberProfile={teamMemberProfile}

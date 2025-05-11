@@ -1,6 +1,6 @@
 "use client";
 
-import { merchant_table } from "@/generated/companyPr1me";
+import { merchant_table } from "@/generated/companyMithril";
 import { COMPANY_NAME } from "@/lib/constant";
 import { useRole } from "@/lib/context";
 import { getTenantBrowserSupabase } from "@/lib/supabase/client";

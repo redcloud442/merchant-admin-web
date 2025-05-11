@@ -5,7 +5,7 @@ import {
   getAdminWithdrawalBanList,
 } from "@/services/Withdrawal/Withdrawal";
 
-import { alliance_member_table } from "@/generated/companyPr1me";
+import { company_member_table } from "@/generated/companyMithril";
 import { getTenantBrowserSupabase } from "@/lib/supabase/client";
 import {
   ColumnDef,
@@ -25,7 +25,7 @@ import { Card, CardContent, CardHeader } from "../ui/card";
 import { Separator } from "../ui/separator";
 import { AdminWithdrawalBanColumn } from "./BanListColumn";
 type DataTableProps = {
-  teamMemberProfile: alliance_member_table;
+  teamMemberProfile: company_member_table;
   sponsor?: string;
   requestData: { accountNumber: string }[];
   requestCount: number;

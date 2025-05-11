@@ -12,7 +12,7 @@ export const HierarchyList = ({ data }: Props) => {
     <div className="text-sm font-medium text-gray-700">
       {data.map((node, index) => (
         <div
-          key={node.alliance_member_id}
+          key={node.company_member_id}
           className="flex items-center gap-2 ml-[calc(10px*index)]"
         >
           {/* Arrow indicating hierarchy */}

@@ -1,6 +1,5 @@
 // lib/getTenantPrisma.ts
-import { PrismaClient as PrismaClientElevate } from "@/generated/companyElevate";
-import { PrismaClient as PrismaClientPrime } from "@/generated/companyPr1me";
+import { PrismaClient as PrismaClientMithril } from "@/generated/companyMithril";
 import { createPrismaClient } from "./prismaDynamic";
 
 export const TENANT_CONFIG = {
@@ -16,7 +15,9 @@ type Tenant = keyof typeof TENANT_CONFIG;
 
 export function getTenantPrisma<T extends Tenant>(
   company: T
-): T extends "warehouse-pal-project" ? PrismaClientElevate : PrismaClientPrime {
+): T extends "warehouse-pal-project"
+  ? PrismaClientMithril
+  : PrismaClientMithril {
   const config = TENANT_CONFIG[company.toLowerCase() as Tenant];
   if (!config) throw new Error(`Unknown tenant: ${company}`);
 

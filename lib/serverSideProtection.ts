@@ -1,8 +1,8 @@
 import {
-  alliance_member_table,
-  alliance_referral_link_table,
+  company_member_table,
+  company_referral_link_table,
   user_table,
-} from "@/generated/companyPr1me";
+} from "@/generated/companyMithril";
 import { getTenantSupabase } from "@/lib/supabase/server";
 import { getTenantPrisma } from "@/lib/tenantConfig";
 import { redirect } from "next/navigation";
@@ -39,29 +39,29 @@ export const protectionMemberUser = async (
           user_last_name: true,
           user_date_created: true,
           user_profile_picture: true,
-          alliance_member_table: {
+          company_member_table: {
             select: {
-              alliance_member_id: true,
-              alliance_member_role: true,
-              alliance_member_restricted: true,
-              alliance_member_alliance_id: true,
-              alliance_member_date_created: true,
-              alliance_member_date_updated: true,
-              alliance_member_is_active: true,
-              alliance_referral_link_table: {
+              company_member_id: true,
+              company_member_role: true,
+              company_member_restricted: true,
+              company_member_company_id: true,
+              company_member_date_created: true,
+              company_member_date_updated: true,
+              company_member_is_active: true,
+              company_referral_link_table: {
                 select: {
-                  alliance_referral_link: true,
+                  company_referral_link: true,
                 },
               },
             },
           },
         },
       });
-      const allianceTeam = await getTenantPrisma(
+      const companyTeam = await getTenantPrisma(
         "warehouse-pal-project"
-      ).alliance_table.findFirst({
+      ).company_table.findFirst({
         where: {
-          alliance_name: {
+          company_name: {
             equals: companyName,
             mode: "insensitive",
           },
@@ -70,14 +70,14 @@ export const protectionMemberUser = async (
 
       const team = await getTenantPrisma(
         "warehouse-pal-project"
-      ).alliance_table.findFirst({
+      ).company_table.findFirst({
         where: {
-          alliance_id: allianceTeam?.alliance_id,
+          company_id: companyTeam?.company_id,
         },
       });
 
-      if (!allianceTeam) {
-        return { redirect: `/${team?.alliance_name}/dashboard` };
+      if (!companyTeam) {
+        return { redirect: `/${team?.company_name}/dashboard` };
       }
     } else {
       user = await getTenantPrisma("district-1").user_table.findUnique({
@@ -89,72 +89,70 @@ export const protectionMemberUser = async (
           user_last_name: true,
           user_date_created: true,
           user_profile_picture: true,
-          alliance_member_table: {
+          company_member_table: {
             select: {
-              alliance_member_id: true,
-              alliance_member_role: true,
-              alliance_member_restricted: true,
-              alliance_member_date_created: true,
-              alliance_member_date_updated: true,
-              alliance_member_alliance_id: true,
-              alliance_member_is_active: true,
-              alliance_referral_link_table: {
+              company_member_id: true,
+              company_member_role: true,
+              company_member_restricted: true,
+              company_member_date_created: true,
+              company_member_date_updated: true,
+              company_member_company_id: true,
+              company_member_is_active: true,
+              company_referral_link_table: {
                 select: {
-                  alliance_referral_link: true,
+                  company_referral_link: true,
                 },
               },
             },
           },
         },
       });
-      const allianceTeam = await getTenantPrisma(
+      const companyTeam = await getTenantPrisma(
         "district-1"
-      ).alliance_table.findFirst({
+      ).company_table.findFirst({
         where: {
-          alliance_name: {
+          company_name: {
             equals: companyName,
             mode: "insensitive",
           },
         },
       });
 
-      const team = await getTenantPrisma("district-1").alliance_table.findFirst(
-        {
-          where: {
-            alliance_id: allianceTeam?.alliance_id,
-          },
-        }
-      );
+      const team = await getTenantPrisma("district-1").company_table.findFirst({
+        where: {
+          company_id: companyTeam?.company_id,
+        },
+      });
 
-      if (!allianceTeam) {
-        return { redirect: `/${team?.alliance_name}/dashboard` };
+      if (!companyTeam) {
+        return { redirect: `/${team?.company_name}/dashboard` };
       }
     }
 
     if (
       !["MERCHANT", "ACCOUNTING", "ACCOUNTING_HEAD"].includes(
-        user.alliance_member_table[0]?.alliance_member_role
+        user.company_member_table[0]?.company_member_role
       )
     ) {
       return { redirect: "/404" };
     }
 
-    if (user.alliance_member_table[0]?.alliance_member_restricted) {
+    if (user.company_member_table[0]?.company_member_restricted) {
       return { redirect: "/500" };
     }
 
-    if (!user.alliance_member_table[0].alliance_referral_link_table[0]) {
+    if (!user.company_member_table[0].company_referral_link_table[0]) {
       return { redirect: "/500" };
     }
 
     const referral =
-      user.alliance_member_table[0]?.alliance_referral_link_table[0];
+      user.company_member_table[0]?.company_referral_link_table[0];
 
     return {
       profile: user as unknown as user_table,
       teamMemberProfile: user
-        .alliance_member_table[0] as unknown as alliance_member_table,
-      referral: referral as unknown as alliance_referral_link_table,
+        .company_member_table[0] as unknown as company_member_table,
+      referral: referral as unknown as company_referral_link_table,
     };
   } catch (e) {
     console.log(e);
@@ -193,18 +191,18 @@ export const protectionMemberUserAccounting = async (
           user_last_name: true,
           user_date_created: true,
           user_profile_picture: true,
-          alliance_member_table: {
+          company_member_table: {
             select: {
-              alliance_member_id: true,
-              alliance_member_role: true,
-              alliance_member_alliance_id: true,
-              alliance_member_restricted: true,
-              alliance_member_date_created: true,
-              alliance_member_date_updated: true,
-              alliance_member_is_active: true,
-              alliance_referral_link_table: {
+              company_member_id: true,
+              company_member_role: true,
+              company_member_company_id: true,
+              company_member_restricted: true,
+              company_member_date_created: true,
+              company_member_date_updated: true,
+              company_member_is_active: true,
+              company_referral_link_table: {
                 select: {
-                  alliance_referral_link: true,
+                  company_referral_link: true,
                 },
               },
             },
@@ -212,11 +210,11 @@ export const protectionMemberUserAccounting = async (
         },
       });
 
-      const allianceTeam = await getTenantPrisma(
+      const companyTeam = await getTenantPrisma(
         "warehouse-pal-project"
-      ).alliance_table.findFirst({
+      ).company_table.findFirst({
         where: {
-          alliance_name: {
+          company_name: {
             equals: companyName,
             mode: "insensitive",
           },
@@ -225,14 +223,14 @@ export const protectionMemberUserAccounting = async (
 
       const team = await getTenantPrisma(
         "warehouse-pal-project"
-      ).alliance_table.findFirst({
+      ).company_table.findFirst({
         where: {
-          alliance_id: allianceTeam?.alliance_id,
+          company_id: companyTeam?.company_id,
         },
       });
 
-      if (!allianceTeam) {
-        return { redirect: `/${team?.alliance_name}/dashboard` };
+      if (!companyTeam) {
+        return { redirect: `/${team?.company_name}/dashboard` };
       }
     } else {
       user = await getTenantPrisma("district-1").user_table.findUnique({
@@ -244,72 +242,70 @@ export const protectionMemberUserAccounting = async (
           user_last_name: true,
           user_date_created: true,
           user_profile_picture: true,
-          alliance_member_table: {
+          company_member_table: {
             select: {
-              alliance_member_id: true,
-              alliance_member_role: true,
-              alliance_member_alliance_id: true,
-              alliance_member_restricted: true,
-              alliance_member_date_created: true,
-              alliance_member_date_updated: true,
-              alliance_member_is_active: true,
-              alliance_referral_link_table: {
+              company_member_id: true,
+              company_member_role: true,
+              company_member_company_id: true,
+              company_member_restricted: true,
+              company_member_date_created: true,
+              company_member_date_updated: true,
+              company_member_is_active: true,
+              company_referral_link_table: {
                 select: {
-                  alliance_referral_link: true,
+                  company_referral_link: true,
                 },
               },
             },
           },
         },
       });
-      const allianceTeam = await getTenantPrisma(
+      const companyTeam = await getTenantPrisma(
         "district-1"
-      ).alliance_table.findFirst({
+      ).company_table.findFirst({
         where: {
-          alliance_name: {
+          company_name: {
             equals: companyName,
             mode: "insensitive",
           },
         },
       });
 
-      const team = await getTenantPrisma("district-1").alliance_table.findFirst(
-        {
-          where: {
-            alliance_id: allianceTeam?.alliance_id,
-          },
-        }
-      );
+      const team = await getTenantPrisma("district-1").company_table.findFirst({
+        where: {
+          company_id: companyTeam?.company_id,
+        },
+      });
 
-      if (!allianceTeam) {
-        return { redirect: `/${team?.alliance_name}/dashboard` };
+      if (!companyTeam) {
+        return { redirect: `/${team?.company_name}/dashboard` };
       }
     }
 
     if (
       !["ACCOUNTING", "ACCOUNTING_HEAD", "ADMIN"].includes(
-        user.alliance_member_table[0]?.alliance_member_role
+        user.company_member_table[0]?.company_member_role
       )
     ) {
       return { redirect: "/404" };
     }
 
-    if (user.alliance_member_table[0]?.alliance_member_restricted) {
+    if (user.company_member_table[0]?.company_member_restricted) {
       return { redirect: "/500" };
     }
 
-    if (!user.alliance_member_table[0].alliance_referral_link_table[0]) {
+    if (!user.company_member_table[0].company_referral_link_table[0]) {
       return { redirect: "/500" };
     }
 
     const referral =
-      user.alliance_member_table[0]?.alliance_referral_link_table[0];
+      user.company_member_table[0]?.company_referral_link_table[0];
 
     return {
       profile: user as unknown as user_table,
       teamMemberProfile: user
-        .alliance_member_table[0] as unknown as alliance_member_table,
-      referral: referral as unknown as alliance_referral_link_table,
+        .company_member_table[0] as unknown as company_member_table,
+      referral: referral as unknown as company_referral_link_table,
     };
   } catch (e) {
     return { redirect: "/500" };
@@ -347,18 +343,18 @@ export const protectionMemberUserMerchant = async (
           user_last_name: true,
           user_date_created: true,
           user_profile_picture: true,
-          alliance_member_table: {
+          company_member_table: {
             select: {
-              alliance_member_id: true,
-              alliance_member_alliance_id: true,
-              alliance_member_role: true,
-              alliance_member_restricted: true,
-              alliance_member_date_created: true,
-              alliance_member_date_updated: true,
-              alliance_member_is_active: true,
-              alliance_referral_link_table: {
+              company_member_id: true,
+              company_member_company_id: true,
+              company_member_role: true,
+              company_member_restricted: true,
+              company_member_date_created: true,
+              company_member_date_updated: true,
+              company_member_is_active: true,
+              company_referral_link_table: {
                 select: {
-                  alliance_referral_link: true,
+                  company_referral_link: true,
                 },
               },
             },
@@ -366,11 +362,11 @@ export const protectionMemberUserMerchant = async (
         },
       });
 
-      const allianceTeam = await getTenantPrisma(
+      const companyTeam = await getTenantPrisma(
         "warehouse-pal-project"
-      ).alliance_table.findFirst({
+      ).company_table.findFirst({
         where: {
-          alliance_name: {
+          company_name: {
             equals: companyName,
             mode: "insensitive",
           },
@@ -379,14 +375,14 @@ export const protectionMemberUserMerchant = async (
 
       const team = await getTenantPrisma(
         "warehouse-pal-project"
-      ).alliance_table.findFirst({
+      ).company_table.findFirst({
         where: {
-          alliance_id: allianceTeam?.alliance_id,
+          company_id: companyTeam?.company_id,
         },
       });
 
-      if (!allianceTeam) {
-        return { redirect: `/${team?.alliance_name}/dashboard` };
+      if (!companyTeam) {
+        return { redirect: `/${team?.company_name}/dashboard` };
       }
     } else {
       user = await getTenantPrisma("district-1").user_table.findUnique({
@@ -398,71 +394,67 @@ export const protectionMemberUserMerchant = async (
           user_last_name: true,
           user_date_created: true,
           user_profile_picture: true,
-          alliance_member_table: {
+          company_member_table: {
             select: {
-              alliance_member_id: true,
-              alliance_member_role: true,
-              alliance_member_restricted: true,
-              alliance_member_date_created: true,
-              alliance_member_date_updated: true,
-              alliance_member_is_active: true,
-              alliance_referral_link_table: {
+              company_member_id: true,
+              company_member_role: true,
+              company_member_restricted: true,
+              company_member_date_created: true,
+              company_member_date_updated: true,
+              company_member_is_active: true,
+              company_referral_link_table: {
                 select: {
-                  alliance_referral_link: true,
+                  company_referral_link: true,
                 },
               },
             },
           },
         },
       });
-      const allianceTeam = await getTenantPrisma(
+      const companyTeam = await getTenantPrisma(
         "district-1"
-      ).alliance_table.findFirst({
+      ).company_table.findFirst({
         where: {
-          alliance_name: {
+          company_name: {
             equals: companyName,
             mode: "insensitive",
           },
         },
       });
 
-      const team = await getTenantPrisma("district-1").alliance_table.findFirst(
-        {
-          where: {
-            alliance_id: allianceTeam?.alliance_id,
-          },
-        }
-      );
+      const team = await getTenantPrisma("district-1").company_table.findFirst({
+        where: {
+          company_id: companyTeam?.company_id,
+        },
+      });
 
-      if (!allianceTeam) {
-        return { redirect: `/${team?.alliance_name}/dashboard` };
+      if (!companyTeam) {
+        return { redirect: `/${team?.company_name}/dashboard` };
       }
     }
 
     if (
-      !["MERCHANT"].includes(
-        user.alliance_member_table[0]?.alliance_member_role
-      )
+      !["MERCHANT"].includes(user.company_member_table[0]?.company_member_role)
     ) {
       return { redirect: "/404" };
     }
 
-    if (user.alliance_member_table[0]?.alliance_member_restricted) {
+    if (user.company_member_table[0]?.company_member_restricted) {
       return { redirect: "/500" };
     }
 
-    if (!user.alliance_member_table[0].alliance_referral_link_table[0]) {
+    if (!user.company_member_table[0].company_referral_link_table[0]) {
       return { redirect: "/500" };
     }
 
     const referral =
-      user.alliance_member_table[0]?.alliance_referral_link_table[0];
+      user.company_member_table[0]?.company_referral_link_table[0];
 
     return {
       profile: user as unknown as user_table,
       teamMemberProfile: user
-        .alliance_member_table[0] as unknown as alliance_member_table,
-      referral: referral as unknown as alliance_referral_link_table,
+        .company_member_table[0] as unknown as company_member_table,
+      referral: referral as unknown as company_referral_link_table,
     };
   } catch (e) {
     return { redirect: "/500" };

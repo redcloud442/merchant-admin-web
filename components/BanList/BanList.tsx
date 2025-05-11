@@ -6,7 +6,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import { ScrollBar } from "@/components/ui/scroll-area";
-import { alliance_member_table } from "@/generated/companyPr1me";
+import { company_member_table } from "@/generated/companyMithril";
 import { uploadAdminWithdrawalBanList } from "@/services/Withdrawal/Withdrawal";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { DialogTitle } from "@radix-ui/react-dialog";
@@ -19,7 +19,7 @@ import { Input } from "../ui/input";
 import AdminBanListTable from "./BanListTable";
 
 type Props = {
-  teamMemberProfile: alliance_member_table;
+  teamMemberProfile: company_member_table;
   companyName: string;
 };
 

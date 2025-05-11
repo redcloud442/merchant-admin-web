@@ -14,7 +14,7 @@ const DashboardPage = ({ companyName }: { companyName: string }) => {
         This is the dashboard for the company {companyName}
       </p>
 
-      {teamMemberProfile?.alliance_member_role === "MERCHANT" && (
+      {teamMemberProfile?.company_member_role === "MERCHANT" && (
         <>
           <Link href={`/${companyName}/merchant`}>
             <Button>MOP</Button>
@@ -24,8 +24,8 @@ const DashboardPage = ({ companyName }: { companyName: string }) => {
           </Link>
         </>
       )}
-      {(teamMemberProfile?.alliance_member_role === "ACCOUNTING" ||
-        teamMemberProfile?.alliance_member_role === "ACCOUNTING_HEAD") && (
+      {(teamMemberProfile?.company_member_role === "ACCOUNTING" ||
+        teamMemberProfile?.company_member_role === "ACCOUNTING_HEAD") && (
         <Link href={`/${companyName}/accounting`}>
           <Button>Accounting</Button>
         </Link>

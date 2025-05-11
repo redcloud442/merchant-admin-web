@@ -1,4 +1,4 @@
-import { merchant_table } from "@/generated/companyPr1me";
+import { merchant_table } from "@/generated/companyMithril";
 import { getTenantAxios } from "@/lib/axios";
 
 export const getMerchantData = async (params: {
