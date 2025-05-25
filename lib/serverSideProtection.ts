@@ -80,7 +80,9 @@ export const protectionMemberUser = async (
         return { redirect: `/${team?.company_name}/dashboard` };
       }
     } else {
-      user = await getTenantPrisma("district-1").user_table.findUnique({
+      const user = await getTenantPrisma(
+        "warehouse-pal-project"
+      ).user_table.findUnique({
         where: { user_id: userId },
         select: {
           user_id: true,
@@ -108,7 +110,7 @@ export const protectionMemberUser = async (
         },
       });
       const companyTeam = await getTenantPrisma(
-        "district-1"
+        "warehouse-pal-project"
       ).company_table.findFirst({
         where: {
           company_name: {
@@ -118,7 +120,9 @@ export const protectionMemberUser = async (
         },
       });
 
-      const team = await getTenantPrisma("district-1").company_table.findFirst({
+      const team = await getTenantPrisma(
+        "warehouse-pal-project"
+      ).company_table.findFirst({
         where: {
           company_id: companyTeam?.company_id,
         },
@@ -233,7 +237,9 @@ export const protectionMemberUserAccounting = async (
         return { redirect: `/${team?.company_name}/dashboard` };
       }
     } else {
-      user = await getTenantPrisma("district-1").user_table.findUnique({
+      user = await getTenantPrisma(
+        "warehouse-pal-project"
+      ).user_table.findUnique({
         where: { user_id: userId },
         select: {
           user_id: true,
@@ -261,7 +267,7 @@ export const protectionMemberUserAccounting = async (
         },
       });
       const companyTeam = await getTenantPrisma(
-        "district-1"
+        "warehouse-pal-project"
       ).company_table.findFirst({
         where: {
           company_name: {
@@ -271,7 +277,9 @@ export const protectionMemberUserAccounting = async (
         },
       });
 
-      const team = await getTenantPrisma("district-1").company_table.findFirst({
+      const team = await getTenantPrisma(
+        "warehouse-pal-project"
+      ).company_table.findFirst({
         where: {
           company_id: companyTeam?.company_id,
         },
@@ -385,7 +393,9 @@ export const protectionMemberUserMerchant = async (
         return { redirect: `/${team?.company_name}/dashboard` };
       }
     } else {
-      user = await getTenantPrisma("district-1").user_table.findUnique({
+      user = await getTenantPrisma(
+        "warehouse-pal-project"
+      ).user_table.findUnique({
         where: { user_id: userId },
         select: {
           user_id: true,
@@ -412,7 +422,7 @@ export const protectionMemberUserMerchant = async (
         },
       });
       const companyTeam = await getTenantPrisma(
-        "district-1"
+        "warehouse-pal-project"
       ).company_table.findFirst({
         where: {
           company_name: {
@@ -422,7 +432,9 @@ export const protectionMemberUserMerchant = async (
         },
       });
 
-      const team = await getTenantPrisma("district-1").company_table.findFirst({
+      const team = await getTenantPrisma(
+        "warehouse-pal-project"
+      ).company_table.findFirst({
         where: {
           company_id: companyTeam?.company_id,
         },

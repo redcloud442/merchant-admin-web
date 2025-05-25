@@ -590,9 +590,6 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
               <TabsTrigger value="REJECTED">
                 Rejected ({requestData?.data?.REJECTED?.count || 0})
               </TabsTrigger>
-              <TabsTrigger value="HOLD">
-                Hold ({requestData?.data?.HOLD?.count || 0})
-              </TabsTrigger>
             </TabsList>
 
             <div className="flex items-center gap-2">
@@ -670,18 +667,6 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
               columns={columns}
               activePage={activePage}
               totalCount={requestData?.data?.REJECTED?.count || 0}
-            />
-          </TabsContent>
-
-          <TabsContent value="HOLD">
-            <WithdrawalTabs
-              isFetchingList={isFetchingList}
-              setActivePage={setActivePage}
-              pageCount={pageCount}
-              table={table}
-              columns={columns}
-              activePage={activePage}
-              totalCount={requestData?.data?.HOLD?.count || 0}
             />
           </TabsContent>
         </Tabs>

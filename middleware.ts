@@ -19,7 +19,6 @@ export async function middleware(req: NextRequest) {
   // Fallback: use x-tenant-id header
   tenant = tenant || req.headers.get("x-tenant-id");
 
-  // ✅ Call this only if tenant routes, not for /api
   if (!pathname.startsWith("/api/v1")) {
     await updateSession(req, tenant || "warehouse-pal-project");
   }

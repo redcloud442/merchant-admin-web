@@ -112,7 +112,7 @@ const ReusableTable = <T extends object>({
         </Table>
 
         <ScrollBar
-          className="bg-yellow-700 dark:bg-yellow-500 "
+          className="bg-yellow-700 dark:bg-white border-2 border-red-500"
           orientation="horizontal"
         />
       </ScrollArea>

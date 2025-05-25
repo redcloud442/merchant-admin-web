@@ -14,9 +14,13 @@ export const loginValidation = async (
 
   const formattedUserName = userName + "@gmail.com";
 
-  const response = await getTenantAxios(warehouse).post(`/access`, params, {
-    withCredentials: true,
-  });
+  const response = await getTenantAxios(warehouse).post(
+    `${warehouse === "warehouse-pal-project" ? "/auth" : "/access"}`,
+    params,
+    {
+      withCredentials: true,
+    }
+  );
 
   if (response.status !== 200) {
     throw new Error(response.data.message);

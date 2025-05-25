@@ -238,7 +238,7 @@ export const WithdrawalColumn = (
         </Button>
       ),
       cell: ({ row }) => {
-        const memberId = row.getValue("alliance_member_id") as string;
+        const memberId = row.getValue("company_member_id") as string;
         return (
           <div className="flex items-center gap-4">
             <ActiveTreeModal
@@ -367,6 +367,23 @@ export const WithdrawalColumn = (
           </div>
         );
       },
+    },
+    {
+      accessorKey: "company_withdrawal_request_phone_number",
+      header: ({ column }) => (
+        <Button
+          variant="ghost"
+          className="p-1"
+          onClick={() => column.toggleSorting(column.getIsSorted() === "desc")}
+        >
+          Phone Number <ArrowUpDown />
+        </Button>
+      ),
+      cell: ({ row }) => (
+        <div className="text-wrap">
+          {row.getValue("company_withdrawal_request_phone_number")}
+        </div>
+      ),
     },
     {
       accessorKey: "company_withdrawal_request_withdraw_type",
@@ -535,7 +552,7 @@ export const WithdrawalColumn = (
                         Reject
                       </Button>
 
-                      {data.company_withdrawal_request_status === "PENDING" && (
+                      {/* {data.company_withdrawal_request_status === "PENDING" && (
                         <Button
                           variant="secondary"
                           onClick={() =>
@@ -548,7 +565,7 @@ export const WithdrawalColumn = (
                         >
                           HOLD WITHDRAWAL
                         </Button>
-                      )}
+                      )} */}
 
                       {/* {companyName ===
                         COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 && (

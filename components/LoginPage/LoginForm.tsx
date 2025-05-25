@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { COMPANY_NAME } from "@/lib/constant";
 import { getTenantBrowserSupabase } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import { loginValidation } from "@/services/Auth/Auth";
@@ -10,7 +11,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
-import { BoundTurnstileObject } from "react-turnstile";
+import Turnstile, { BoundTurnstileObject } from "react-turnstile";
 import { toast } from "sonner";
 import { z } from "zod";
 import NavigationLoader from "../ui/navigationLoader";
@@ -51,16 +52,16 @@ export function LoginForm({
 
   const handleSignIn = async (data: LoginFormValues) => {
     try {
-      // if (!captchaToken) {
-      //   if (captcha.current) {
-      //     captcha.current.reset();
-      //     captcha.current.execute();
-      //   }
+      if (!captchaToken) {
+        if (captcha.current) {
+          captcha.current.reset();
+          captcha.current.execute();
+        }
 
-      //   return toast.warning(
-      //     "Please verify that you are human by completing the captcha"
-      //   );
-      // }
+        return toast.warning(
+          "Please verify that you are human by completing the captcha"
+        );
+      }
 
       await loginValidation(companyName, supabase, {
         userName: data.userName,
@@ -127,7 +128,7 @@ export function LoginForm({
                   </p>
                 )}
               </div>
-              {/* <Turnstile
+              <Turnstile
                 size="flexible"
                 sitekey={
                   companyName === COMPANY_NAME.PALPROJECT_WAREHOUSING
@@ -138,7 +139,7 @@ export function LoginForm({
                 onVerify={(token) => {
                   setCaptchaToken(token);
                 }}
-              /> */}
+              />
               <Button type="submit" className="w-full">
                 Login
               </Button>

@@ -1,5 +1,6 @@
 // lib/getTenantPrisma.ts
 import { PrismaClient as PrismaClientMithril } from "@/generated/companyMithril";
+import { PrismaClient as PrismaClientTeamd } from "@/generated/companyTeamd";
 import { createPrismaClient } from "./prismaDynamic";
 
 export const TENANT_CONFIG = {
@@ -17,7 +18,7 @@ export function getTenantPrisma<T extends Tenant>(
   company: T
 ): T extends "warehouse-pal-project"
   ? PrismaClientMithril
-  : PrismaClientMithril {
+  : PrismaClientMithril | PrismaClientTeamd {
   const config = TENANT_CONFIG[company.toLowerCase() as Tenant];
   if (!config) throw new Error(`Unknown tenant: ${company}`);
 
