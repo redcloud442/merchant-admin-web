@@ -75,6 +75,7 @@ export const getAdminWithdrawalRequest = async (params: {
   };
   showHiddenUser: boolean;
   companyName: string;
+  showAllDays: boolean;
 }) => {
   const response = await getTenantAxios(params.companyName).post(
     "/withdraw/list",
