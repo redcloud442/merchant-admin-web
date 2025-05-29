@@ -1,13 +1,10 @@
 // AppLayout.tsx
 
 import LayoutContent from "@/components/ui/layoutContent";
-import {
-  company_member_table,
-  company_referral_link_table,
-  user_table,
-} from "@/generated/companyMithril";
+import { company_member_table, user_table } from "@/generated/companyMithril";
 import { RoleProvider } from "@/lib/context";
 import { protectionMemberUser } from "@/lib/serverSideProtection";
+import { CompanyName } from "@/lib/types";
 import { redirect } from "next/navigation";
 
 export default async function AppLayout({
@@ -19,14 +16,8 @@ export default async function AppLayout({
 }) {
   const { companyName } = await params;
 
-  const {
-    profile,
-    redirect: redirectTo,
-    teamMemberProfile,
-    referral,
-  } = await protectionMemberUser(
-    companyName as "district-1" | "warehouse-pal-project"
-  );
+  const { redirect: redirectTo, teamMemberProfile } =
+    await protectionMemberUser(companyName as CompanyName);
 
   if (redirectTo) {
     redirect(redirectTo);
@@ -34,11 +25,9 @@ export default async function AppLayout({
 
   return (
     <RoleProvider
-      initialProfile={profile as user_table}
       initialTeamMemberProfile={
         teamMemberProfile as company_member_table & user_table
       }
-      initialReferral={referral as company_referral_link_table}
     >
       <LayoutContent companyName={companyName}>{children}</LayoutContent>
     </RoleProvider>

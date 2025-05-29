@@ -1,23 +1,23 @@
 import AdminExportPage from "@/components/AdminExportPage/AdminExportPage";
 import { protectionMemberUserAccounting } from "@/lib/serverSideProtection";
-import { redirect } from "next/navigation";
+import { CompanyName } from "@/lib/types";
+import { Suspense } from "react";
+import Loading from "../loading";
 
 const Page = async ({
   params,
 }: {
-  params: Promise<{ companyName: string }>;
+  params: Promise<{ companyName: CompanyName }>;
 }) => {
   const { companyName } = await params;
 
-  if (companyName !== "district-1") {
-    return redirect("/");
-  }
+  await protectionMemberUserAccounting(companyName as CompanyName);
 
-  await protectionMemberUserAccounting(
-    companyName as "district-1" | "warehouse-pal-project"
+  return (
+    <Suspense fallback={<Loading />}>
+      <AdminExportPage />
+    </Suspense>
   );
-
-  return <AdminExportPage />;
 };
 
 export default Page;

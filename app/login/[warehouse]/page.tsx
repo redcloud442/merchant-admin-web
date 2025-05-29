@@ -1,13 +1,12 @@
 import LoginPage from "@/components/LoginPage/LoginPage";
 import { getTenantSupabase } from "@/lib/supabase/server";
+import { CompanyName } from "@/lib/types";
 import { redirect } from "next/navigation";
 
 const page = async ({ params }: { params: Promise<{ warehouse: string }> }) => {
   const { warehouse } = await params;
 
-  const supabase = await getTenantSupabase(
-    warehouse as "district-1" | "warehouse-pal-project"
-  );
+  const supabase = await getTenantSupabase(warehouse as CompanyName);
 
   if ("redirect" in supabase) {
     return redirect(`/login/${warehouse}`);
@@ -21,11 +20,7 @@ const page = async ({ params }: { params: Promise<{ warehouse: string }> }) => {
     redirect(`/${warehouse}/dashboard`);
   }
 
-  return (
-    <LoginPage
-      companyName={warehouse as "district-1" | "warehouse-pal-project"}
-    />
-  );
+  return <LoginPage companyName={warehouse as CompanyName} />;
 };
 
 export default page;

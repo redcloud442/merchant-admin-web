@@ -4,6 +4,7 @@ import { formatDateToYYYYMMDD, formatTime } from "@/lib/function";
 import { AdminTopUpRequestData, TopUpRequestData } from "@/lib/types";
 import { updateTopUpStatus } from "@/services/Deposit/Deposit";
 import { Column, ColumnDef, Row } from "@tanstack/react-table";
+import { AxiosError } from "axios";
 import { ArrowUpDown, CheckIcon, CopyIcon } from "lucide-react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { toast } from "sonner";
@@ -130,8 +131,9 @@ export const TopUpColumn = (
       reset();
     } catch (e) {
       navigator.clipboard.writeText("");
-      toast.error(`Invalid Request`, {
-        description: `Something went wrong`,
+      const error = e as AxiosError<{ message: string }>;
+      toast.error(`Something went wrong`, {
+        description: error?.response?.data?.message as string,
       });
     } finally {
       setIsLoading(false);

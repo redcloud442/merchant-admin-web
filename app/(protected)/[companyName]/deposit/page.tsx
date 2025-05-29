@@ -1,17 +1,22 @@
 import TopUpPage from "@/components/TopUpPage/TopUpPage";
 import { protectionMemberUserMerchant } from "@/lib/serverSideProtection";
+import { CompanyName } from "@/lib/types";
+import { Suspense } from "react";
+import Loading from "../loading";
 const page = async ({
   params,
 }: {
-  params: Promise<{ companyName: string }>;
+  params: Promise<{ companyName: CompanyName }>;
 }) => {
   const { companyName } = await params;
 
-  await protectionMemberUserMerchant(
-    companyName as "district-1" | "warehouse-pal-project"
-  );
+  await protectionMemberUserMerchant(companyName as CompanyName);
 
-  return <TopUpPage companyName={companyName} />;
+  return (
+    <Suspense fallback={<Loading />}>
+      <TopUpPage companyName={companyName} />
+    </Suspense>
+  );
 };
 
 export default page;

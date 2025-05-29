@@ -1,474 +1,252 @@
-import {
-  company_member_table,
-  company_referral_link_table,
-  user_table,
-} from "@/generated/companyMithril";
+import { company_member_table } from "@/generated/companyMithril";
 import { getTenantSupabase } from "@/lib/supabase/server";
-import { getTenantPrisma } from "@/lib/tenantConfig";
 import { redirect } from "next/navigation";
+import { getTenantPrisma } from "./tenantConfig";
+import { CompanyName } from "./types";
 
-export const protectionMemberUser = async (
-  companyName: "district-1" | "warehouse-pal-project"
-) => {
+export const protectionMemberUser = async (companyName: CompanyName) => {
   const supabase = await getTenantSupabase(companyName);
-
-  if ("redirect" in supabase) {
-    return redirect(`/login/${companyName}`);
-  }
+  if ("redirect" in supabase) return redirect(`/login/${companyName}`);
 
   try {
     const { data: authData, error: authError } = await supabase.auth.getUser();
-
     if (authError || !authData?.user) {
       return { redirect: `/login/${companyName}` };
     }
 
-    const userId = authData.user.id;
+    const memberData = {
+      company_member_id: authData.user.user_metadata.CompanyMemberId,
+      company_member_role: authData.user.user_metadata.Role,
+      company_member_company_id: authData.user.user_metadata.CompanyId,
+    };
 
-    let user: any;
+    let companyTeam;
 
-    if (companyName === "warehouse-pal-project") {
-      user = await getTenantPrisma(
-        "warehouse-pal-project"
-      ).user_table.findUnique({
-        where: { user_id: userId },
-        select: {
-          user_id: true,
-          user_username: true,
-          user_first_name: true,
-          user_last_name: true,
-          user_date_created: true,
-          user_profile_picture: true,
-          company_member_table: {
-            select: {
-              company_member_id: true,
-              company_member_role: true,
-              company_member_restricted: true,
-              company_member_company_id: true,
-              company_member_date_created: true,
-              company_member_date_updated: true,
-              company_member_is_active: true,
-              company_referral_link_table: {
-                select: {
-                  company_referral_link: true,
-                },
-              },
-            },
-          },
-        },
-      });
-      const companyTeam = await getTenantPrisma(
-        "warehouse-pal-project"
-      ).company_table.findFirst({
+    if (companyName === "district-1") {
+      const prisma = getTenantPrisma("district-1");
+      companyTeam = await prisma.company_table.findFirst({
         where: {
           company_name: {
             equals: companyName,
             mode: "insensitive",
           },
         },
-      });
-
-      const team = await getTenantPrisma(
-        "warehouse-pal-project"
-      ).company_table.findFirst({
-        where: {
-          company_id: companyTeam?.company_id,
+        select: {
+          company_id: true,
+          company_name: true,
         },
       });
-
-      if (!companyTeam) {
-        return { redirect: `/${team?.company_name}/dashboard` };
-      }
+    } else if (companyName === "warehouse-pal-project") {
+      const prisma = getTenantPrisma("warehouse-pal-project");
+      companyTeam = await prisma.company_table.findFirst({
+        where: {
+          company_name: {
+            equals: companyName,
+            mode: "insensitive",
+          },
+        },
+        select: {
+          company_id: true,
+          company_name: true,
+        },
+      });
+    } else if (companyName === "dispatcher-1") {
+      const prisma = getTenantPrisma("dispatcher-1");
+      companyTeam = await prisma.company_table.findFirst({
+        where: {
+          company_name: {
+            equals: companyName,
+            mode: "insensitive",
+          },
+        },
+        select: {
+          company_id: true,
+          company_name: true,
+        },
+      });
     } else {
-      const user = await getTenantPrisma(
-        "warehouse-pal-project"
-      ).user_table.findUnique({
-        where: { user_id: userId },
-        select: {
-          user_id: true,
-          user_username: true,
-          user_first_name: true,
-          user_last_name: true,
-          user_date_created: true,
-          user_profile_picture: true,
-          company_member_table: {
-            select: {
-              company_member_id: true,
-              company_member_role: true,
-              company_member_restricted: true,
-              company_member_date_created: true,
-              company_member_date_updated: true,
-              company_member_company_id: true,
-              company_member_is_active: true,
-              company_referral_link_table: {
-                select: {
-                  company_referral_link: true,
-                },
-              },
-            },
-          },
-        },
-      });
-      const companyTeam = await getTenantPrisma(
-        "warehouse-pal-project"
-      ).company_table.findFirst({
-        where: {
-          company_name: {
-            equals: companyName,
-            mode: "insensitive",
-          },
-        },
-      });
-
-      const team = await getTenantPrisma(
-        "warehouse-pal-project"
-      ).company_table.findFirst({
-        where: {
-          company_id: companyTeam?.company_id,
-        },
-      });
-
-      if (!companyTeam) {
-        return { redirect: `/${team?.company_name}/dashboard` };
-      }
+      throw new Error("Invalid company name");
     }
 
-    if (
-      !["MERCHANT", "ACCOUNTING", "ACCOUNTING_HEAD"].includes(
-        user.company_member_table[0]?.company_member_role
-      )
-    ) {
+    if (companyTeam?.company_id !== memberData.company_member_company_id)
+      return { redirect: `/${companyTeam?.company_name}/dashboard` };
+
+    const allowedRoles = ["MERCHANT", "ACCOUNTING", "ACCOUNTING_HEAD"];
+    if (!allowedRoles.includes(memberData.company_member_role)) {
       return { redirect: "/404" };
     }
 
-    if (user.company_member_table[0]?.company_member_restricted) {
-      return { redirect: "/500" };
-    }
-
-    if (!user.company_member_table[0].company_referral_link_table[0]) {
-      return { redirect: "/500" };
-    }
-
-    const referral =
-      user.company_member_table[0]?.company_referral_link_table[0];
-
     return {
-      profile: user as unknown as user_table,
-      teamMemberProfile: user
-        .company_member_table[0] as unknown as company_member_table,
-      referral: referral as unknown as company_referral_link_table,
+      teamMemberProfile: memberData as unknown as company_member_table,
     };
   } catch (e) {
-    console.log(e);
+    console.error("protectionMemberUser error:", e);
     return { redirect: "/500" };
   }
 };
 
 export const protectionMemberUserAccounting = async (
-  companyName: "district-1" | "warehouse-pal-project"
+  companyName: CompanyName
 ) => {
   const supabase = await getTenantSupabase(companyName);
-  if ("redirect" in supabase) {
-    return redirect(`/login/${companyName}`);
-  }
+  if ("redirect" in supabase) return redirect(`/login/${companyName}`);
 
   try {
     const { data: authData, error: authError } = await supabase.auth.getUser();
-
     if (authError || !authData?.user) {
       return { redirect: `/login/${companyName}` };
     }
 
-    const userId = authData.user.id;
+    const memberData = {
+      company_member_id: authData.user.user_metadata.CompanyMemberId,
+      company_member_role: authData.user.user_metadata.Role,
+      company_member_company_id: authData.user.user_metadata.CompanyId,
+    };
 
-    let user: any;
+    let companyTeam;
 
-    if (companyName === "warehouse-pal-project") {
-      user = await getTenantPrisma(
-        "warehouse-pal-project"
-      ).user_table.findUnique({
-        where: { user_id: userId },
-        select: {
-          user_id: true,
-          user_username: true,
-          user_first_name: true,
-          user_last_name: true,
-          user_date_created: true,
-          user_profile_picture: true,
-          company_member_table: {
-            select: {
-              company_member_id: true,
-              company_member_role: true,
-              company_member_company_id: true,
-              company_member_restricted: true,
-              company_member_date_created: true,
-              company_member_date_updated: true,
-              company_member_is_active: true,
-              company_referral_link_table: {
-                select: {
-                  company_referral_link: true,
-                },
-              },
-            },
-          },
-        },
-      });
-
-      const companyTeam = await getTenantPrisma(
-        "warehouse-pal-project"
-      ).company_table.findFirst({
+    if (companyName === "district-1") {
+      const prisma = getTenantPrisma("district-1");
+      companyTeam = await prisma.company_table.findFirst({
         where: {
           company_name: {
             equals: companyName,
             mode: "insensitive",
           },
         },
-      });
-
-      const team = await getTenantPrisma(
-        "warehouse-pal-project"
-      ).company_table.findFirst({
-        where: {
-          company_id: companyTeam?.company_id,
+        select: {
+          company_id: true,
+          company_name: true,
         },
       });
-
-      if (!companyTeam) {
-        return { redirect: `/${team?.company_name}/dashboard` };
-      }
+    } else if (companyName === "warehouse-pal-project") {
+      const prisma = getTenantPrisma("warehouse-pal-project");
+      companyTeam = await prisma.company_table.findFirst({
+        where: {
+          company_name: {
+            equals: companyName,
+            mode: "insensitive",
+          },
+        },
+        select: {
+          company_id: true,
+          company_name: true,
+        },
+      });
+    } else if (companyName === "dispatcher-1") {
+      const prisma = getTenantPrisma("dispatcher-1");
+      companyTeam = await prisma.company_table.findFirst({
+        where: {
+          company_name: {
+            equals: companyName,
+            mode: "insensitive",
+          },
+        },
+        select: {
+          company_id: true,
+          company_name: true,
+        },
+      });
     } else {
-      user = await getTenantPrisma(
-        "warehouse-pal-project"
-      ).user_table.findUnique({
-        where: { user_id: userId },
-        select: {
-          user_id: true,
-          user_username: true,
-          user_first_name: true,
-          user_last_name: true,
-          user_date_created: true,
-          user_profile_picture: true,
-          company_member_table: {
-            select: {
-              company_member_id: true,
-              company_member_role: true,
-              company_member_company_id: true,
-              company_member_restricted: true,
-              company_member_date_created: true,
-              company_member_date_updated: true,
-              company_member_is_active: true,
-              company_referral_link_table: {
-                select: {
-                  company_referral_link: true,
-                },
-              },
-            },
-          },
-        },
-      });
-      const companyTeam = await getTenantPrisma(
-        "warehouse-pal-project"
-      ).company_table.findFirst({
-        where: {
-          company_name: {
-            equals: companyName,
-            mode: "insensitive",
-          },
-        },
-      });
-
-      const team = await getTenantPrisma(
-        "warehouse-pal-project"
-      ).company_table.findFirst({
-        where: {
-          company_id: companyTeam?.company_id,
-        },
-      });
-
-      if (!companyTeam) {
-        return { redirect: `/${team?.company_name}/dashboard` };
-      }
+      throw new Error("Invalid company name");
     }
 
-    if (
-      !["ACCOUNTING", "ACCOUNTING_HEAD", "ADMIN"].includes(
-        user.company_member_table[0]?.company_member_role
-      )
-    ) {
+    if (companyTeam?.company_id !== memberData.company_member_company_id)
+      return { redirect: `/${companyTeam?.company_name}/dashboard` };
+
+    const allowedRoles = ["ACCOUNTING", "ACCOUNTING_HEAD"];
+    if (!allowedRoles.includes(memberData.company_member_role)) {
       return { redirect: "/404" };
     }
 
-    if (user.company_member_table[0]?.company_member_restricted) {
-      return { redirect: "/500" };
-    }
-
-    if (!user.company_member_table[0].company_referral_link_table[0]) {
-      return { redirect: "/500" };
-    }
-
-    const referral =
-      user.company_member_table[0]?.company_referral_link_table[0];
-
     return {
-      profile: user as unknown as user_table,
-      teamMemberProfile: user
-        .company_member_table[0] as unknown as company_member_table,
-      referral: referral as unknown as company_referral_link_table,
+      teamMemberProfile: memberData as unknown as company_member_table,
     };
   } catch (e) {
+    console.error("protectionMemberUser error:", e);
     return { redirect: "/500" };
   }
 };
 
 export const protectionMemberUserMerchant = async (
-  companyName: "district-1" | "warehouse-pal-project"
+  companyName: CompanyName
 ) => {
   const supabase = await getTenantSupabase(companyName);
-  if ("redirect" in supabase) {
-    return redirect(`/login/${companyName}`);
-  }
+  if ("redirect" in supabase) return redirect(`/login/${companyName}`);
 
   try {
     const { data: authData, error: authError } = await supabase.auth.getUser();
-
     if (authError || !authData?.user) {
       return { redirect: `/login/${companyName}` };
     }
 
-    const userId = authData.user.id;
+    const memberData = {
+      company_member_id: authData.user.user_metadata.CompanyId,
+      company_member_role: authData.user.user_metadata.CompanyRole,
+      company_member_company_id: authData.user.user_metadata.CompanyId,
+    };
 
-    let user: any;
+    let companyTeam;
 
-    if (companyName === "warehouse-pal-project") {
-      user = await getTenantPrisma(
-        "warehouse-pal-project"
-      ).user_table.findUnique({
-        where: { user_id: userId },
-        select: {
-          user_id: true,
-          user_username: true,
-          user_first_name: true,
-          user_last_name: true,
-          user_date_created: true,
-          user_profile_picture: true,
-          company_member_table: {
-            select: {
-              company_member_id: true,
-              company_member_company_id: true,
-              company_member_role: true,
-              company_member_restricted: true,
-              company_member_date_created: true,
-              company_member_date_updated: true,
-              company_member_is_active: true,
-              company_referral_link_table: {
-                select: {
-                  company_referral_link: true,
-                },
-              },
-            },
-          },
-        },
-      });
-
-      const companyTeam = await getTenantPrisma(
-        "warehouse-pal-project"
-      ).company_table.findFirst({
+    if (companyName === "district-1") {
+      const prisma = getTenantPrisma("district-1");
+      companyTeam = await prisma.company_table.findFirst({
         where: {
           company_name: {
             equals: companyName,
             mode: "insensitive",
           },
         },
-      });
-
-      const team = await getTenantPrisma(
-        "warehouse-pal-project"
-      ).company_table.findFirst({
-        where: {
-          company_id: companyTeam?.company_id,
+        select: {
+          company_id: true,
+          company_name: true,
         },
       });
-
-      if (!companyTeam) {
-        return { redirect: `/${team?.company_name}/dashboard` };
-      }
+    } else if (companyName === "warehouse-pal-project") {
+      const prisma = getTenantPrisma("warehouse-pal-project");
+      companyTeam = await prisma.company_table.findFirst({
+        where: {
+          company_name: {
+            equals: companyName,
+            mode: "insensitive",
+          },
+        },
+        select: {
+          company_id: true,
+          company_name: true,
+        },
+      });
+    } else if (companyName === "dispatcher-1") {
+      const prisma = getTenantPrisma("dispatcher-1");
+      companyTeam = await prisma.company_table.findFirst({
+        where: {
+          company_name: {
+            equals: companyName,
+            mode: "insensitive",
+          },
+        },
+        select: {
+          company_id: true,
+          company_name: true,
+        },
+      });
     } else {
-      user = await getTenantPrisma(
-        "warehouse-pal-project"
-      ).user_table.findUnique({
-        where: { user_id: userId },
-        select: {
-          user_id: true,
-          user_username: true,
-          user_first_name: true,
-          user_last_name: true,
-          user_date_created: true,
-          user_profile_picture: true,
-          company_member_table: {
-            select: {
-              company_member_id: true,
-              company_member_role: true,
-              company_member_restricted: true,
-              company_member_date_created: true,
-              company_member_date_updated: true,
-              company_member_is_active: true,
-              company_referral_link_table: {
-                select: {
-                  company_referral_link: true,
-                },
-              },
-            },
-          },
-        },
-      });
-      const companyTeam = await getTenantPrisma(
-        "warehouse-pal-project"
-      ).company_table.findFirst({
-        where: {
-          company_name: {
-            equals: companyName,
-            mode: "insensitive",
-          },
-        },
-      });
-
-      const team = await getTenantPrisma(
-        "warehouse-pal-project"
-      ).company_table.findFirst({
-        where: {
-          company_id: companyTeam?.company_id,
-        },
-      });
-
-      if (!companyTeam) {
-        return { redirect: `/${team?.company_name}/dashboard` };
-      }
+      throw new Error("Invalid company name");
     }
 
-    if (
-      !["MERCHANT"].includes(user.company_member_table[0]?.company_member_role)
-    ) {
+    if (companyTeam?.company_id !== memberData.company_member_company_id)
+      return { redirect: `/${companyTeam?.company_name}/dashboard` };
+
+    const allowedRoles = ["MERCHANT"];
+    if (!allowedRoles.includes(memberData.company_member_role)) {
       return { redirect: "/404" };
     }
 
-    if (user.company_member_table[0]?.company_member_restricted) {
-      return { redirect: "/500" };
-    }
-
-    if (!user.company_member_table[0].company_referral_link_table[0]) {
-      return { redirect: "/500" };
-    }
-
-    const referral =
-      user.company_member_table[0]?.company_referral_link_table[0];
-
     return {
-      profile: user as unknown as user_table,
-      teamMemberProfile: user
-        .company_member_table[0] as unknown as company_member_table,
-      referral: referral as unknown as company_referral_link_table,
+      teamMemberProfile: memberData as unknown as company_member_table,
     };
   } catch (e) {
+    console.error("protectionMemberUser error:", e);
     return { redirect: "/500" };
   }
 };

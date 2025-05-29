@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { updateSession } from "./lib/supabase/middleware";
-
+import { CompanyName } from "./lib/types";
 export async function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
 
@@ -20,11 +20,16 @@ export async function middleware(req: NextRequest) {
   tenant = tenant || req.headers.get("x-tenant-id");
 
   if (!pathname.startsWith("/api/v1")) {
-    await updateSession(req, tenant || "warehouse-pal-project");
+    await updateSession(req, tenant as CompanyName);
   }
 
   // Validate tenant (for routing purposes)
-  if (tenant && tenant !== "warehouse-pal-project" && tenant !== "district-1") {
+  if (
+    tenant &&
+    tenant !== "warehouse-pal-project" &&
+    tenant !== "district-1" &&
+    tenant !== "dispatcher-1"
+  ) {
     return NextResponse.redirect(new URL("/404", req.url));
   }
 
@@ -33,6 +38,9 @@ export async function middleware(req: NextRequest) {
     let target = process.env.NEXT_PUBLIC_API_URL_DISTRICT_1;
     if (tenant === "warehouse-pal-project") {
       target = process.env.NEXT_PUBLIC_API_URL_WAREHOUSE_PROJECT;
+    }
+    if (tenant === "dispatcher-1") {
+      target = process.env.NEXT_PUBLIC_API_URL_DISPATCHER_1;
     }
     return NextResponse.rewrite(`${target}${pathname}`);
   }

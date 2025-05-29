@@ -45,7 +45,7 @@ export const updateTopUpStatus = async (
   );
 
   if (response.status !== 200) {
-    throw new Error(response.data.error);
+    throw new Error(response.data.message);
   }
 
   return response.data as unknown as { success: boolean; balance: number };

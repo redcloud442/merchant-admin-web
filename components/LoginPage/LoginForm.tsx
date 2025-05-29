@@ -16,6 +16,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import NavigationLoader from "../ui/navigationLoader";
 import { PasswordInput } from "../ui/passwordInput";
+
 export const LoginSchema = z.object({
   userName: z
     .string()
@@ -134,7 +135,10 @@ export function LoginForm({
                   companyName === COMPANY_NAME.PALPROJECT_WAREHOUSING
                     ? process.env
                         .NEXT_PUBLIC_HCAPTCHA_SITE_KEY_WAREHOUSE_PROJECT || ""
-                    : process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY_DISTRICT_1 || ""
+                    : companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1
+                    ? process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY_DISTRICT_1 || ""
+                    : process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY_DISPATCHER_1 ||
+                      ""
                 }
                 onVerify={(token) => {
                   setCaptchaToken(token);

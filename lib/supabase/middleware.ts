@@ -1,3 +1,4 @@
+import { CompanyName } from "@/lib/types";
 import { NextResponse, type NextRequest } from "next/server";
 import { getTenantSupabase } from "./server";
 
@@ -10,7 +11,7 @@ export async function updateSession(request: NextRequest, tenant: string) {
     return NextResponse.redirect(new URL(`/login/${tenant}`, request.url));
   }
 
-  const supabase = await getTenantSupabase(tenant || "warehouse-pal-project");
+  const supabase = await getTenantSupabase(tenant as CompanyName);
 
   if ("redirect" in supabase) {
     return NextResponse.redirect(new URL(`/login/${tenant}`, request.url));

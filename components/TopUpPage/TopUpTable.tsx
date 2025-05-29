@@ -431,60 +431,38 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
                   </DialogHeader>
                   {isOpenModal.status === "REJECTED" && (
                     <div className="flex flex-col gap-2">
-                      {companyName ===
-                      COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 ? (
-                        <Controller
-                          name="rejectNote"
-                          control={control}
-                          rules={{ required: "Rejection note is required" }}
-                          render={({ field }) => (
-                            <TooltipProvider>
-                              <Tooltip delayDuration={100}>
-                                <TooltipTrigger asChild>
-                                  <Textarea
-                                    placeholder="Enter the reason for rejection..."
-                                    {...field}
-                                  />
-                                </TooltipTrigger>
+                      <Controller
+                        name="rejectNote"
+                        control={control}
+                        rules={{ required: "Rejection note is required" }}
+                        render={({ field }) => (
+                          <TooltipProvider>
+                            <Tooltip delayDuration={100}>
+                              <TooltipTrigger asChild>
+                                <Textarea
+                                  placeholder="Enter the reason for rejection..."
+                                  {...field}
+                                />
+                              </TooltipTrigger>
 
-                                <TooltipContent
-                                  side="bottom"
-                                  className="space-y-2 flex flex-col dark:bg-stone-900"
-                                >
-                                  {RECIPT_MAPPING.map((item) => (
-                                    <Button
-                                      key={item.label}
-                                      className="rounded-md text-balance"
-                                      onClick={() => handleReject(item.value)}
-                                    >
-                                      {item.label}
-                                    </Button>
-                                  ))}
-                                </TooltipContent>
-                              </Tooltip>
-                            </TooltipProvider>
-                          )}
-                        />
-                      ) : (
-                        <Controller
-                          name="rejectNote"
-                          control={control}
-                          rules={{ required: "Rejection note is required" }}
-                          render={({ field, fieldState }) => (
-                            <div className="flex flex-col gap-2">
-                              <Textarea
-                                placeholder="Enter the reason for rejection..."
-                                {...field}
-                              />
-                              {fieldState.error && (
-                                <span className="text-red-500 text-sm">
-                                  {fieldState.error.message}
-                                </span>
-                              )}
-                            </div>
-                          )}
-                        />
-                      )}
+                              <TooltipContent
+                                side="bottom"
+                                className="space-y-2 flex flex-col dark:bg-stone-900"
+                              >
+                                {RECIPT_MAPPING.map((item) => (
+                                  <Button
+                                    key={item.label}
+                                    className="rounded-md text-balance"
+                                    onClick={() => handleReject(item.value)}
+                                  >
+                                    {item.label}
+                                  </Button>
+                                ))}
+                              </TooltipContent>
+                            </Tooltip>
+                          </TooltipProvider>
+                        )}
+                      />
                     </div>
                   )}
 

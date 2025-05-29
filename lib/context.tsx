@@ -8,19 +8,11 @@ import {
 import { createContext, ReactNode, useContext, useState } from "react";
 
 type RoleContextType = {
-  profile: user_table;
-  teamMemberProfile: company_member_table;
-  referral: company_referral_link_table;
-  setProfile: ({ profile }: { profile: user_table }) => void;
+  teamMemberProfile: company_member_table & user_table;
   setTeamMemberProfile: ({
     teamMemberProfile,
   }: {
     teamMemberProfile: company_member_table & user_table;
-  }) => void;
-  setReferral: ({
-    referral,
-  }: {
-    referral: company_referral_link_table;
   }) => void;
 };
 
@@ -28,19 +20,13 @@ const RoleContext = createContext<RoleContextType | undefined>(undefined);
 
 export const RoleProvider = ({
   children,
-  initialProfile,
   initialTeamMemberProfile,
-  initialReferral,
 }: {
   children: ReactNode;
-  initialProfile: user_table;
-  initialTeamMemberProfile: company_member_table;
-  initialReferral: company_referral_link_table;
+  initialTeamMemberProfile: company_member_table & user_table;
 }) => {
   const [state, setState] = useState({
-    profile: initialProfile,
     teamMemberProfile: initialTeamMemberProfile,
-    referral: initialReferral,
   });
 
   const setProfile = ({ profile }: { profile: user_table }) => {
@@ -73,11 +59,7 @@ export const RoleProvider = ({
     <RoleContext.Provider
       value={{
         teamMemberProfile: state.teamMemberProfile,
-        referral: state.referral,
         setTeamMemberProfile,
-        setReferral,
-        profile: state.profile,
-        setProfile,
       }}
     >
       {children}

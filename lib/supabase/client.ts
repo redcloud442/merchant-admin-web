@@ -1,8 +1,9 @@
 // lib/getTenantBrowserSupabase.ts
 import { createBrowserClient } from "@supabase/ssr";
 import { SupabaseClient } from "@supabase/supabase-js";
+import { CompanyName } from "../types";
 
-type TenantKey = "district-1" | "warehouse-pal-project";
+type TenantKey = CompanyName;
 
 const TENANT_BROWSER_SUPABASE_CONFIG: Record<
   TenantKey,
@@ -15,6 +16,10 @@ const TENANT_BROWSER_SUPABASE_CONFIG: Record<
   "warehouse-pal-project": {
     url: process.env.NEXT_PUBLIC_SUPABASE_URL_WAREHOUSE_PROJECT!,
     key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY_WAREHOUSE_PROJECT!,
+  },
+  "dispatcher-1": {
+    url: process.env.NEXT_PUBLIC_SUPABASE_URL_DISPATCHER_1!,
+    key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY_DISPATCHER_1!,
   },
 };
 

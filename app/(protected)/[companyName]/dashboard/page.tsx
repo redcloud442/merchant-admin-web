@@ -1,18 +1,23 @@
 import DashboardPage from "@/components/DashboardPage/DashboardPage";
 import { protectionMemberUser } from "@/lib/serverSideProtection";
+import { CompanyName } from "@/lib/types";
+import { Suspense } from "react";
+import Loading from "../loading";
 
 const page = async ({
   params,
 }: {
-  params: Promise<{ companyName: string }>;
+  params: Promise<{ companyName: CompanyName }>;
 }) => {
   const { companyName } = await params;
 
-  await protectionMemberUser(
-    companyName as "district-1" | "warehouse-pal-project"
-  );
+  await protectionMemberUser(companyName as CompanyName);
 
-  return <DashboardPage companyName={companyName} />;
+  return (
+    <Suspense fallback={<Loading />}>
+      <DashboardPage companyName={companyName} />
+    </Suspense>
+  );
 };
 
 export default page;

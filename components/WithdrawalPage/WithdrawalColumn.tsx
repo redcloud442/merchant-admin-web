@@ -1,6 +1,4 @@
 import { Button } from "@/components/ui/button";
-import { COMPANY_NAME } from "@/lib/constant";
-import { useRole } from "@/lib/context";
 import {
   formatAccountNumber,
   formatDateToYYYYMMDD,
@@ -12,6 +10,7 @@ import {
   updateWithdrawalStatus,
 } from "@/services/Withdrawal/Withdrawal";
 import { Column, ColumnDef, Row } from "@tanstack/react-table";
+import { AxiosError } from "axios";
 import { ArrowUpDown, ClipboardCopy } from "lucide-react";
 import { Dispatch, SetStateAction, useState } from "react";
 import { toast } from "sonner";
@@ -42,7 +41,6 @@ export const WithdrawalColumn = (
   role: string,
   companyName: string
 ) => {
-  const { profile } = useRole();
   const [isLoading, setIsLoading] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState({
     open: false,
@@ -118,8 +116,9 @@ export const WithdrawalColumn = (
         description: `${status} Request Successfully`,
       });
     } catch (e) {
-      toast.error(`Status Failed`, {
-        description: `Something went wrong`,
+      const error = e as AxiosError<{ message: string }>;
+      toast.error(`Something went wrong`, {
+        description: error?.response?.data?.message as string,
       });
     } finally {
       setIsLoading(false);
@@ -169,29 +168,15 @@ export const WithdrawalColumn = (
               data: newPendingList,
               count: Number(prev.data["PENDING"]?.count) - 1,
             },
-            ["REINVESTED"]: {
-              ...currentStatusData,
-              data: hasExistingData
-                ? [
-                    {
-                      ...updatedItem,
-                      company_withdrawal_request_status: status,
-                      approver_username: profile.user_username,
-                      company_withdrawal_request_date_updated: new Date(),
-                    },
-                    ...currentStatusData.data,
-                  ]
-                : [],
-              count: Number(currentStatusData?.count || 0) + 1,
-            },
           },
         };
       });
 
       toast.success(`Reinvestment Success`);
     } catch (e) {
-      toast.error(`Reinvestment Failed`, {
-        description: `Something went wrong`,
+      const error = e as AxiosError<{ message: string }>;
+      toast.error(`Something went wrong`, {
+        description: error?.response?.data?.message as string,
       });
     } finally {
       setIsLoading(false);
@@ -216,16 +201,15 @@ export const WithdrawalColumn = (
         <div className="w-full ">
           <div className="flex justify-between items-center gap-2">
             <p>{row.getValue("user_username")}</p>
-            {companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 && (
-              <AdminWithdrawalModal
-                companyName={companyName}
-                status={status}
-                hiddenUser={hidden}
-                setRequestData={setRequestData}
-                user_userName={row.getValue("user_username")}
-                company_member_id={row.original.company_member_id}
-              />
-            )}
+
+            <AdminWithdrawalModal
+              companyName={companyName}
+              status={status}
+              hiddenUser={hidden}
+              setRequestData={setRequestData}
+              user_userName={row.getValue("user_username")}
+              company_member_id={row.original.company_member_id}
+            />
           </div>
         </div>
       ),

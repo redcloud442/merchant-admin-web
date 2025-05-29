@@ -74,3 +74,8 @@ export type WithdrawListExportData = {
   "Date Updated": string;
   "Approved By": string;
 };
+
+export type CompanyName =
+  | "district-1"
+  | "warehouse-pal-project"
+  | "dispatcher-1";

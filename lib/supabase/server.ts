@@ -14,6 +14,10 @@ export async function getTenantSupabase(companyName: string) {
       url: process.env.NEXT_PUBLIC_SUPABASE_URL_DISTRICT_1!,
       key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY_DISTRICT_1!,
     },
+    "dispatcher-1": {
+      url: process.env.NEXT_PUBLIC_SUPABASE_URL_DISPATCHER_1!,
+      key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY_DISPATCHER_1!,
+    },
   };
 
   const config = configMap[companyName as keyof typeof configMap];

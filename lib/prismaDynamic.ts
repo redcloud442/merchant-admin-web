@@ -1,9 +1,9 @@
 // lib/prismaDynamic.ts
 
+import { PrismaClient as PrismaClientAdamant } from "@/generated/companyAdamant";
 import { PrismaClient as PrismaClientMithril } from "@/generated/companyMithril";
 import { PrismaClient as PrismaClientTeamd } from "@/generated/companyTeamd";
-
-type Warehouse = "district-1" | "warehouse-pal-project";
+type Warehouse = "district-1" | "warehouse-pal-project" | "dispatcher-1";
 
 type TenantConfig = {
   databaseUrl: string;
@@ -11,7 +11,7 @@ type TenantConfig = {
 
 const prismaClientCache = new Map<
   string,
-  PrismaClientMithril | PrismaClientTeamd
+  PrismaClientMithril | PrismaClientTeamd | PrismaClientAdamant
 >();
 
 export function createPrismaClient<T extends Warehouse>(
@@ -23,6 +23,14 @@ export function createPrismaClient<T extends Warehouse>(
   if (!prismaClientCache.has(cacheKey)) {
     const client =
       warehouse === "warehouse-pal-project"
+        ? new PrismaClientMithril({
+            datasources: {
+              db: {
+                url: config.databaseUrl,
+              },
+            },
+          })
+        : warehouse === "dispatcher-1"
         ? new PrismaClientMithril({
             datasources: {
               db: {
