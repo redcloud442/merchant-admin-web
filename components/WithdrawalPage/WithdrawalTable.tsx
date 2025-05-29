@@ -541,21 +541,6 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
                     <Label htmlFor="filter-switch">Show Hidden User</Label>
                   </>
                 )}
-
-                <Controller
-                  name="showAllDays"
-                  control={control}
-                  render={({ field }) => (
-                    <div className="flex items-center gap-2">
-                      <Label htmlFor="showAllDays">Show All Days</Label>
-                      <Switch
-                        id="showAllDays"
-                        checked={field.value}
-                        onCheckedChange={field.onChange}
-                      />
-                    </div>
-                  )}
-                />
               </div>
             </div>
 
@@ -590,6 +575,21 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
                         />
                       </PopoverContent>
                     </Popover>
+                  )}
+                />
+
+                <Controller
+                  name="showAllDays"
+                  control={control}
+                  render={({ field }) => (
+                    <div className="flex items-center gap-2">
+                      <Label htmlFor="showAllDays">Show All Days</Label>
+                      <Switch
+                        id="showAllDays"
+                        checked={field.value}
+                        onCheckedChange={field.onChange}
+                      />
+                    </div>
                   )}
                 />
 
