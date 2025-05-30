@@ -151,7 +151,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
           {...getRootProps()}
           className={cn(
             "bg-pageColor rounded-md p-6 flex flex-col items-center justify-center text-center cursor-pointer transition-all duration-200 border-2 border-dashed border-transparent hover:border-blue-300 hover:bg-blue-50/50",
-            isDragActive && "border-blue-500 bg-blue-50 scale-[1.02]",
+            "border-blue-500 bg-blue-50 scale-[1.02]",
             uploadError && "border-red-300 bg-red-50/50"
           )}
         >
@@ -163,19 +163,9 @@ const FileUpload: React.FC<FileUploadProps> = ({
               isDragActive && "scale-110"
             )}
           >
-            {isDragActive ? (
-              <div className="p-4 rounded-full bg-blue-100">
-                <Upload className="w-8 h-8 text-blue-600" />
-              </div>
-            ) : (
-              <Image
-                src="/assets/upload-file.svg"
-                alt="upload"
-                width={130}
-                height={130}
-                className="opacity-80"
-              />
-            )}
+            <div className="p-4 rounded-full bg-blue-100">
+              <Upload className="w-8 h-8 text-blue-600" />
+            </div>
           </div>
 
           <div className="mt-4 space-y-1">
@@ -204,7 +194,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
           >
             <Input {...getInputProps()} className="hidden" type="file" />
 
-            <div className="flex items-center space-x-4">
+            <div className="flex flex-col items-center space-x-4">
               {/* Image Preview */}
               <div className="relative group flex-shrink-0">
                 {!imageError ? (
