@@ -35,7 +35,6 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
-import FileUpload from "../ui/dropZone";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { useMerchantColumn } from "./MerchantColumn";
@@ -149,9 +148,9 @@ const MerchantTable = ({ companyName }: { companyName: string }) => {
 
         attachmentUrl =
           companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1
-            ? "https://cdn.primepinas.com/storage/v1/object/public/REQUEST_ATTACHMENTS/" +
+            ? "https://cdn.omnixglobal.io/storage/v1/object/public/REQUEST_ATTACHMENTS/" +
               filePath
-            : "https://content.elevateglobal.app/storage/v1/object/public/REQUEST_ATTACHMENTS/" +
+            : "https://cdn.omnixglobal.io/storage/v1/object/public/REQUEST_ATTACHMENTS/" +
               filePath;
       }
 
@@ -303,7 +302,7 @@ const MerchantTable = ({ companyName }: { companyName: string }) => {
                     </div>
                   )}
                 />
-                {companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 && (
+                {/* {companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 && (
                   <div>
                     <Controller
                       name="file"
@@ -321,11 +320,12 @@ const MerchantTable = ({ companyName }: { companyName: string }) => {
                       </p>
                     )}
                   </div>
-                )}
+                )} */}
                 <div className="flex flex-col gap-2 mt-4">
                   <Button
                     disabled={formState.isSubmitting}
                     type="submit"
+                    variant="outline"
                     className="w-full rounded-md"
                   >
                     {formState.isSubmitting ? (
