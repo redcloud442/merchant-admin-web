@@ -35,6 +35,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "../ui/dialog";
+import FileUpload from "../ui/dropZone";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { useMerchantColumn } from "./MerchantColumn";
@@ -302,25 +303,25 @@ const MerchantTable = ({ companyName }: { companyName: string }) => {
                     </div>
                   )}
                 />
-                {/* {companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 && (
-                  <div>
-                    <Controller
-                      name="file"
-                      control={control}
-                      render={({ field }) => (
-                        <FileUpload
-                          label="Upload QR"
-                          onFileChange={(file) => field.onChange(file)}
-                        />
-                      )}
-                    />
-                    {uploadedFile && !formState.errors.file && (
-                      <p className="text-md font-bold text-green-700">
-                        {"File Uploaded Successfully"}
-                      </p>
+
+                <div>
+                  <Controller
+                    name="file"
+                    control={control}
+                    render={({ field }) => (
+                      <FileUpload
+                        label="Upload QR"
+                        onFileChange={(file) => field.onChange(file)}
+                      />
                     )}
-                  </div>
-                )} */}
+                  />
+                  {uploadedFile && !formState.errors.file && (
+                    <p className="text-md font-bold text-green-700">
+                      {"File Uploaded Successfully"}
+                    </p>
+                  )}
+                </div>
+
                 <div className="flex flex-col gap-2 mt-4">
                   <Button
                     disabled={formState.isSubmitting}
