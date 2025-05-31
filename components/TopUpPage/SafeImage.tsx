@@ -7,11 +7,6 @@ type SafeImageProps = {
 const SafeImage = ({ url }: SafeImageProps) => {
   const [hasError, setHasError] = useState(false);
 
-  const replacedUrl = url.replace(
-    "https://content.elevateglobal.app",
-    "https://kvrvtcwffqhkzlpfjjoy.supabase.co"
-  );
-
   if (hasError) {
     return (
       <div className="w-[600px] h-[600px] flex items-center justify-center bg-gray-100 border border-dashed text-gray-500 text-sm">
@@ -22,8 +17,8 @@ const SafeImage = ({ url }: SafeImageProps) => {
 
   return (
     <img
-      key={replacedUrl}
-      src={replacedUrl}
+      key={url}
+      src={url}
       alt="Attachment Preview"
       className="object-contain w-[600px] h-[600px]"
       onError={() => setHasError(true)}
