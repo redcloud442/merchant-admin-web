@@ -11,12 +11,6 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
-        hostname: "content.elevateglobal.app",
-        port: "",
-        pathname: "/storage/v1/object/public/**",
-      },
-      {
-        protocol: "https",
         hostname: "hburgwylodfpwgbtywue.supabase.co",
         port: "",
         pathname: "/storage/v1/object/public/**",

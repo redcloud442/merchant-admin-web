@@ -6,6 +6,7 @@ import { updateTopUpStatus } from "@/services/Deposit/Deposit";
 import { Column, ColumnDef, Row } from "@tanstack/react-table";
 import { AxiosError } from "axios";
 import { ArrowUpDown, CheckIcon, CopyIcon } from "lucide-react";
+import Image from "next/image";
 import { Dispatch, SetStateAction, useState } from "react";
 import { toast } from "sonner";
 import { Badge } from "../ui/badge";
@@ -25,7 +26,6 @@ import {
 } from "../ui/dropdown-menu";
 import { Textarea } from "../ui/textarea";
 import ActiveTreeModal from "../WithdrawalPage/ActiveTreeModal";
-import SafeImage from "./SafeImage";
 
 const statusColorMap: Record<string, string> = {
   APPROVED: "bg-green-500 dark:bg-green-500 dark:text-white",
@@ -387,7 +387,14 @@ export const TopUpColumn = (
                   <DialogTitle>Attachment</DialogTitle>
                 </DialogHeader>
                 <div className="flex flex-wrap justify-center items-center">
-                  <SafeImage key={attachmentUrl} url={attachmentUrl} />
+                  {/* <SafeImage key={attachmentUrl} url={attachmentUrl} /> */}
+                  <Image
+                    src={attachmentUrl}
+                    alt="Attachment"
+                    width={600}
+                    height={600}
+                    className="w-full h-full object-contain"
+                  />
                 </div>
                 <DialogClose asChild>
                   <Button variant="secondary">Close</Button>
