@@ -60,14 +60,14 @@ const SafeImage = ({ url }: SafeImageProps) => {
       </div>
 
       {/* Image container */}
-      <div className="w-[600px] h-[600px] overflow-hidden bg-gray-50 border relative flex items-center justify-center">
+      <div className="w-[400px] h-[400px] overflow-hidden bg-gray-50 border relative flex items-center justify-center">
         <Image
           key={url}
           src={url}
           alt="Attachment Preview"
           className="object-contain transition-transform duration-200 ease-out max-w-none max-h-none"
-          width={600}
-          height={600}
+          width={400}
+          height={400}
         />
       </div>
     </div>
