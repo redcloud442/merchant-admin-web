@@ -68,6 +68,7 @@ const SafeImage = ({ url }: SafeImageProps) => {
           width={400}
           height={400}
           className={`object-contain transition-transform duration-200 ease-out ${`scale-${zoom}`}`}
+          style={{ transform: `scale(${zoom})` }}
         />
       </div>
     </div>
