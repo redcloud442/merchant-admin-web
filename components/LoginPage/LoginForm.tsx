@@ -78,6 +78,9 @@ export function LoginForm({
 
       router.push(`/${companyName}/dashboard`);
     } catch (e) {
+      if (captcha.current) {
+        captcha.current.reset();
+      }
       if (e instanceof Error) {
         toast.error(e.message);
       } else {

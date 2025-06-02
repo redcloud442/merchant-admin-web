@@ -11,6 +11,18 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "cdn.auroraphil.com",
+        port: "",
+        pathname: "/storage/v1/object/public/**",
+      },
+      {
+        protocol: "https",
+        hostname: "cdn.digi-wealth.vip",
+        port: "",
+        pathname: "/storage/v1/object/public/**",
+      },
+      {
+        protocol: "https",
         hostname: "hburgwylodfpwgbtywue.supabase.co",
         port: "",
         pathname: "/storage/v1/object/public/**",
