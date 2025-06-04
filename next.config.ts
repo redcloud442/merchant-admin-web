@@ -5,7 +5,7 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
-        hostname: "cdn.omnixglobal.io",
+        hostname: "cdn.omnix-global.com",
         port: "",
         pathname: "/storage/v1/object/public/**",
       },
