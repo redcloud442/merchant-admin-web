@@ -1,4 +1,4 @@
-import { RotateCcw, ZoomIn, ZoomOut } from "lucide-react";
+import { ZoomIn, ZoomOut } from "lucide-react";
 import Image from "next/image";
 import { useState } from "react";
 
@@ -21,10 +21,6 @@ const SafeImage = ({ url }: SafeImageProps) => {
     setZoom((prev) => Math.max(prev - zoomStep, minZoom));
   };
 
-  const handleReset = () => {
-    setZoom(1);
-  };
-
   return (
     <div className="relative inline-block">
       {/* Controls */}
@@ -45,13 +41,6 @@ const SafeImage = ({ url }: SafeImageProps) => {
         >
           <ZoomOut size={16} />
         </button>
-        <button
-          onClick={handleReset}
-          className="p-2 rounded-md bg-white hover:bg-gray-50 shadow-sm border"
-          title="Reset"
-        >
-          <RotateCcw size={16} />
-        </button>
       </div>
 
       {/* Zoom indicator */}
@@ -65,8 +54,8 @@ const SafeImage = ({ url }: SafeImageProps) => {
           key={url}
           src={url}
           alt="Attachment Preview"
-          width={400}
-          height={400}
+          width={300}
+          height={300}
           className={`object-contain transition-transform duration-200 ease-out ${`scale-${zoom}`}`}
           style={{ transform: `scale(${zoom})` }}
         />

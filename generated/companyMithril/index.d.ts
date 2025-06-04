@@ -12220,6 +12220,7 @@ export namespace Prisma {
     company_deposit_request_account: number
     company_deposit_request_name: number
     company_deposit_request_attachment: number
+    company_deposit_request_attachment_urls: number
     company_deposit_request_reject_note: number
     company_deposit_request_member_id: number
     company_deposit_request_approved_by: number
@@ -12275,6 +12276,7 @@ export namespace Prisma {
     company_deposit_request_account?: true
     company_deposit_request_name?: true
     company_deposit_request_attachment?: true
+    company_deposit_request_attachment_urls?: true
     company_deposit_request_reject_note?: true
     company_deposit_request_member_id?: true
     company_deposit_request_approved_by?: true
@@ -12377,6 +12379,7 @@ export namespace Prisma {
     company_deposit_request_account: string
     company_deposit_request_name: string
     company_deposit_request_attachment: string
+    company_deposit_request_attachment_urls: string[]
     company_deposit_request_reject_note: string | null
     company_deposit_request_member_id: string
     company_deposit_request_approved_by: string | null
@@ -12411,6 +12414,7 @@ export namespace Prisma {
     company_deposit_request_account?: boolean
     company_deposit_request_name?: boolean
     company_deposit_request_attachment?: boolean
+    company_deposit_request_attachment_urls?: boolean
     company_deposit_request_reject_note?: boolean
     company_deposit_request_member_id?: boolean
     company_deposit_request_approved_by?: boolean
@@ -12428,6 +12432,7 @@ export namespace Prisma {
     company_deposit_request_account?: boolean
     company_deposit_request_name?: boolean
     company_deposit_request_attachment?: boolean
+    company_deposit_request_attachment_urls?: boolean
     company_deposit_request_reject_note?: boolean
     company_deposit_request_member_id?: boolean
     company_deposit_request_approved_by?: boolean
@@ -12445,6 +12450,7 @@ export namespace Prisma {
     company_deposit_request_account?: boolean
     company_deposit_request_name?: boolean
     company_deposit_request_attachment?: boolean
+    company_deposit_request_attachment_urls?: boolean
     company_deposit_request_reject_note?: boolean
     company_deposit_request_member_id?: boolean
     company_deposit_request_approved_by?: boolean
@@ -12462,13 +12468,14 @@ export namespace Prisma {
     company_deposit_request_account?: boolean
     company_deposit_request_name?: boolean
     company_deposit_request_attachment?: boolean
+    company_deposit_request_attachment_urls?: boolean
     company_deposit_request_reject_note?: boolean
     company_deposit_request_member_id?: boolean
     company_deposit_request_approved_by?: boolean
     company_deposit_request_date_updated?: boolean
   }
 
-  export type company_deposit_request_tableOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"company_deposit_request_id" | "company_deposit_request_amount" | "company_deposit_request_date" | "company_deposit_request_status" | "company_deposit_request_type" | "company_deposit_request_account" | "company_deposit_request_name" | "company_deposit_request_attachment" | "company_deposit_request_reject_note" | "company_deposit_request_member_id" | "company_deposit_request_approved_by" | "company_deposit_request_date_updated", ExtArgs["result"]["company_deposit_request_table"]>
+  export type company_deposit_request_tableOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"company_deposit_request_id" | "company_deposit_request_amount" | "company_deposit_request_date" | "company_deposit_request_status" | "company_deposit_request_type" | "company_deposit_request_account" | "company_deposit_request_name" | "company_deposit_request_attachment" | "company_deposit_request_attachment_urls" | "company_deposit_request_reject_note" | "company_deposit_request_member_id" | "company_deposit_request_approved_by" | "company_deposit_request_date_updated", ExtArgs["result"]["company_deposit_request_table"]>
   export type company_deposit_request_tableInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     company_member_requestor?: boolean | company_member_tableDefaultArgs<ExtArgs>
     company_member_approver?: boolean | company_deposit_request_table$company_member_approverArgs<ExtArgs>
@@ -12497,6 +12504,7 @@ export namespace Prisma {
       company_deposit_request_account: string
       company_deposit_request_name: string
       company_deposit_request_attachment: string
+      company_deposit_request_attachment_urls: string[]
       company_deposit_request_reject_note: string | null
       company_deposit_request_member_id: string
       company_deposit_request_approved_by: string | null
@@ -12934,6 +12942,7 @@ export namespace Prisma {
     readonly company_deposit_request_account: FieldRef<"company_deposit_request_table", 'String'>
     readonly company_deposit_request_name: FieldRef<"company_deposit_request_table", 'String'>
     readonly company_deposit_request_attachment: FieldRef<"company_deposit_request_table", 'String'>
+    readonly company_deposit_request_attachment_urls: FieldRef<"company_deposit_request_table", 'String[]'>
     readonly company_deposit_request_reject_note: FieldRef<"company_deposit_request_table", 'String'>
     readonly company_deposit_request_member_id: FieldRef<"company_deposit_request_table", 'String'>
     readonly company_deposit_request_approved_by: FieldRef<"company_deposit_request_table", 'String'>
@@ -25784,6 +25793,7 @@ export namespace Prisma {
     company_deposit_request_account: 'company_deposit_request_account',
     company_deposit_request_name: 'company_deposit_request_name',
     company_deposit_request_attachment: 'company_deposit_request_attachment',
+    company_deposit_request_attachment_urls: 'company_deposit_request_attachment_urls',
     company_deposit_request_reject_note: 'company_deposit_request_reject_note',
     company_deposit_request_member_id: 'company_deposit_request_member_id',
     company_deposit_request_approved_by: 'company_deposit_request_approved_by',
@@ -26605,6 +26615,7 @@ export namespace Prisma {
     company_deposit_request_account?: StringFilter<"company_deposit_request_table"> | string
     company_deposit_request_name?: StringFilter<"company_deposit_request_table"> | string
     company_deposit_request_attachment?: StringFilter<"company_deposit_request_table"> | string
+    company_deposit_request_attachment_urls?: StringNullableListFilter<"company_deposit_request_table">
     company_deposit_request_reject_note?: StringNullableFilter<"company_deposit_request_table"> | string | null
     company_deposit_request_member_id?: UuidFilter<"company_deposit_request_table"> | string
     company_deposit_request_approved_by?: UuidNullableFilter<"company_deposit_request_table"> | string | null
@@ -26622,6 +26633,7 @@ export namespace Prisma {
     company_deposit_request_account?: SortOrder
     company_deposit_request_name?: SortOrder
     company_deposit_request_attachment?: SortOrder
+    company_deposit_request_attachment_urls?: SortOrder
     company_deposit_request_reject_note?: SortOrderInput | SortOrder
     company_deposit_request_member_id?: SortOrder
     company_deposit_request_approved_by?: SortOrderInput | SortOrder
@@ -26642,6 +26654,7 @@ export namespace Prisma {
     company_deposit_request_account?: StringFilter<"company_deposit_request_table"> | string
     company_deposit_request_name?: StringFilter<"company_deposit_request_table"> | string
     company_deposit_request_attachment?: StringFilter<"company_deposit_request_table"> | string
+    company_deposit_request_attachment_urls?: StringNullableListFilter<"company_deposit_request_table">
     company_deposit_request_reject_note?: StringNullableFilter<"company_deposit_request_table"> | string | null
     company_deposit_request_member_id?: UuidFilter<"company_deposit_request_table"> | string
     company_deposit_request_approved_by?: UuidNullableFilter<"company_deposit_request_table"> | string | null
@@ -26659,6 +26672,7 @@ export namespace Prisma {
     company_deposit_request_account?: SortOrder
     company_deposit_request_name?: SortOrder
     company_deposit_request_attachment?: SortOrder
+    company_deposit_request_attachment_urls?: SortOrder
     company_deposit_request_reject_note?: SortOrderInput | SortOrder
     company_deposit_request_member_id?: SortOrder
     company_deposit_request_approved_by?: SortOrderInput | SortOrder
@@ -26682,6 +26696,7 @@ export namespace Prisma {
     company_deposit_request_account?: StringWithAggregatesFilter<"company_deposit_request_table"> | string
     company_deposit_request_name?: StringWithAggregatesFilter<"company_deposit_request_table"> | string
     company_deposit_request_attachment?: StringWithAggregatesFilter<"company_deposit_request_table"> | string
+    company_deposit_request_attachment_urls?: StringNullableListFilter<"company_deposit_request_table">
     company_deposit_request_reject_note?: StringNullableWithAggregatesFilter<"company_deposit_request_table"> | string | null
     company_deposit_request_member_id?: UuidWithAggregatesFilter<"company_deposit_request_table"> | string
     company_deposit_request_approved_by?: UuidNullableWithAggregatesFilter<"company_deposit_request_table"> | string | null
@@ -28045,6 +28060,7 @@ export namespace Prisma {
     company_deposit_request_account: string
     company_deposit_request_name: string
     company_deposit_request_attachment: string
+    company_deposit_request_attachment_urls?: company_deposit_request_tableCreatecompany_deposit_request_attachment_urlsInput | string[]
     company_deposit_request_reject_note?: string | null
     company_deposit_request_date_updated?: Date | string | null
     company_member_requestor: company_member_tableCreateNestedOneWithoutCompany_top_up_request_tableInput
@@ -28060,6 +28076,7 @@ export namespace Prisma {
     company_deposit_request_account: string
     company_deposit_request_name: string
     company_deposit_request_attachment: string
+    company_deposit_request_attachment_urls?: company_deposit_request_tableCreatecompany_deposit_request_attachment_urlsInput | string[]
     company_deposit_request_reject_note?: string | null
     company_deposit_request_member_id: string
     company_deposit_request_approved_by?: string | null
@@ -28075,6 +28092,7 @@ export namespace Prisma {
     company_deposit_request_account?: StringFieldUpdateOperationsInput | string
     company_deposit_request_name?: StringFieldUpdateOperationsInput | string
     company_deposit_request_attachment?: StringFieldUpdateOperationsInput | string
+    company_deposit_request_attachment_urls?: company_deposit_request_tableUpdatecompany_deposit_request_attachment_urlsInput | string[]
     company_deposit_request_reject_note?: NullableStringFieldUpdateOperationsInput | string | null
     company_deposit_request_date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company_member_requestor?: company_member_tableUpdateOneRequiredWithoutCompany_top_up_request_tableNestedInput
@@ -28090,6 +28108,7 @@ export namespace Prisma {
     company_deposit_request_account?: StringFieldUpdateOperationsInput | string
     company_deposit_request_name?: StringFieldUpdateOperationsInput | string
     company_deposit_request_attachment?: StringFieldUpdateOperationsInput | string
+    company_deposit_request_attachment_urls?: company_deposit_request_tableUpdatecompany_deposit_request_attachment_urlsInput | string[]
     company_deposit_request_reject_note?: NullableStringFieldUpdateOperationsInput | string | null
     company_deposit_request_member_id?: StringFieldUpdateOperationsInput | string
     company_deposit_request_approved_by?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28105,6 +28124,7 @@ export namespace Prisma {
     company_deposit_request_account: string
     company_deposit_request_name: string
     company_deposit_request_attachment: string
+    company_deposit_request_attachment_urls?: company_deposit_request_tableCreatecompany_deposit_request_attachment_urlsInput | string[]
     company_deposit_request_reject_note?: string | null
     company_deposit_request_member_id: string
     company_deposit_request_approved_by?: string | null
@@ -28120,6 +28140,7 @@ export namespace Prisma {
     company_deposit_request_account?: StringFieldUpdateOperationsInput | string
     company_deposit_request_name?: StringFieldUpdateOperationsInput | string
     company_deposit_request_attachment?: StringFieldUpdateOperationsInput | string
+    company_deposit_request_attachment_urls?: company_deposit_request_tableUpdatecompany_deposit_request_attachment_urlsInput | string[]
     company_deposit_request_reject_note?: NullableStringFieldUpdateOperationsInput | string | null
     company_deposit_request_date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
@@ -28133,6 +28154,7 @@ export namespace Prisma {
     company_deposit_request_account?: StringFieldUpdateOperationsInput | string
     company_deposit_request_name?: StringFieldUpdateOperationsInput | string
     company_deposit_request_attachment?: StringFieldUpdateOperationsInput | string
+    company_deposit_request_attachment_urls?: company_deposit_request_tableUpdatecompany_deposit_request_attachment_urlsInput | string[]
     company_deposit_request_reject_note?: NullableStringFieldUpdateOperationsInput | string | null
     company_deposit_request_member_id?: StringFieldUpdateOperationsInput | string
     company_deposit_request_approved_by?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29603,6 +29625,14 @@ export namespace Prisma {
     company_combined_earnings?: SortOrder
   }
 
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type company_deposit_request_tableCountOrderByAggregateInput = {
     company_deposit_request_id?: SortOrder
     company_deposit_request_amount?: SortOrder
@@ -29612,6 +29642,7 @@ export namespace Prisma {
     company_deposit_request_account?: SortOrder
     company_deposit_request_name?: SortOrder
     company_deposit_request_attachment?: SortOrder
+    company_deposit_request_attachment_urls?: SortOrder
     company_deposit_request_reject_note?: SortOrder
     company_deposit_request_member_id?: SortOrder
     company_deposit_request_approved_by?: SortOrder
@@ -31105,6 +31136,10 @@ export namespace Prisma {
     update?: XOR<XOR<company_member_tableUpdateToOneWithWhereWithoutCompany_earnings_tableInput, company_member_tableUpdateWithoutCompany_earnings_tableInput>, company_member_tableUncheckedUpdateWithoutCompany_earnings_tableInput>
   }
 
+  export type company_deposit_request_tableCreatecompany_deposit_request_attachment_urlsInput = {
+    set: string[]
+  }
+
   export type company_member_tableCreateNestedOneWithoutCompany_top_up_request_tableInput = {
     create?: XOR<company_member_tableCreateWithoutCompany_top_up_request_tableInput, company_member_tableUncheckedCreateWithoutCompany_top_up_request_tableInput>
     connectOrCreate?: company_member_tableCreateOrConnectWithoutCompany_top_up_request_tableInput
@@ -31115,6 +31150,11 @@ export namespace Prisma {
     create?: XOR<company_member_tableCreateWithoutApproved_top_up_requestsInput, company_member_tableUncheckedCreateWithoutApproved_top_up_requestsInput>
     connectOrCreate?: company_member_tableCreateOrConnectWithoutApproved_top_up_requestsInput
     connect?: company_member_tableWhereUniqueInput
+  }
+
+  export type company_deposit_request_tableUpdatecompany_deposit_request_attachment_urlsInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type company_member_tableUpdateOneRequiredWithoutCompany_top_up_request_tableNestedInput = {
@@ -32302,6 +32342,7 @@ export namespace Prisma {
     company_deposit_request_account: string
     company_deposit_request_name: string
     company_deposit_request_attachment: string
+    company_deposit_request_attachment_urls?: company_deposit_request_tableCreatecompany_deposit_request_attachment_urlsInput | string[]
     company_deposit_request_reject_note?: string | null
     company_deposit_request_date_updated?: Date | string | null
     company_member_approver?: company_member_tableCreateNestedOneWithoutApproved_top_up_requestsInput
@@ -32316,6 +32357,7 @@ export namespace Prisma {
     company_deposit_request_account: string
     company_deposit_request_name: string
     company_deposit_request_attachment: string
+    company_deposit_request_attachment_urls?: company_deposit_request_tableCreatecompany_deposit_request_attachment_urlsInput | string[]
     company_deposit_request_reject_note?: string | null
     company_deposit_request_approved_by?: string | null
     company_deposit_request_date_updated?: Date | string | null
@@ -32340,6 +32382,7 @@ export namespace Prisma {
     company_deposit_request_account: string
     company_deposit_request_name: string
     company_deposit_request_attachment: string
+    company_deposit_request_attachment_urls?: company_deposit_request_tableCreatecompany_deposit_request_attachment_urlsInput | string[]
     company_deposit_request_reject_note?: string | null
     company_deposit_request_date_updated?: Date | string | null
     company_member_requestor: company_member_tableCreateNestedOneWithoutCompany_top_up_request_tableInput
@@ -32354,6 +32397,7 @@ export namespace Prisma {
     company_deposit_request_account: string
     company_deposit_request_name: string
     company_deposit_request_attachment: string
+    company_deposit_request_attachment_urls?: company_deposit_request_tableCreatecompany_deposit_request_attachment_urlsInput | string[]
     company_deposit_request_reject_note?: string | null
     company_deposit_request_member_id: string
     company_deposit_request_date_updated?: Date | string | null
@@ -32863,6 +32907,7 @@ export namespace Prisma {
     company_deposit_request_account?: StringFilter<"company_deposit_request_table"> | string
     company_deposit_request_name?: StringFilter<"company_deposit_request_table"> | string
     company_deposit_request_attachment?: StringFilter<"company_deposit_request_table"> | string
+    company_deposit_request_attachment_urls?: StringNullableListFilter<"company_deposit_request_table">
     company_deposit_request_reject_note?: StringNullableFilter<"company_deposit_request_table"> | string | null
     company_deposit_request_member_id?: UuidFilter<"company_deposit_request_table"> | string
     company_deposit_request_approved_by?: UuidNullableFilter<"company_deposit_request_table"> | string | null
@@ -35785,6 +35830,7 @@ export namespace Prisma {
     company_deposit_request_account: string
     company_deposit_request_name: string
     company_deposit_request_attachment: string
+    company_deposit_request_attachment_urls?: company_deposit_request_tableCreatecompany_deposit_request_attachment_urlsInput | string[]
     company_deposit_request_reject_note?: string | null
     company_deposit_request_approved_by?: string | null
     company_deposit_request_date_updated?: Date | string | null
@@ -35799,6 +35845,7 @@ export namespace Prisma {
     company_deposit_request_account: string
     company_deposit_request_name: string
     company_deposit_request_attachment: string
+    company_deposit_request_attachment_urls?: company_deposit_request_tableCreatecompany_deposit_request_attachment_urlsInput | string[]
     company_deposit_request_reject_note?: string | null
     company_deposit_request_member_id: string
     company_deposit_request_date_updated?: Date | string | null
@@ -36048,6 +36095,7 @@ export namespace Prisma {
     company_deposit_request_account?: StringFieldUpdateOperationsInput | string
     company_deposit_request_name?: StringFieldUpdateOperationsInput | string
     company_deposit_request_attachment?: StringFieldUpdateOperationsInput | string
+    company_deposit_request_attachment_urls?: company_deposit_request_tableUpdatecompany_deposit_request_attachment_urlsInput | string[]
     company_deposit_request_reject_note?: NullableStringFieldUpdateOperationsInput | string | null
     company_deposit_request_date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company_member_approver?: company_member_tableUpdateOneWithoutApproved_top_up_requestsNestedInput
@@ -36062,6 +36110,7 @@ export namespace Prisma {
     company_deposit_request_account?: StringFieldUpdateOperationsInput | string
     company_deposit_request_name?: StringFieldUpdateOperationsInput | string
     company_deposit_request_attachment?: StringFieldUpdateOperationsInput | string
+    company_deposit_request_attachment_urls?: company_deposit_request_tableUpdatecompany_deposit_request_attachment_urlsInput | string[]
     company_deposit_request_reject_note?: NullableStringFieldUpdateOperationsInput | string | null
     company_deposit_request_approved_by?: NullableStringFieldUpdateOperationsInput | string | null
     company_deposit_request_date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36076,6 +36125,7 @@ export namespace Prisma {
     company_deposit_request_account?: StringFieldUpdateOperationsInput | string
     company_deposit_request_name?: StringFieldUpdateOperationsInput | string
     company_deposit_request_attachment?: StringFieldUpdateOperationsInput | string
+    company_deposit_request_attachment_urls?: company_deposit_request_tableUpdatecompany_deposit_request_attachment_urlsInput | string[]
     company_deposit_request_reject_note?: NullableStringFieldUpdateOperationsInput | string | null
     company_deposit_request_approved_by?: NullableStringFieldUpdateOperationsInput | string | null
     company_deposit_request_date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36090,6 +36140,7 @@ export namespace Prisma {
     company_deposit_request_account?: StringFieldUpdateOperationsInput | string
     company_deposit_request_name?: StringFieldUpdateOperationsInput | string
     company_deposit_request_attachment?: StringFieldUpdateOperationsInput | string
+    company_deposit_request_attachment_urls?: company_deposit_request_tableUpdatecompany_deposit_request_attachment_urlsInput | string[]
     company_deposit_request_reject_note?: NullableStringFieldUpdateOperationsInput | string | null
     company_deposit_request_date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     company_member_requestor?: company_member_tableUpdateOneRequiredWithoutCompany_top_up_request_tableNestedInput
@@ -36104,6 +36155,7 @@ export namespace Prisma {
     company_deposit_request_account?: StringFieldUpdateOperationsInput | string
     company_deposit_request_name?: StringFieldUpdateOperationsInput | string
     company_deposit_request_attachment?: StringFieldUpdateOperationsInput | string
+    company_deposit_request_attachment_urls?: company_deposit_request_tableUpdatecompany_deposit_request_attachment_urlsInput | string[]
     company_deposit_request_reject_note?: NullableStringFieldUpdateOperationsInput | string | null
     company_deposit_request_member_id?: StringFieldUpdateOperationsInput | string
     company_deposit_request_date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -36118,6 +36170,7 @@ export namespace Prisma {
     company_deposit_request_account?: StringFieldUpdateOperationsInput | string
     company_deposit_request_name?: StringFieldUpdateOperationsInput | string
     company_deposit_request_attachment?: StringFieldUpdateOperationsInput | string
+    company_deposit_request_attachment_urls?: company_deposit_request_tableUpdatecompany_deposit_request_attachment_urlsInput | string[]
     company_deposit_request_reject_note?: NullableStringFieldUpdateOperationsInput | string | null
     company_deposit_request_member_id?: StringFieldUpdateOperationsInput | string
     company_deposit_request_date_updated?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null

@@ -167,15 +167,16 @@ model company_earnings_table {
 }
 
 model company_deposit_request_table {
-  company_deposit_request_id          String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
-  company_deposit_request_amount      Float    @default(0.0)
-  company_deposit_request_date        DateTime @default(now()) @db.Timestamptz(3)
-  company_deposit_request_status      String   @default("PENDING")
-  company_deposit_request_type        String
-  company_deposit_request_account     String
-  company_deposit_request_name        String
-  company_deposit_request_attachment  String
-  company_deposit_request_reject_note String?
+  company_deposit_request_id              String   @id @default(dbgenerated("uuid_generate_v4()")) @db.Uuid
+  company_deposit_request_amount          Float    @default(0.0)
+  company_deposit_request_date            DateTime @default(now()) @db.Timestamptz(3)
+  company_deposit_request_status          String   @default("PENDING")
+  company_deposit_request_type            String
+  company_deposit_request_account         String
+  company_deposit_request_name            String
+  company_deposit_request_attachment      String
+  company_deposit_request_attachment_urls String[] @db.Text
+  company_deposit_request_reject_note     String?
 
   company_deposit_request_member_id    String    @db.Uuid
   company_deposit_request_approved_by  String?   @db.Uuid

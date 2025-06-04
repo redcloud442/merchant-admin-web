@@ -374,6 +374,9 @@ export const TopUpColumn = (
           "company_deposit_request_attachment"
         ) as string;
 
+        const attachmentUrls =
+          row.original.company_deposit_request_attachment_urls;
+
         return (
           <>
             <Dialog>
@@ -385,10 +388,18 @@ export const TopUpColumn = (
               <DialogContent type="table">
                 <DialogHeader>
                   <DialogTitle>Attachment</DialogTitle>
-                </DialogHeader>
-                <div className="flex flex-wrap justify-center items-center">
-                  <SafeImage key={attachmentUrl} url={attachmentUrl} />
-                </div>
+                </DialogHeader>{" "}
+                {attachmentUrl ? (
+                  <div className="flex flex-wrap justify-center items-center">
+                    <SafeImage key={attachmentUrl} url={attachmentUrl} />
+                  </div>
+                ) : (
+                  <div className="flex flex-wrap justify-center items-center">
+                    {attachmentUrls.map((url) => (
+                      <SafeImage key={url} url={url} />
+                    ))}
+                  </div>
+                )}
                 <DialogClose asChild>
                   <Button variant="secondary">Close</Button>
                 </DialogClose>

@@ -198,6 +198,7 @@ exports.Prisma.Company_deposit_request_tableScalarFieldEnum = {
   company_deposit_request_account: 'company_deposit_request_account',
   company_deposit_request_name: 'company_deposit_request_name',
   company_deposit_request_attachment: 'company_deposit_request_attachment',
+  company_deposit_request_attachment_urls: 'company_deposit_request_attachment_urls',
   company_deposit_request_reject_note: 'company_deposit_request_reject_note',
   company_deposit_request_member_id: 'company_deposit_request_member_id',
   company_deposit_request_approved_by: 'company_deposit_request_approved_by',
