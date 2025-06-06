@@ -147,12 +147,19 @@ const MerchantTable = ({ companyName }: { companyName: string }) => {
           return;
         }
 
-        attachmentUrl =
-          companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1
-            ? "https://cdn.omnixglobal.io/storage/v1/object/public/REQUEST_ATTACHMENTS/" +
-              filePath
-            : "https://cdn.omnixglobal.io/storage/v1/object/public/REQUEST_ATTACHMENTS/" +
-              filePath;
+        if (companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1) {
+          attachmentUrl =
+            "https://cdn.omnixglobal.io/storage/v1/object/public/REQUEST_ATTACHMENTS/" +
+            filePath;
+        } else if (companyName === COMPANY_NAME.PALDISTRIBUTION_DISPATCHER_1) {
+          attachmentUrl =
+            "https://cdn.auroraphil.com/storage/v1/object/public/REQUEST_ATTACHMENTS/" +
+            filePath;
+        } else {
+          attachmentUrl =
+            "https://cdn.auroraphil.com/storage/v1/object/public/REQUEST_ATTACHMENTS/" +
+            filePath;
+        }
       }
 
       const { data: merchantData } = await handleCreateMerchantData({

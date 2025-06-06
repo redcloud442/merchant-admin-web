@@ -1,6 +1,5 @@
 import { Button } from "@/components/ui/button";
 import { merchant_table } from "@/generated/companyMithril";
-import { COMPANY_NAME } from "@/lib/constant";
 import { handleUpdateMerchantData } from "@/services/Merchant/Merchant";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
@@ -101,48 +100,44 @@ export const useMerchantColumn = (
         <div className="text-wrap">{row.getValue("merchant_account_type")}</div>
       ),
     },
-    ...(companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1
-      ? [
-          {
-            accessorKey: "merchant_qr_attachment",
-            header: "QR Attachment",
-            cell: ({ row }: { row: Row<merchant_table> }) => {
-              const attachmentUrl = row.getValue(
-                "merchant_qr_attachment"
-              ) as string;
-              return (
-                <>
-                  {attachmentUrl ? (
-                    <Dialog>
-                      <DialogTrigger asChild>
-                        <Button className="rounded-md w-full" variant="outline">
-                          View Attachment
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent type="table">
-                        <DialogHeader>
-                          <DialogTitle>Attachment</DialogTitle>
-                        </DialogHeader>
-                        <div className="flex justify-center items-center">
-                          <Image
-                            src={attachmentUrl}
-                            alt="Attachment Preview"
-                            width={200}
-                            height={200}
-                          />
-                        </div>
-                        <DialogClose asChild>
-                          <Button variant="secondary">Close</Button>
-                        </DialogClose>
-                      </DialogContent>
-                    </Dialog>
-                  ) : null}
-                </>
-              );
-            },
-          },
-        ]
-      : []),
+
+    {
+      accessorKey: "merchant_qr_attachment",
+      header: "QR Attachment",
+      cell: ({ row }: { row: Row<merchant_table> }) => {
+        const attachmentUrl = row.getValue("merchant_qr_attachment") as string;
+        return (
+          <>
+            {attachmentUrl ? (
+              <Dialog>
+                <DialogTrigger asChild>
+                  <Button className="rounded-md w-full" variant="outline">
+                    View Attachment
+                  </Button>
+                </DialogTrigger>
+                <DialogContent type="table">
+                  <DialogHeader>
+                    <DialogTitle>Attachment</DialogTitle>
+                  </DialogHeader>
+                  <div className="flex justify-center items-center">
+                    <Image
+                      src={attachmentUrl}
+                      alt="Attachment Preview"
+                      width={200}
+                      height={200}
+                    />
+                  </div>
+                  <DialogClose asChild>
+                    <Button variant="secondary">Close</Button>
+                  </DialogClose>
+                </DialogContent>
+              </Dialog>
+            ) : null}
+          </>
+        );
+      },
+    },
+
     {
       header: "Action",
       cell: (props) => {
