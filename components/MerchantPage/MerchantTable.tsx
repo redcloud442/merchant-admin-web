@@ -155,6 +155,10 @@ const MerchantTable = ({ companyName }: { companyName: string }) => {
           attachmentUrl =
             "https://cdn.auroraphil.com/storage/v1/object/public/REQUEST_ATTACHMENTS/" +
             filePath;
+        } else if (companyName === COMPANY_NAME.PALPROJECT_WAREHOUSING) {
+          attachmentUrl =
+            "https://cdn.digi-wealth.vip/storage/v1/object/public/REQUEST_ATTACHMENTS/" +
+            filePath;
         } else {
           attachmentUrl =
             "https://cdn.auroraphil.com/storage/v1/object/public/REQUEST_ATTACHMENTS/" +
