@@ -4,7 +4,9 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { COMPANY_NAME } from "@/lib/constant";
+import { bgColor } from "@/lib/function";
 import { getTenantBrowserSupabase } from "@/lib/supabase/client";
+import { CompanyName } from "@/lib/types";
 import { cn } from "@/lib/utils";
 import { loginValidation } from "@/services/Auth/Auth";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -92,8 +94,14 @@ export function LoginForm({
   return (
     <div className={cn("flex flex-col gap-6", className)} {...props}>
       {isSubmitting && <NavigationLoader visible={isSubmitting} />}
-      <Card className="overflow-hidden">
-        <CardContent className="grid p-0 md:grid-cols-2">
+      <Card
+        className={`overflow-hidden ${bgColor(companyName as CompanyName)}`}
+      >
+        <CardContent
+          className={`grid p-0 md:grid-cols-2 ${bgColor(
+            companyName as CompanyName
+          )}`}
+        >
           <form className="p-6 md:p-8" onSubmit={handleSubmit(handleSignIn)}>
             <div className="flex flex-col gap-6">
               <div className="flex flex-col items-center text-center">
@@ -140,8 +148,12 @@ export function LoginForm({
                         .NEXT_PUBLIC_HCAPTCHA_SITE_KEY_WAREHOUSE_PROJECT || ""
                     : companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1
                     ? process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY_DISTRICT_1 || ""
-                    : process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY_DISPATCHER_1 ||
+                    : companyName === COMPANY_NAME.PALDISTRIBUTION_DISPATCHER_1
+                    ? process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY_DISPATCHER_1 ||
                       ""
+                    : companyName === COMPANY_NAME.PALDISTRIBUTION_AGRI_PLUS
+                    ? process.env.NEXT_PUBLIC_HCAPTCHA_SITE_KEY_AGRI_PLUS || ""
+                    : ""
                 }
                 onVerify={(token) => {
                   setCaptchaToken(token);

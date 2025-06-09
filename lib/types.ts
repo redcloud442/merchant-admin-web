@@ -78,4 +78,5 @@ export type WithdrawListExportData = {
 export type CompanyName =
   | "district-1"
   | "warehouse-pal-project"
-  | "dispatcher-1";
+  | "dispatcher-1"
+  | "agri-plus";

@@ -28,7 +28,8 @@ export async function middleware(req: NextRequest) {
     tenant &&
     tenant !== "warehouse-pal-project" &&
     tenant !== "district-1" &&
-    tenant !== "dispatcher-1"
+    tenant !== "dispatcher-1" &&
+    tenant !== "agri-plus"
   ) {
     return NextResponse.redirect(new URL("/404", req.url));
   }
@@ -41,6 +42,9 @@ export async function middleware(req: NextRequest) {
     }
     if (tenant === "dispatcher-1") {
       target = process.env.NEXT_PUBLIC_API_URL_DISPATCHER_1;
+    }
+    if (tenant === "agri-plus") {
+      target = process.env.NEXT_PUBLIC_API_URL_AGRI_PLUS;
     }
     return NextResponse.rewrite(`${target}${pathname}`);
   }

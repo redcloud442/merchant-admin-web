@@ -64,6 +64,20 @@ export const protectionMemberUser = async (companyName: CompanyName) => {
           company_name: true,
         },
       });
+    } else if (companyName === "agri-plus") {
+      const prisma = getTenantPrisma("agri-plus");
+      companyTeam = await prisma.company_table.findFirst({
+        where: {
+          company_name: {
+            equals: companyName,
+            mode: "insensitive",
+          },
+        },
+        select: {
+          company_id: true,
+          company_name: true,
+        },
+      });
     } else {
       throw new Error("Invalid company name");
     }
@@ -147,6 +161,20 @@ export const protectionMemberUserAccounting = async (
           company_name: true,
         },
       });
+    } else if (companyName === "agri-plus") {
+      const prisma = getTenantPrisma("agri-plus");
+      companyTeam = await prisma.company_table.findFirst({
+        where: {
+          company_name: {
+            equals: companyName,
+            mode: "insensitive",
+          },
+        },
+        select: {
+          company_id: true,
+          company_name: true,
+        },
+      });
     } else {
       throw new Error("Invalid company name");
     }
@@ -218,6 +246,20 @@ export const protectionMemberUserMerchant = async (
       });
     } else if (companyName === "dispatcher-1") {
       const prisma = getTenantPrisma("dispatcher-1");
+      companyTeam = await prisma.company_table.findFirst({
+        where: {
+          company_name: {
+            equals: companyName,
+            mode: "insensitive",
+          },
+        },
+        select: {
+          company_id: true,
+          company_name: true,
+        },
+      });
+    } else if (companyName === "agri-plus") {
+      const prisma = getTenantPrisma("agri-plus");
       companyTeam = await prisma.company_table.findFirst({
         where: {
           company_name: {

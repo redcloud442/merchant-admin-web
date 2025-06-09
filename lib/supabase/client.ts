@@ -21,6 +21,10 @@ const TENANT_BROWSER_SUPABASE_CONFIG: Record<
     url: process.env.NEXT_PUBLIC_SUPABASE_URL_DISPATCHER_1!,
     key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY_DISPATCHER_1!,
   },
+  "agri-plus": {
+    url: process.env.NEXT_PUBLIC_SUPABASE_URL_AGRI_PLUS!,
+    key: process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY_AGRI_PLUS!,
+  },
 };
 
 export function getTenantBrowserSupabase(companyName: string): SupabaseClient {

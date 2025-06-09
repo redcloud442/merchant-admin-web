@@ -3,7 +3,13 @@
 import { PrismaClient as PrismaClientAdamant } from "@/generated/companyAdamant";
 import { PrismaClient as PrismaClientMithril } from "@/generated/companyMithril";
 import { PrismaClient as PrismaClientTeamd } from "@/generated/companyTeamd";
-type Warehouse = "district-1" | "warehouse-pal-project" | "dispatcher-1";
+import { PrismaClient as PrismaClientTierone } from "@/generated/companyTierone";
+
+type Warehouse =
+  | "district-1"
+  | "warehouse-pal-project"
+  | "dispatcher-1"
+  | "agri_plus";
 
 type TenantConfig = {
   databaseUrl: string;
@@ -11,7 +17,10 @@ type TenantConfig = {
 
 const prismaClientCache = new Map<
   string,
-  PrismaClientMithril | PrismaClientTeamd | PrismaClientAdamant
+  | PrismaClientMithril
+  | PrismaClientTeamd
+  | PrismaClientAdamant
+  | PrismaClientTierone
 >();
 
 export function createPrismaClient<T extends Warehouse>(
@@ -32,6 +41,14 @@ export function createPrismaClient<T extends Warehouse>(
           })
         : warehouse === "dispatcher-1"
         ? new PrismaClientMithril({
+            datasources: {
+              db: {
+                url: config.databaseUrl,
+              },
+            },
+          })
+        : warehouse === "agri_plus"
+        ? new PrismaClientAdamant({
             datasources: {
               db: {
                 url: config.databaseUrl,

@@ -1,3 +1,5 @@
+import { bgColor } from "@/lib/function";
+import { CompanyName } from "@/lib/types";
 import TopUpTable from "./TopUpTable";
 
 type TopUpPageProps = {
@@ -6,7 +8,9 @@ type TopUpPageProps = {
 
 const TopUpPage = ({ companyName }: TopUpPageProps) => {
   return (
-    <div className="mx-auto py-8 md:p-6">
+    <div
+      className={`mx-auto py-8 md:p-10 ${bgColor(companyName as CompanyName)}`}
+    >
       <div>
         <header className="mb-4">
           <h1 className="Title">Deposit List Page</h1>

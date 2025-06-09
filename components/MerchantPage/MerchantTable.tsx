@@ -161,7 +161,7 @@ const MerchantTable = ({ companyName }: { companyName: string }) => {
             filePath;
         } else {
           attachmentUrl =
-            "https://cdn.auroraphil.com/storage/v1/object/public/REQUEST_ATTACHMENTS/" +
+            "https://cdn.tierone.to/storage/v1/object/public/REQUEST_ATTACHMENTS/" +
             filePath;
         }
       }
