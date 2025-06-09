@@ -26,7 +26,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
   label = "File",
   onFileChange,
   className,
-  acceptedFormats = [".png", ".jpg", ".jpeg", ".webp"],
+  acceptedFormats = [".png", ".jpg", ".jpeg", ".webp", ".jfif"],
   maxSize = 10 * 1024 * 1024, // 10MB default
   showFileInfo = true,
 }) => {
