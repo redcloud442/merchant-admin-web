@@ -161,6 +161,10 @@ export function LoginForm({
                 onVerify={(token) => {
                   setCaptchaToken(token);
                 }}
+                onExpire={() => {
+                  setCaptchaToken(null);
+                  captcha.current?.reset();
+                }}
               />
               <Button type="submit" className="w-full">
                 Login
