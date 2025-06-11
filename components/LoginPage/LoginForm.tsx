@@ -55,19 +55,19 @@ export function LoginForm({
 
   const handleSignIn = async (data: LoginFormValues) => {
     try {
-      if (
-        !captchaToken ||
-        companyName !== COMPANY_NAME.PALDISTRIBUTION_AGRI_PLUS
-      ) {
-        if (captcha.current) {
-          captcha.current.reset();
-          captcha.current.execute();
-        }
+      // if (
+      //   !captchaToken ||
+      //   companyName !== COMPANY_NAME.PALDISTRIBUTION_AGRI_PLUS
+      // ) {
+      //   if (captcha.current) {
+      //     captcha.current.reset();
+      //     captcha.current.execute();
+      //   }
 
-        return toast.warning(
-          "Please verify that you are human by completing the captcha"
-        );
-      }
+      //   return toast.warning(
+      //     "Please verify that you are human by completing the captcha"
+      //   );
+      // }
 
       await loginValidation(companyName, supabase, {
         userName: data.userName,
