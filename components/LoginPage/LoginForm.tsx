@@ -55,7 +55,10 @@ export function LoginForm({
 
   const handleSignIn = async (data: LoginFormValues) => {
     try {
-      if (!captchaToken) {
+      if (
+        !captchaToken ||
+        companyName !== COMPANY_NAME.PALDISTRIBUTION_AGRI_PLUS
+      ) {
         if (captcha.current) {
           captcha.current.reset();
           captcha.current.execute();
