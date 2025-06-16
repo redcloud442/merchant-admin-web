@@ -1,8 +1,10 @@
 import { Button } from "@/components/ui/button";
 import { COMPANY_NAME } from "@/lib/constant";
 import { formatDateToYYYYMMDD, formatTime } from "@/lib/function";
+import { getTenantBrowserSupabase } from "@/lib/supabase/client";
 import { AdminTopUpRequestData, TopUpRequestData } from "@/lib/types";
 import { updateTopUpStatus } from "@/services/Deposit/Deposit";
+import { SendNotification } from "@/services/Notification/Notification";
 import { Column, ColumnDef, Row } from "@tanstack/react-table";
 import { AxiosError } from "axios";
 import { ArrowUpDown, CheckIcon, CopyIcon } from "lucide-react";
@@ -39,6 +41,7 @@ export const TopUpColumn = (
   status: string,
   companyName: string
 ) => {
+  const supabaseClient = getTenantBrowserSupabase(companyName);
   const [isLoading, setIsLoading] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState({
     open: false,
@@ -56,7 +59,7 @@ export const TopUpColumn = (
     try {
       setIsLoading(true);
 
-      await updateTopUpStatus(
+      const { updatedRequest } = await updateTopUpStatus(
         {
           status,
           requestId,
@@ -64,6 +67,31 @@ export const TopUpColumn = (
         },
         companyName
       );
+
+      if (
+        status === "APPROVED" &&
+        companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1
+      ) {
+        const {
+          data: { session },
+        } = await supabaseClient.auth.getSession();
+        const token = session?.access_token || "";
+
+        const Notification = {
+          mode: "sendToUser" as const,
+          userIds: [
+            updatedRequest.company_member_requestor.company_member_user_id,
+          ],
+          title: `🎉 Congratulations, Omnixian! 🎉`,
+          description: `Your payout has been successfully processed! 💸
+Thank you for choosing OMNIX as your platform toward success and financial freedom. 🙌
+🔥 Dahil DITO SA OMNIX, IKAW ANG PANALO! 🔥
+`,
+          imageUrl: updatedRequest.company_deposit_request_attachment_urls,
+        };
+
+        await SendNotification({ ...Notification }, token);
+      }
 
       setRequestData((prev) => {
         if (!prev) return prev;

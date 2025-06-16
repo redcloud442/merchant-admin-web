@@ -48,5 +48,14 @@ export const updateTopUpStatus = async (
     throw new Error(response.data.message);
   }
 
-  return response.data as unknown as { success: boolean; balance: number };
+  return response.data as {
+    updatedRequest: {
+      company_deposit_request_id: string;
+      company_deposit_request_amount: number;
+      company_deposit_request_attachment_urls: string[];
+      company_member_requestor: {
+        company_member_user_id: string;
+      };
+    };
+  };
 };
