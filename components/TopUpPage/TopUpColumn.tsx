@@ -4,7 +4,6 @@ import { formatDateToYYYYMMDD, formatTime } from "@/lib/function";
 import { getTenantBrowserSupabase } from "@/lib/supabase/client";
 import { AdminTopUpRequestData, TopUpRequestData } from "@/lib/types";
 import { updateTopUpStatus } from "@/services/Deposit/Deposit";
-import { SendNotification } from "@/services/Notification/Notification";
 import { Column, ColumnDef, Row } from "@tanstack/react-table";
 import { AxiosError } from "axios";
 import { ArrowUpDown, CheckIcon, CopyIcon } from "lucide-react";
@@ -68,30 +67,30 @@ export const TopUpColumn = (
         companyName
       );
 
-      if (
-        status === "APPROVED" &&
-        companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1
-      ) {
-        const {
-          data: { session },
-        } = await supabaseClient.auth.getSession();
-        const token = session?.access_token || "";
+      //       if (
+      //         status === "APPROVED" &&
+      //         companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1
+      //       ) {
+      //         const {
+      //           data: { session },
+      //         } = await supabaseClient.auth.getSession();
+      //         const token = session?.access_token || "";
 
-        const Notification = {
-          mode: "sendToUser" as const,
-          userIds: [
-            updatedRequest.company_member_requestor.company_member_user_id,
-          ],
-          title: `🎉 Congratulations, Omnixian! 🎉`,
-          description: `Your payout has been successfully processed! 💸
-Thank you for choosing OMNIX as your platform toward success and financial freedom. 🙌
-🔥 Dahil DITO SA OMNIX, IKAW ANG PANALO! 🔥
-`,
-          imageUrl: updatedRequest.company_deposit_request_attachment_urls,
-        };
+      //         const Notification = {
+      //           mode: "sendToUser" as const,
+      //           userIds: [
+      //             updatedRequest.company_member_requestor.company_member_user_id,
+      //           ],
+      //           title: `🎉 Congratulations, Omnixian! 🎉`,
+      //           description: `Your payout has been successfully processed! 💸
+      // Thank you for choosing OMNIX as your platform toward success and financial freedom. 🙌
+      // 🔥 Dahil DITO SA OMNIX, IKAW ANG PANALO! 🔥
+      // `,
+      //           imageUrl: updatedRequest.company_deposit_request_attachment_urls,
+      //         };
 
-        await SendNotification({ ...Notification }, token);
-      }
+      //         await SendNotification({ ...Notification }, token);
+      //       }
 
       setRequestData((prev) => {
         if (!prev) return prev;
