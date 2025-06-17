@@ -4,12 +4,16 @@ export const SendNotification = async (
     userIds: string[];
     title: string;
     description: string;
-    imageUrl: string[];
+    imageUrl: string[] | undefined;
   },
   token: string
 ) => {
   const res = await fetch(
-    "https://service-socket.omnixglobal.io/api/v2/notifications/send",
+    `${
+      process.env.NODE_ENV === "development"
+        ? "http://localhost:4000"
+        : "https://service-socket.omnixglobal.io"
+    }/api/v2/notifications/send`,
     {
       method: "POST",
       body: JSON.stringify(params),

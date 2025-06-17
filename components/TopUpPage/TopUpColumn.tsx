@@ -58,7 +58,7 @@ export const TopUpColumn = (
     try {
       setIsLoading(true);
 
-      const { updatedRequest } = await updateTopUpStatus(
+      await updateTopUpStatus(
         {
           status,
           requestId,

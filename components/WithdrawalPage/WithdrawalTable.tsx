@@ -46,6 +46,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import FileUploader from "../ui/files-drop-withdrawal";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { Popover, PopoverContent, PopoverTrigger } from "../ui/popover";
@@ -60,6 +61,7 @@ type FilterFormValues = {
   userFilter: string;
   statusFilter: string;
   rejectNote: string;
+  file: File[] | undefined;
   dateFilter: { start: string; end: string };
   showHiddenUser: boolean;
   showAllDays: boolean;
@@ -274,6 +276,7 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
           start: undefined,
           end: undefined,
         },
+        file: undefined,
         rejectNote: "",
         showHiddenUser: false,
       },
@@ -354,6 +357,7 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
   };
 
   const rejectNote = watch("rejectNote");
+  const file = watch("file");
 
   const tableColumns = useMemo(() => {
     return table.getAllColumns().map((column) => {
@@ -452,7 +456,13 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
                   }
                 }}
               >
-                <DialogContent>
+                <DialogContent
+                  type={
+                    companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1
+                      ? "table"
+                      : "default"
+                  }
+                >
                   <DialogHeader>
                     <DialogTitle>{isOpenModal.status} Request</DialogTitle>
                   </DialogHeader>
@@ -476,17 +486,40 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
                       )}
                     />
                   )}
+                  {isOpenModal.status === "APPROVED" &&
+                    companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 && (
+                      <Controller
+                        name="file"
+                        control={control}
+                        rules={{ required: "File is required" }}
+                        render={({ field, fieldState }) => (
+                          <div className="flex flex-col gap-2">
+                            <FileUploader
+                              {...field}
+                              onFileChange={field.onChange}
+                            />
+                            {fieldState.error && (
+                              <span className="text-red-500 text-sm">
+                                {fieldState.error.message}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      />
+                    )}
                   <div className="flex justify-end gap-2 mt-4">
                     <DialogClose asChild>
                       <Button variant="secondary">Cancel</Button>
                     </DialogClose>
                     <Button
                       disabled={isLoading}
+                      className="bg-green-500 hover:bg-green-600 dark:bg-green-600 dark:hover:bg-green-700"
                       onClick={() =>
                         handleUpdateStatus(
                           isOpenModal.status,
                           isOpenModal.requestId,
-                          rejectNote
+                          rejectNote,
+                          file
                         )
                       }
                     >

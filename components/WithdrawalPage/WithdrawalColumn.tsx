@@ -1,10 +1,13 @@
 import { Button } from "@/components/ui/button";
+import { COMPANY_NAME } from "@/lib/constant";
 import {
   formatAccountNumber,
   formatDateToYYYYMMDD,
   formatTime,
 } from "@/lib/function";
+import { getTenantBrowserSupabase } from "@/lib/supabase/client";
 import { AdminWithdrawaldata, WithdrawalRequestData } from "@/lib/types";
+import { SendNotification } from "@/services/Notification/Notification";
 import {
   packageForReinvestment,
   updateWithdrawalStatus,
@@ -41,6 +44,7 @@ export const WithdrawalColumn = (
   role: string,
   companyName: string
 ) => {
+  const supabaseClient = getTenantBrowserSupabase(companyName);
   const [isLoading, setIsLoading] = useState(false);
   const [isOpenModal, setIsOpenModal] = useState({
     open: false,
@@ -51,11 +55,79 @@ export const WithdrawalColumn = (
   const handleUpdateStatus = async (
     status: string,
     requestId: string,
-    note?: string
+    note?: string,
+    file?: File[] | undefined
   ) => {
     try {
       setIsLoading(true);
-      await updateWithdrawalStatus({ status, requestId, note, companyName });
+      const updatedRequest = await updateWithdrawalStatus({
+        status,
+        requestId,
+        note,
+        companyName,
+      });
+
+      if (companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1) {
+        const {
+          data: { session },
+        } = await supabaseClient.auth.getSession();
+
+        const filePaths: string[] = [];
+        if (file) {
+          await Promise.all(
+            file.map(async (file) => {
+              const filePath = `uploads/${Date.now()}_${file.name}`;
+
+              const { error: uploadError } = await supabaseClient.storage
+                .from("REQUEST_ATTACHMENTS")
+                .upload(filePath, file, { upsert: true });
+
+              if (uploadError) {
+                throw new Error("File upload failed.");
+              }
+
+              filePaths.push(
+                `${
+                  process.env.NODE_ENV === "development"
+                    ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}`
+                    : "https://cdn.omnixglobal.io"
+                }/storage/v1/object/public/REQUEST_ATTACHMENTS/${filePath}`
+              );
+            })
+          );
+        }
+
+        const token = session?.access_token || "";
+
+        if (status === "APPROVED") {
+          const Notification = {
+            mode: "sendToUser" as const,
+            userIds: [
+              updatedRequest.company_member_requestor.company_member_user_id,
+            ],
+            title: `🎉 Congratulations, Omnixian! 🎉`,
+            description: `Your payout has been successfully processed! 💸
+      Thank you for choosing OMNIX as your platform toward success and financial freedom. 🙌
+      🔥 Dahil DITO SA OMNIX, IKAW ANG PANALO! 🔥
+      `,
+            imageUrl: filePaths,
+          };
+
+          await SendNotification({ ...Notification }, token);
+        } else if (status === "REJECTED") {
+          const Notification = {
+            mode: "sendToUser" as const,
+            userIds: [
+              updatedRequest.company_member_requestor.company_member_user_id,
+            ],
+            title: `🚧 Withdrawal Request Rejected 🚧`,
+            description: `${note}`,
+            imageUrl: [],
+          };
+
+          await SendNotification({ ...Notification }, token);
+        }
+      }
 
       setRequestData((prev) => {
         if (!prev) return prev;
