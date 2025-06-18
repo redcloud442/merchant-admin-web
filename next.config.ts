@@ -1,53 +1,53 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  images: {
-    unoptimized: true,
-    remotePatterns: [
-      {
-        protocol: "https",
-        hostname: "cdn.omnix-global.com",
-        port: "",
-        pathname: "/storage/v1/object/public/**",
-      },
-      {
-        protocol: "https",
-        hostname: "cdn.omnixglobal.io",
-        port: "",
-        pathname: "/storage/v1/object/public/**",
-      },
-      {
-        protocol: "https",
-        hostname: "cdn.auroraphil.com",
-        port: "",
-        pathname: "/storage/v1/object/public/**",
-      },
-      {
-        protocol: "https",
-        hostname: "cdn.digi-wealth.vip",
-        port: "",
-        pathname: "/storage/v1/object/public/**",
-      },
-      {
-        protocol: "https",
-        hostname: "hburgwylodfpwgbtywue.supabase.co",
-        port: "",
-        pathname: "/storage/v1/object/public/**",
-      },
-      {
-        protocol: "https",
-        hostname: "cmwfujabuwraxsgwuwpr.supabase.co",
-        port: "",
-        pathname: "/storage/v1/object/public/**",
-      },
-      {
-        protocol: "https",
-        hostname: "cdn.tierone.to",
-        port: "",
-        pathname: "/storage/v1/object/public/**",
-      },
-    ],
-  },
+  // images: {
+  //   unoptimized: true,
+  //   remotePatterns: [
+  //     {
+  //       protocol: "https",
+  //       hostname: "cdn.omnix-global.com",
+  //       port: "",
+  //       pathname: "/storage/v1/object/public/**",
+  //     },
+  //     {
+  //       protocol: "https",
+  //       hostname: "cdn.omnixglobal.io",
+  //       port: "",
+  //       pathname: "/storage/v1/object/public/**",
+  //     },
+  //     {
+  //       protocol: "https",
+  //       hostname: "cdn.auroraphil.com",
+  //       port: "",
+  //       pathname: "/storage/v1/object/public/**",
+  //     },
+  //     {
+  //       protocol: "https",
+  //       hostname: "cdn.digi-wealth.vip",
+  //       port: "",
+  //       pathname: "/storage/v1/object/public/**",
+  //     },
+  //     {
+  //       protocol: "https",
+  //       hostname: "hburgwylodfpwgbtywue.supabase.co",
+  //       port: "",
+  //       pathname: "/storage/v1/object/public/**",
+  //     },
+  //     {
+  //       protocol: "https",
+  //       hostname: "cmwfujabuwraxsgwuwpr.supabase.co",
+  //       port: "",
+  //       pathname: "/storage/v1/object/public/**",
+  //     },
+  //     {
+  //       protocol: "https",
+  //       hostname: "cdn.tierone.to",
+  //       port: "",
+  //       pathname: "/storage/v1/object/public/**",
+  //     },
+  //   ],
+  // },
   async rewrites() {
     return [
       {

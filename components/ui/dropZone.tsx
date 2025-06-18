@@ -198,7 +198,9 @@ const FileUpload: React.FC<FileUploadProps> = ({
               <div className="relative group flex-shrink-0">
                 {!imageError ? (
                   <img
-                    src={previewUrl}
+                    src={`/api/image-proxy?url=${encodeURIComponent(
+                      previewUrl
+                    )}`}
                     alt="File preview"
                     width={80}
                     height={80}
@@ -287,7 +289,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
               </button>
             </div>
             <img
-              src={previewUrl}
+              src={`/api/image-proxy?url=${encodeURIComponent(previewUrl)}`}
               alt="Full preview"
               width={1000}
               height={1000}

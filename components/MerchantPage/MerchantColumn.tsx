@@ -120,7 +120,9 @@ export const useMerchantColumn = (
                   </DialogHeader>
                   <div className="flex justify-center items-center">
                     <img
-                      src={attachmentUrl}
+                      src={`/api/image-proxy?url=${encodeURIComponent(
+                        attachmentUrl
+                      )}`}
                       alt="Attachment Preview"
                       width={200}
                       height={200}

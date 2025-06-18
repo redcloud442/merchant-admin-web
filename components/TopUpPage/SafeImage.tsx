@@ -51,7 +51,7 @@ const SafeImage = ({ url }: SafeImageProps) => {
       <div className="overflow-hidden border relative flex items-center justify-center">
         <img
           key={url}
-          src={url}
+          src={`/api/image-proxy?url=${encodeURIComponent(url)}`}
           alt="Attachment Preview"
           width={300}
           height={300}
