@@ -1,5 +1,4 @@
 import { ZoomIn, ZoomOut } from "lucide-react";
-import Image from "next/image";
 import { useState } from "react";
 
 type SafeImageProps = {
@@ -50,7 +49,7 @@ const SafeImage = ({ url }: SafeImageProps) => {
 
       {/* Image container */}
       <div className="overflow-hidden border relative flex items-center justify-center">
-        <Image
+        <img
           key={url}
           src={url}
           alt="Attachment Preview"

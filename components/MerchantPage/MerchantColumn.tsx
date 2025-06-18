@@ -3,7 +3,6 @@ import { merchant_table } from "@/generated/companyMithril";
 import { handleUpdateMerchantData } from "@/services/Merchant/Merchant";
 import { ColumnDef, Row } from "@tanstack/react-table";
 import { MoreHorizontal } from "lucide-react";
-import Image from "next/image";
 import { Dispatch, SetStateAction, useState } from "react";
 import { toast } from "sonner";
 import {
@@ -120,7 +119,7 @@ export const useMerchantColumn = (
                     <DialogTitle>Attachment</DialogTitle>
                   </DialogHeader>
                   <div className="flex justify-center items-center">
-                    <Image
+                    <img
                       src={attachmentUrl}
                       alt="Attachment Preview"
                       width={200}

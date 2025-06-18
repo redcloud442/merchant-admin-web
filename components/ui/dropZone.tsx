@@ -9,7 +9,6 @@ import {
   X,
   ZoomIn,
 } from "lucide-react";
-import Image from "next/image";
 import React, { useCallback, useEffect, useState } from "react";
 import { useDropzone } from "react-dropzone";
 
@@ -198,7 +197,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
               {/* Image Preview */}
               <div className="relative group flex-shrink-0">
                 {!imageError ? (
-                  <Image
+                  <img
                     src={previewUrl}
                     alt="File preview"
                     width={80}
@@ -287,7 +286,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
                 <X className="w-5 h-5 text-white" />
               </button>
             </div>
-            <Image
+            <img
               src={previewUrl}
               alt="Full preview"
               width={1000}
