@@ -46,6 +46,7 @@ import {
   DropdownMenuContent,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import FileUpload from "../ui/dropZone";
 import FileUploader from "../ui/files-drop-withdrawal";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
@@ -62,6 +63,7 @@ type FilterFormValues = {
   statusFilter: string;
   rejectNote: string;
   file: File[] | undefined;
+  singleFile: File | undefined;
   dateFilter: { start: string; end: string };
   showHiddenUser: boolean;
   showAllDays: boolean;
@@ -358,6 +360,7 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
 
   const rejectNote = watch("rejectNote");
   const file = watch("file");
+  const singleFile = watch("singleFile");
 
   const tableColumns = useMemo(() => {
     return table.getAllColumns().map((column) => {
@@ -507,6 +510,28 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
                         )}
                       />
                     )}
+
+                  {isOpenModal.status === "APPROVED" &&
+                    companyName === COMPANY_NAME.PALPROJECT_WAREHOUSING && (
+                      <Controller
+                        name="singleFile"
+                        control={control}
+                        rules={{ required: "File is required" }}
+                        render={({ field, fieldState }) => (
+                          <div className="flex flex-col gap-2">
+                            <FileUpload
+                              {...field}
+                              onFileChange={field.onChange}
+                            />
+                            {fieldState.error && (
+                              <span className="text-red-500 text-sm">
+                                {fieldState.error.message}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      />
+                    )}
                   <div className="flex justify-end gap-2 mt-4">
                     <DialogClose asChild>
                       <Button variant="secondary">Cancel</Button>
@@ -519,7 +544,8 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
                           isOpenModal.status,
                           isOpenModal.requestId,
                           rejectNote,
-                          file
+                          file,
+                          singleFile
                         )
                       }
                     >

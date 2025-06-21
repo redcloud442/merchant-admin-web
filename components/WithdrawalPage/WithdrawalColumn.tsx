@@ -56,18 +56,19 @@ export const WithdrawalColumn = (
     status: string,
     requestId: string,
     note?: string,
-    file?: File[] | undefined
+    file?: File[] | undefined,
+    singleFile?: File | undefined
   ) => {
     try {
       setIsLoading(true);
-      const updatedRequest = await updateWithdrawalStatus({
-        status,
-        requestId,
-        note,
-        companyName,
-      });
 
       if (companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1) {
+        const updatedRequest = await updateWithdrawalStatus({
+          status,
+          requestId,
+          note,
+          companyName,
+        });
         const {
           data: { session },
         } = await supabaseClient.auth.getSession();
@@ -127,6 +128,43 @@ export const WithdrawalColumn = (
 
           await SendNotification({ ...Notification }, token);
         }
+      }
+
+      if (companyName === COMPANY_NAME.PALPROJECT_WAREHOUSING) {
+        let singleFilePath: string = "";
+
+        if (singleFile) {
+          const filePath = `uploads/${Date.now()}_${singleFile.name}`;
+
+          const { error: uploadError } = await supabaseClient.storage
+            .from("REQUEST_ATTACHMENTS")
+            .upload(filePath, singleFile, { upsert: true });
+
+          if (uploadError) {
+            throw new Error("File upload failed.");
+          }
+
+          singleFilePath = `${
+            process.env.NODE_ENV === "development"
+              ? `${process.env.NEXT_PUBLIC_SUPABASE_URL_WAREHOUSE_PROJECT}`
+              : "https://cdn.digi-wealth.vip"
+          }/storage/v1/object/public/REQUEST_ATTACHMENTS/${filePath}`;
+        }
+
+        await updateWithdrawalStatus({
+          status,
+          requestId,
+          note,
+          companyName,
+          singleFile: singleFilePath,
+        });
+      } else {
+        await updateWithdrawalStatus({
+          status,
+          requestId,
+          note,
+          companyName,
+        });
       }
 
       setRequestData((prev) => {

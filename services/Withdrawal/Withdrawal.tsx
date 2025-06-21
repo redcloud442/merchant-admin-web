@@ -26,6 +26,7 @@ export const updateWithdrawalStatus = async (params: {
   requestId: string;
   note?: string;
   companyName: string;
+  singleFile?: string;
 }) => {
   const { requestId } = params;
 
