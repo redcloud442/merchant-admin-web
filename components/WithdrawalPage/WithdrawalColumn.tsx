@@ -128,9 +128,7 @@ export const WithdrawalColumn = (
 
           await SendNotification({ ...Notification }, token);
         }
-      }
-
-      if (companyName === COMPANY_NAME.PALPROJECT_WAREHOUSING) {
+      } else if (companyName === COMPANY_NAME.PALPROJECT_WAREHOUSING) {
         let singleFilePath: string = "";
 
         if (singleFile) {
