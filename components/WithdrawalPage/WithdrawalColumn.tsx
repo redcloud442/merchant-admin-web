@@ -156,6 +156,34 @@ export const WithdrawalColumn = (
           companyName,
           singleFile: singleFilePath,
         });
+      } else if (companyName === COMPANY_NAME.PALDISTRIBUTION_AGRI_PLUS) {
+        let singleFilePath: string = "";
+
+        if (singleFile) {
+          const filePath = `uploads/${Date.now()}_${singleFile.name}`;
+
+          const { error: uploadError } = await supabaseClient.storage
+            .from("REQUEST_ATTACHMENTS")
+            .upload(filePath, singleFile, { upsert: true });
+
+          if (uploadError) {
+            throw new Error("File upload failed.");
+          }
+
+          singleFilePath = `${
+            process.env.NODE_ENV === "development"
+              ? `${process.env.NEXT_PUBLIC_SUPABASE_URL_AGRI_PLUS}`
+              : "https://cdn.tierone.to"
+          }/storage/v1/object/public/REQUEST_ATTACHMENTS/${filePath}`;
+        }
+
+        await updateWithdrawalStatus({
+          status,
+          requestId,
+          note,
+          companyName,
+          singleFile: singleFilePath,
+        });
       } else {
         await updateWithdrawalStatus({
           status,

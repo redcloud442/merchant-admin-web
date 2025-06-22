@@ -532,6 +532,27 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
                         )}
                       />
                     )}
+                  {isOpenModal.status === "APPROVED" &&
+                    companyName === COMPANY_NAME.PALDISTRIBUTION_AGRI_PLUS && (
+                      <Controller
+                        name="singleFile"
+                        control={control}
+                        rules={{ required: "File is required" }}
+                        render={({ field, fieldState }) => (
+                          <div className="flex flex-col gap-2">
+                            <FileUpload
+                              {...field}
+                              onFileChange={field.onChange}
+                            />
+                            {fieldState.error && (
+                              <span className="text-red-500 text-sm">
+                                {fieldState.error.message}
+                              </span>
+                            )}
+                          </div>
+                        )}
+                      />
+                    )}
                   <div className="flex justify-end gap-2 mt-4">
                     <DialogClose asChild>
                       <Button variant="secondary">Cancel</Button>
