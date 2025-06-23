@@ -33,7 +33,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
   const [showFullPreview, setShowFullPreview] = useState<boolean>(false);
   const [imageError, setImageError] = useState<boolean>(false);
   const [uploadError, setUploadError] = useState<string>("");
-
+  console.log(previewUrl);
   const formatFileSize = (bytes: number): string => {
     if (bytes === 0) return "0 Bytes";
     const k = 1024;
@@ -198,9 +198,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
               <div className="relative group flex-shrink-0">
                 {!imageError ? (
                   <img
-                    src={`/api/image-proxy?url=${encodeURIComponent(
-                      previewUrl
-                    )}`}
+                    src={`${previewUrl}`}
                     alt="File preview"
                     width={80}
                     height={80}
@@ -289,7 +287,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
               </button>
             </div>
             <img
-              src={`/api/image-proxy?url=${encodeURIComponent(previewUrl)}`}
+              src={`${previewUrl}`}
               alt="Full preview"
               width={1000}
               height={1000}
