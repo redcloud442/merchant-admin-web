@@ -610,13 +610,13 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
                   checked={showFilters}
                   onCheckedChange={handleSwitchChange}
                 />
-                <Label htmlFor="filter">Filter</Label>
+                {/* <Label htmlFor="filter">Filter</Label>
                 <Switch
                   id="filter-switch"
                   checked={hidden}
                   onCheckedChange={handleHiddenSwitchChange}
                 />
-                <Label htmlFor="filter-switch">Show Hidden User</Label>
+                <Label htmlFor="filter-switch">Show Hidden User</Label> */}
               </div>
             </div>
 
