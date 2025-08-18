@@ -204,7 +204,7 @@ export const TopUpColumn = (
         return (
           <div className="flex justify-between items-center w-full">
             {username}
-            {companyName === COMPANY_NAME.PALDISTRIBUTION_DISTRICT_1 &&
+            {companyName === COMPANY_NAME.PALDISTRIBUTION_DISPATCHER_1 &&
               status === "PENDING" && (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
