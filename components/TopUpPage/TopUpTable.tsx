@@ -365,30 +365,31 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
 
   return (
     <>
-      {companyName === COMPANY_NAME.PALPROJECT_WAREHOUSING &&
-        companyName === COMPANY_NAME.PALDISTRIBUTION_AGRI_PLUS &&
-        companyName === COMPANY_NAME.PALDISTRIBUTION_DISPATCHER_1 && (
+      {companyName === COMPANY_NAME.PALPROJECT_WAREHOUSING ||
+        companyName === COMPANY_NAME.PALDISTRIBUTION_AGRI_PLUS ||
+        companyName === COMPANY_NAME.PALDISTRIBUTION_DISPATCHER_1 || (
           <div className="flex gap-4 w-full">
-            {teamMemberProfile.company_member_role === "ACCOUNTING_HEAD" && (
-              <CardAmountAdmin
-                className="w-full"
-                title="Total Approved Deposit"
-                value={
-                  <>
-                    <PhilippinePeso />
-                    {requestData?.totalApprovedDeposit?.toLocaleString(
-                      "en-US",
-                      {
-                        minimumFractionDigits: 2,
-                        maximumFractionDigits: 2,
-                      }
-                    ) ?? "0.00"}
-                  </>
-                }
-                description=""
-                descriptionClassName="text-sm text-gray-500 font-bold"
-              />
-            )}
+            {teamMemberProfile.company_member_role === "ACCOUNTING_HEAD" ||
+              (teamMemberProfile.user_username === "headmerchant" && (
+                <CardAmountAdmin
+                  className="w-full"
+                  title="Total Approved Deposit"
+                  value={
+                    <>
+                      <PhilippinePeso />
+                      {requestData?.totalApprovedDeposit?.toLocaleString(
+                        "en-US",
+                        {
+                          minimumFractionDigits: 2,
+                          maximumFractionDigits: 2,
+                        }
+                      ) ?? "0.00"}
+                    </>
+                  }
+                  description=""
+                  descriptionClassName="text-sm text-gray-500 font-bold"
+                />
+              ))}
             <CardAmountAdmin
               title="Total Pending Deposit"
               value={
