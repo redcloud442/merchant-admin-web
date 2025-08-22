@@ -369,7 +369,7 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
     <>
       {companyName === COMPANY_NAME.PALPROJECT_WAREHOUSING ||
         companyName === COMPANY_NAME.PALDISTRIBUTION_AGRI_PLUS ||
-        companyName === COMPANY_NAME.PALDISTRIBUTION_DISPATCHER_1 || (
+        (companyName === COMPANY_NAME.PALDISTRIBUTION_DISPATCHER_1 && (
           <div className="flex gap-4 w-full">
             {teamMemberProfile.user_username === "headmerchant" && (
               <CardAmountAdmin
@@ -406,7 +406,7 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
               descriptionClassName="text-sm text-gray-500 font-bold"
             />
           </div>
-        )}
+        ))}
       <Card className="w-full rounded-sm p-4">
         <div className="flex flex-wrap gap-4 items-start py-4">
           <form
