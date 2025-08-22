@@ -404,8 +404,7 @@ const WithdrawalTable = ({ companyName }: { companyName: string }) => {
   return (
     <div className="w-full space-y-4">
       <div className="flex flex-wrap gap-4">
-        {(teamMemberProfile.company_member_role === "ACCOUNTING_HEAD" ||
-          teamMemberProfile.company_member_role === "ACCOUNTING") && (
+        {teamMemberProfile.company_member_role === "ACCOUNTING_HEAD" && (
           <CardAmountAdmin
             title="Total Pending Withdrawal"
             value={
