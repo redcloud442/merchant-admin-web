@@ -33,7 +33,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
   const [showFullPreview, setShowFullPreview] = useState<boolean>(false);
   const [imageError, setImageError] = useState<boolean>(false);
   const [uploadError, setUploadError] = useState<string>("");
-  console.log(previewUrl);
+
   const formatFileSize = (bytes: number): string => {
     if (bytes === 0) return "0 Bytes";
     const k = 1024;

@@ -363,8 +363,6 @@ const TopUpTable = ({ companyName }: TopUpTableProps) => {
     setValue("rejectNote", text);
   };
 
-  console.log(teamMemberProfile);
-
   return (
     <>
       {(companyName === COMPANY_NAME.PALPROJECT_WAREHOUSING ||
