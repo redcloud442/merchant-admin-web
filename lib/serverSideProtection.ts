@@ -17,6 +17,7 @@ export const protectionMemberUser = async (companyName: CompanyName) => {
     const memberData = {
       company_member_id: authData.user.user_metadata.CompanyMemberId,
       company_member_role: authData.user.user_metadata.Role,
+      user_username: authData.user.user_metadata.Username,
       company_member_company_id: authData.user.user_metadata.CompanyId,
     };
 
@@ -114,6 +115,7 @@ export const protectionMemberUserAccounting = async (
     const memberData = {
       company_member_id: authData.user.user_metadata.CompanyMemberId,
       company_member_role: authData.user.user_metadata.Role,
+      user_username: authData.user.user_metadata.Username,
       company_member_company_id: authData.user.user_metadata.CompanyId,
     };
 
