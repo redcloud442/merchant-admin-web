@@ -565,7 +565,7 @@ export default function BybitStyleTradingSimulator() {
 
             <div className="grid grid-cols-2 gap-2">
               <Button
-                className="darKbg-emerald-600 hover:bg-emerald-500 dark:text-white"
+                className="dark:bg-emerald-600 hover:bg-emerald-500 dark:text-white"
                 onClick={() => placeOrder("long")}
               >
                 <TrendingUp className="h-4 w-4 mr-2" /> Buy / Long
