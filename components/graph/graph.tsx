@@ -176,7 +176,7 @@ export default function BybitStyleTradingSimulator() {
     return series[L - 1].price >= series[L - 2].price ? "up" : "down";
   }, [series]);
 
-  const [balance, setBalance] = useState(10000);
+  const [balance, setBalance] = useState(6442851.51);
   const [leverage, setLeverage] = useState(10);
   const [orderSize, setOrderSize] = useState(500);
   const makerFee = 0.0002;
