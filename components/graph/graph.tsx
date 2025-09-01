@@ -565,13 +565,13 @@ export default function BybitStyleTradingSimulator() {
 
             <div className="grid grid-cols-2 gap-2">
               <Button
-                className="bg-emerald-600 hover:bg-emerald-500"
+                className="darKbg-emerald-600 hover:bg-emerald-500 dark:text-white"
                 onClick={() => placeOrder("long")}
               >
                 <TrendingUp className="h-4 w-4 mr-2" /> Buy / Long
               </Button>
               <Button
-                className="bg-rose-600 hover:bg-rose-500"
+                className="dark:bg-rose-600 hover:bg-rose-500 dark:text-white"
                 onClick={() => placeOrder("short")}
               >
                 <TrendingDown className="h-4 w-4 mr-2" /> Sell / Short
