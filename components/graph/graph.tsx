@@ -4,8 +4,6 @@ import { Button } from "@/components/ui/button";
 import {
   ArrowDownRight,
   ArrowUpRight,
-  Pause,
-  Play,
   TrendingDown,
   TrendingUp,
   Zap,
@@ -274,31 +272,7 @@ export default function BybitStyleTradingSimulator() {
       <div className="mx-auto grid grid-cols-1 lg:grid-cols-4 gap-4">
         <div className="lg:col-span-3 space-y-4">
           <div className="bg-zinc-900/60 border border-zinc-800 rounded-2xl">
-            <div className="p-4 flex items-center justify-between">
-              <div className="flex items-center gap-3">
-                <div className="hidden md:flex items-center gap-2 text-sm">
-                  <span className="opacity-70">Price</span>
-                  <span className="font-semibold">${fmt(price)}</span>
-                </div>
-                <Button
-                  variant={running ? "secondary" : "default"}
-                  onClick={() => setRunning((r) => !r)}
-                  className="gap-2"
-                >
-                  {running ? (
-                    <>
-                      <Pause className="h-4 w-4" />
-                      Pause
-                    </>
-                  ) : (
-                    <>
-                      <Play className="h-4 w-4" />
-                      Run
-                    </>
-                  )}
-                </Button>
-              </div>
-            </div>
+            <div className="p-4 flex items-center justify-between"></div>
 
             <div className="h-[420px] w-full px-2 pb-4">
               <ResponsiveContainer width="100%" height="100%">
@@ -356,6 +330,7 @@ export default function BybitStyleTradingSimulator() {
                     tickFormatter={(t) => new Date(t).toLocaleTimeString()}
                     stroke="#a1a1aa"
                     tick={{ fontSize: 12 }}
+                    className="hidden"
                   />
 
                   <YAxis
